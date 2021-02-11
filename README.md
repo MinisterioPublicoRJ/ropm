@@ -10,7 +10,7 @@ projeto. O serviço **PostgreSQL** rodará dentro de um container Docker.
 Na primeira vez, você precisará clonar o repositório, criar os containers e o
 super-usuário no Django:
 
-``shell
+```shell
 git clone <repository-url>
 cd ropm
 cp env.example .env
@@ -19,19 +19,19 @@ cp env.example .env
 
 python manage.py migrate
 python manage.py createsuperuser
-``
+```
 
 ### Rodando
 
 Para ativar o ambiente já criado, execute:
 
-``shell
+```shell
 cd ropm
 
 # Ativar vitualenv utilizado
 
 python manage.py runserver
 
-``
+```
 
-Em seguida, basta acessar [localhost:8000](http://localhost:8000/) para ver a aplicação.`
+Em seguida, basta acessar [localhost:8000](http://localhost:8000/) para ver a aplicação.
