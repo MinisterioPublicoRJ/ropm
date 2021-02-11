@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:13.1
+    container_name: ropm_postgres_db
+    env_file: docker/.env-postgres
+    volumes:
+      - ./docker/postgresql/data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      retries: 3
