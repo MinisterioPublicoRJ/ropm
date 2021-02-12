@@ -25,3 +25,9 @@ class TestSendInformacaoGeralOperacao(TestCase):
         resp = self.client.post(self.url)
 
         assert resp.status_code == 200
+
+    def test_login_required(self):
+        self.client.logout()
+        resp = self.client.post(self.url)
+
+        assert resp.status_code == 403
