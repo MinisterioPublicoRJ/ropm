@@ -8,10 +8,16 @@ class InformacaoGeralOperacaoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InformacaoGeralOperacao
-        exclude = ("id", "operacao",)
+        exclude = (
+            "id",
+            "operacao",
+        )
 
 
 class InformacaoOperacionalOperacaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = InformacaoOperacionalOperacao
-        exclude = ("id", "operacao",)
+        exclude = (
+            "id",
+            "operacao",
+        )
