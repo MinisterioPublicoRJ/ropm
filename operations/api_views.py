@@ -40,6 +40,8 @@ class CreateGeneralInfo(APIView):
 
 
 class CreateOperationalInfo(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, *args, **kwargs):
         form_uuid = kwargs.get("form_uuid")
         operacao = Operacao.objects.get(identificador=form_uuid)

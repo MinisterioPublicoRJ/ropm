@@ -111,3 +111,9 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         assert resp.status_code == 200
         op = Operacao.objects.get(identificador=self.form_uuid)
         op_operational_info = InformacaoOperacionalOperacao.objects.get(operacao=op)
+
+    def test_login_required(self):
+        self.client.logout()
+        resp = self.client.post(self.url)
+
+        assert resp.status_code == 403
