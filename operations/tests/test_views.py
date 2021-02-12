@@ -28,3 +28,9 @@ class TestOperationView(TestCase):
         resp = self.client.get(self.url)
 
         assert resp.status_code == 302
+
+    def test_uuid_form_hash_on_context(self):
+        resp = self.client.get(self.url)
+
+        assert resp.status_code == 200
+        assert "form_uuid" in resp.context
