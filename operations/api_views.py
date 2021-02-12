@@ -31,7 +31,11 @@ class CreateGeneralInfo(APIView):
 
     def get(self, request, *args, **kwargs):
         form_uuid = kwargs.get("form_uuid")
-        info_op = get_object_or_404(InformacaoGeralOperacao, operacao__identificador=form_uuid)
+        info_op = get_object_or_404(
+            InformacaoGeralOperacao,
+            operacao__usuario=self.request.user,
+            operacao__identificador=form_uuid
+        )
         ser = InformacaoGeralOperacaoSerializer(info_op)
         return Response(data=ser.data)
 
@@ -49,6 +53,10 @@ class CreateOperationalInfo(APIView):
 
     def get(self, request, *args, **kwargs):
         form_uuid = kwargs.get("form_uuid")
-        info_op = get_object_or_404(InformacaoOperacionalOperacao, operacao__identificador=form_uuid)
+        info_op = get_object_or_404(
+            InformacaoOperacionalOperacao,
+            operacao__usuario=self.request.user,
+            operacao__identificador=form_uuid
+        )
         ser = InformacaoOperacionalOperacaoSerializer(info_op)
         return Response(data=ser.data)

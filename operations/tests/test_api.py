@@ -129,6 +129,13 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         assert data["objetivo_operacao"] == op_operationaol_info.objetivo_operacao
         assert data["numero_policiais_mobilizados"] == op_operationaol_info.numero_policiais_mobilizados
 
+    def test_404_for_object_doesnt_exists(self):
+        operacao = baker.make(Operacao, usuario=self.user)
+
+        resp = self.client.get(self.url)
+
+        assert resp.status_code == 404
+
     def test_login_required(self):
         self.client.logout()
         resp = self.client.post(self.url)
