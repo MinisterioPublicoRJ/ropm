@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  <title>Cadastro de Operaçãoes</title>
+{% endblock title %}
+
+{% block content %}
+  <div id="preloader">
+    <div data-loader="circle-side"></div>
+  </div><!-- /Preload -->
+
+  <div id="loader_form">
+    <div data-loader="circle-side-2"></div>
+  </div><!-- /loader_form -->
+
+      <div class="col-xl-8 col-lg-8 content-right" id="start">
+        <div id="wizard_container">
+          <div id="top-wizard">
+            <span id="location"></span>
+            <div id="progressbar"></div>
+          </div>
+          <!-- /top-wizard -->
+          <form id="wrapped" method="post" enctype="multipart/form-data">
+            <input type="hidden" id="formUUID" name="formUUID" value="{{ form_uuid }}">
+
+            <input id="website" name="website" type="text" value="">
+            <!-- Leave for security protection, read docs for details -->
+            <div id="middle-wizard">
+              <div class="step">
+                <h2 class="section_title">Informações da Operação</h2>
+                <h3 class="main_question">Informações Gerais</h3>
+                <div class="form-group add_top_30">
+                  <label for="data">Data</label>
+                  <input type="date" name="data" id="data" class="form-control required" onchange="getVals(this, 'name_field');">
+                </div>
+                <div class="form-group">
+                  <label for="hora">Hora</label>
+                  <input type="time" name="hora" id="hora" class="form-control required" onchange="getVals(this, 'email_field');">
+                <div class="form-group">
+                  <label>Localidade</label>
+                  <input type="text" name="localidade" id="localidade" class="form-control required" onchange="getVals(this, 'email_field');">
+                </div>
+                <div class="form-group">
+                    <label>Município</label>
+                    <div class="styled-select">
+                      <select class="form-control required" id="municipio" name="municipio">
+                        <option value="rio de janeiro">Rio de Janeiro</option>
+                        <option value="niterói">Niterói</option>
+                        <option value="são gonçalo">São Gonçalo</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Bairro</label>
+                    <div class="styled-select">
+                      <select class="form-control required" id="bairro" name="bairro">
+                        <option value="rio de janeiro">Jacarepaguá</option>
+                        <option value="niterói">Boa Viagem</option>
+                        <option value="são gonçalo">Centro</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label>Endereço de Referência</label>
+                  <input type="text" name="endereco_referencia" id="endereco_referencia" class="form-control required" onchange="getVals(this, 'email_field');">
+                </div>
+                <div class="form-group">
+                  <label>Batalhão Responsável</label>
+                  <input type="text" name="batalhao_responsavel" id="batalhao_responsavel" class="form-control required" onchange="getVals(this, 'email_field');">
+                </div>
+              </div>
+							</div>
+              <!-- /step-->
+
+              <!-- /step-->
+              <div class="step">
+                <h2 class="section_title">Informações da Operação</h2>
+                <h3 class="main_question">Informações Operacionais</h3>
+                <div class="form-group">
+                  <label>Unidade Responsável</label>
+                  <input type="text" name="unidade_responsavel" id="unidade_responsavel" class="form-control required" onchange="getVals(this, 'email_field');">
+                </div>
+                <div class="form-group">
+                  <label>Recebeu apoio de outras unidades</label>
+                  <label class="container_radio version_2">Sim
+                    <input type="radio" name="apoio_outras_unidades" value="Full-time" class="required">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="container_radio version_2">Não
+                    <input type="radio" name="apoio_outras_unidades" value="Part-time" class="required">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label>Unidade Apoiadora</label>
+                  <input type="text" name="unidade_apoiadora" id="unidade_apoiadora" class="form-control required" onchange="getVals(this, 'email_field');">
+                </div>
+                <div class="form-group">
+                  <label>Nome Comandante</label>
+                  <input type="text" name="nome_comandante" id="nome_comandante" class="form-control required" onchange="getVals(this, 'email_field');">
+                </div>
+                <div class="form-group">
+                  <label>RG PM Comandante</label>
+                  <input type="text" name="rg_pm_comandante" id="rg_pm_comandante" class="form-control required" onchange="getVals(this, 'email_field');">
+                </div>
+                <div class="form-group">
+                    <label>Posto Comandante</label>
+                    <div class="styled-select">
+                      <select class="form-control required" id="posto_comandante" name="posto_comandante">
+                        <option value="coronel">Coronel</option>
+                        <option value="major">Major</option>
+                        <option value="capitão">Capitão</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Operação</label>
+                    <div class="styled-select">
+                      <select class="form-control required" id="tipo_operacao" name="tipo_operacao">
+                        <option value="Pl">Planejada</option>
+                        <option value="Em">Emergencial</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Ação Repressiva</label>
+                    <div class="styled-select">
+                      <select class="form-control required" id="tipo_de_acao_repressiva" name="tipo_de_acao_repressiva">
+                        <option value="AREP I">AREP I</option>
+                        <option value="AREP II">AREP II</option>
+                        <option value="AREP II">AREP III</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label>Objetivo da Operação</label>
+                  <input type="text" name="objetivo_operacao" id="objetivo_operacao" class="form-control required" onchange="getVals(this, 'email_field');">
+                </div>
+                <div class="form-group">
+                  <label>Número de Policiais Mobilizados</label>
+                  <input type="number" min="0" name="numero_policiais_mobilizados" id="numero_policiais_mobilizados" class="form-control required" onchange="getVals(this, 'email_field');">
+                </div>
+              </div>
+              <!-- /step-->
+
+              <div class="submit step" id="end">
+                <div class="summary">
+                  <div class="wrapper">
+                    <h3>Thank your for your time<br><span id="name_field"></span>!</h3>
+                    <p>We will contat you shorly at the following email address <strong id="email_field"></strong></p>
+                  </div>
+                  <div class="text-center">
+                    <div class="form-group terms">
+                      <label class="container_check">Please accept our <a href="#" data-toggle="modal" data-target="#terms-txt">Terms and conditions</a> before Submit
+                        <input type="checkbox" name="terms" value="Yes" class="required">
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /step last-->
+
+            </div>
+            <!-- /middle-wizard -->
+            <div id="bottom-wizard">
+              <button type="button" name="backward" class="backward">Prev</button>
+              <button type="button" name="forward" class="forward">Next</button>
+              <button type="submit" name="process" class="submit">Submit</button>
+            </div>
+            <!-- /bottom-wizard -->
+          </form>
+        </div>
+        <!-- /Wizard container -->
+      </div>
+      <!-- /content-right-->
+
+{% endblock content %}
+
+{% block extra_js %}
+  <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+  <script src="{% static 'js/common_scripts.min.js' %}"></script>
+  <script src="{% static 'js/velocity.min.js' %}"></script>
+  <script src="{% static 'js/common_functions.js' %}"></script>
+  <script src="{% static 'js/func_1.js' %}"></script>
+{% endblock extra_js %}
