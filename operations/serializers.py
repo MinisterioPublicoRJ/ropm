@@ -1,9 +1,11 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from operations.models import InformacaoGeralOperacao
 
 
-class InformacaoGeralOperacaoSerializer(ModelSerializer):
+class InformacaoGeralOperacaoSerializer(serializers.ModelSerializer):
+    hora = serializers.TimeField(format="%H:%M:%S")
+
     class Meta:
         model = InformacaoGeralOperacao
         exclude = ("operacao",)

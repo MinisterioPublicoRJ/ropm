@@ -20,3 +20,9 @@ class CreateGeneralInfo(APIView):
         ser.is_valid(raise_exception=True)
         ser.save(operacao=operacao)
         return Response()
+
+    def get(self, request, *args, **kwargs):
+        form_uuid = kwargs.get("form_uuid")
+        info_op = InformacaoGeralOperacao.objects.get(operacao__identificador=form_uuid)
+        ser = InformacaoGeralOperacaoSerializer(info_op)
+        return Response(data=ser.data)

@@ -3,6 +3,7 @@ import uuid
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from model_bakery import baker
 
 from operations.models import InformacaoGeralOperacao, Operacao
 
@@ -42,6 +43,22 @@ class TestSendInformacaoGeralOperacao(TestCase):
         op_general_info = InformacaoGeralOperacao.objects.get(operacao=op)
         assert op.usuario == self.user
         assert not op.editado
+
+    def test_retrieve_saved_info(self):
+        operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
+        op_general_info = baker.make(InformacaoGeralOperacao, operacao=operacao)
+
+        resp = self.client.get(self.url)
+        data = resp.data
+
+        assert resp.status_code == 200
+        assert data["data"] == op_general_info.data.strftime("%Y-%m-%d")
+        assert data["hora"] == op_general_info.hora.strftime("%H:%M:%S")
+        assert data["localidade"] == op_general_info.localidade
+        assert data["bairro"] == op_general_info.bairro
+        assert data["municipio"] == op_general_info.municipio
+        assert data["endereco_referencia"] == op_general_info.endereco_referencia
+        assert data["batalhao_responsavel"] == op_general_info.batalhao_responsavel
 
     def test_login_required(self):
         self.client.logout()
