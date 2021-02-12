@@ -77,6 +77,17 @@ class TestSendInformacaoGeralOperacao(TestCase):
 
         assert resp.status_code == 403
 
+    def test_another_user_tries_to_retrive_info(self):
+        self.username = "another-username"
+        self.pwd = "pwd1234"
+
+        self.user = User.objects.create_user(username=self.username, password=self.pwd)
+        self.client.force_login(self.user)
+
+        resp = self.client.get(self.url)
+
+        assert resp.status_code == 404
+
 
 class TestSendInformacaoOperacionalOperacao(TestCase):
     url_name = "api-operations:create-operational-info"
@@ -141,3 +152,14 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         resp = self.client.post(self.url)
 
         assert resp.status_code == 403
+
+    def test_another_user_tries_to_retrive_info(self):
+        self.username = "another-username"
+        self.pwd = "pwd1234"
+
+        self.user = User.objects.create_user(username=self.username, password=self.pwd)
+        self.client.force_login(self.user)
+
+        resp = self.client.get(self.url)
+
+        assert resp.status_code == 404
