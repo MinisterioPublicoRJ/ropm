@@ -64,6 +64,30 @@ class TestSendInformacaoGeralOperacao(TestCase):
         assert data["endereco_referencia"] == op_general_info.endereco_referencia
         assert data["batalhao_responsavel"] == op_general_info.batalhao_responsavel
 
+    def test_update_some_fields(self):
+        self.form_data["bairro"] = "Novo Bairro"
+        resp = self.client.post(self.url, data=self.form_data)
+
+        assert resp.status_code == 200
+        op = Operacao.objects.get(identificador=self.form_uuid)
+        op_operational_info = InformacaoGeralOperacao.objects.get(operacao=op)
+        assert op_operational_info.bairro == "Novo Bairro"
+
+    def test_another_user_tries_to_update_info(self):
+        operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
+
+        self.client.logout()
+        self.username = "another-username"
+        self.pwd = "pwd1234"
+
+        user = User.objects.create_user(username=self.username, password=self.pwd)
+        self.client.force_login(user)
+
+        self.form_data["bairro"] = "novo bairro"
+        resp = self.client.post(self.url, data=self.form_data)
+
+        assert resp.status_code == 404
+
     def test_404_for_object_doesnt_exists(self):
         operacao = baker.make(Operacao, usuario=self.user)
 
@@ -139,6 +163,19 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         assert data["tipo_de_acao_repressiva"] == op_operationaol_info.tipo_de_acao_repressiva
         assert data["objetivo_operacao"] == op_operationaol_info.objetivo_operacao
         assert data["numero_policiais_mobilizados"] == op_operationaol_info.numero_policiais_mobilizados
+
+    def test_another_user_tries_to_update_info(self):
+        self.client.logout()
+        self.username = "another-username"
+        self.pwd = "pwd1234"
+
+        user = User.objects.create_user(username=self.username, password=self.pwd)
+        self.client.force_login(user)
+
+        self.form_data["bairro"] = "novo bairro"
+        resp = self.client.post(self.url, data=self.form_data)
+
+        assert resp.status_code == 404
 
     def test_404_for_object_doesnt_exists(self):
         operacao = baker.make(Operacao, usuario=self.user)

@@ -18,7 +18,12 @@ class CreateGeneralInfo(APIView):
     permission_classes = [IsAuthenticated]
 
     def create_object(self, user, id_):
-        obj, _ = Operacao.objects.get_or_create(identificador=id_, usuario=user)
+        objs = Operacao.objects.filter(identificador=id_)
+        if objs:
+            obj = get_object_or_404(objs, usuario=user)
+        else:
+            obj = Operacao.objects.create(identificador=id_, usuario=user)
+
         return obj
 
     def post(self, request, *args, **kwargs):
@@ -45,7 +50,9 @@ class CreateOperationalInfo(APIView):
 
     def post(self, request, *args, **kwargs):
         form_uuid = kwargs.get("form_uuid")
-        operacao = Operacao.objects.get(identificador=form_uuid)
+        operacao = get_object_or_404(
+            Operacao, identificador=form_uuid, usuario=self.request.user
+        )
         ser = InformacaoOperacionalOperacaoSerializer(data=request.data)
         ser.is_valid(raise_exception=True)
         ser.save(operacao=operacao)
