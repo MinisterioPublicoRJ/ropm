@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
+from operations.models import Operacao
+
 
 User = get_user_model()
 
@@ -24,7 +26,10 @@ class TestSendInformacaoGeralOperacao(TestCase):
     def test_save_database_info(self):
         resp = self.client.post(self.url)
 
+        op = Operacao.objects.get(identificador=self.form_uuid)
         assert resp.status_code == 200
+        assert op.usuario == self.user
+        assert not op.editado
 
     def test_login_required(self):
         self.client.logout()
