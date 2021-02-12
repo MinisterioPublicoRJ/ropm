@@ -112,6 +112,23 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         op = Operacao.objects.get(identificador=self.form_uuid)
         op_operational_info = InformacaoOperacionalOperacao.objects.get(operacao=op)
 
+    def test_retrieve_saved_info(self):
+        op_operationaol_info = baker.make(InformacaoOperacionalOperacao, operacao=self.operacao)
+
+        resp = self.client.get(self.url)
+        data = resp.data
+
+        assert resp.status_code == 200
+        assert data["unidade_responsavel"] == op_operationaol_info.unidade_responsavel
+        assert data["apoio_outras_unidades"] == op_operationaol_info.apoio_outras_unidades
+        assert data["nome_comandante"] == op_operationaol_info.nome_comandante
+        assert data["rg_pm_comandante"] == op_operationaol_info.rg_pm_comandante
+        assert data["posto_comandante"] == op_operationaol_info.posto_comandante
+        assert data["tipo_operacao"] == op_operationaol_info.tipo_operacao
+        assert data["tipo_de_acao_repressiva"] == op_operationaol_info.tipo_de_acao_repressiva
+        assert data["objetivo_operacao"] == op_operationaol_info.objetivo_operacao
+        assert data["numero_policiais_mobilizados"] == op_operationaol_info.numero_policiais_mobilizados
+
     def test_login_required(self):
         self.client.logout()
         resp = self.client.post(self.url)

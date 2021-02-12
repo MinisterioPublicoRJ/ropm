@@ -49,3 +49,12 @@ class CreateOperationalInfo(APIView):
         ser.is_valid(raise_exception=True)
         ser.save(operacao=operacao)
         return Response()
+
+    def get(self, request, *args, **kwargs):
+        form_uuid = kwargs.get("form_uuid")
+        info_op = get_object_or_404(
+            InformacaoOperacionalOperacao,
+            operacao__identificador=form_uuid
+        )
+        ser = InformacaoOperacionalOperacaoSerializer(info_op)
+        return Response(data=ser.data)
