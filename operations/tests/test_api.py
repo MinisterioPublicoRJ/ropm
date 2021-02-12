@@ -60,6 +60,13 @@ class TestSendInformacaoGeralOperacao(TestCase):
         assert data["endereco_referencia"] == op_general_info.endereco_referencia
         assert data["batalhao_responsavel"] == op_general_info.batalhao_responsavel
 
+    def test_404_for_object_doesnt_exists(self):
+        operacao = baker.make(Operacao, usuario=self.user)
+
+        resp = self.client.get(self.url)
+
+        assert resp.status_code == 404
+
     def test_login_required(self):
         self.client.logout()
         resp = self.client.post(self.url)

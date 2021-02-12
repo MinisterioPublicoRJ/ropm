@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -23,6 +24,9 @@ class CreateGeneralInfo(APIView):
 
     def get(self, request, *args, **kwargs):
         form_uuid = kwargs.get("form_uuid")
-        info_op = InformacaoGeralOperacao.objects.get(operacao__identificador=form_uuid)
+        info_op = get_object_or_404(
+            InformacaoGeralOperacao,
+            operacao__identificador=form_uuid
+        )
         ser = InformacaoGeralOperacaoSerializer(info_op)
         return Response(data=ser.data)
