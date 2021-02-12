@@ -3,8 +3,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from operations.models import InformacaoGeralOperacao, Operacao
-from operations.serializers import InformacaoGeralOperacaoSerializer
+from operations.models import (
+    InformacaoGeralOperacao,
+    InformacaoOperacionalOperacao,
+    Operacao,
+)
+from operations.serializers import (
+    InformacaoGeralOperacaoSerializer,
+    InformacaoOperacionalOperacaoSerializer,
+)
 
 
 class CreateGeneralInfo(APIView):
@@ -30,3 +37,13 @@ class CreateGeneralInfo(APIView):
         )
         ser = InformacaoGeralOperacaoSerializer(info_op)
         return Response(data=ser.data)
+
+
+class CreateOperationalInfo(APIView):
+    def post(self, request, *args, **kwargs):
+        form_uuid = kwargs.get("form_uuid")
+        operacao = Operacao.objects.get(identificador=form_uuid)
+        ser = InformacaoOperacionalOperacaoSerializer(data=request.data)
+        ser.is_valid(raise_exception=True)
+        ser.save(operacao=operacao)
+        return Response()

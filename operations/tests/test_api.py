@@ -5,7 +5,11 @@ from django.test import TestCase
 from django.urls import reverse
 from model_bakery import baker
 
-from operations.models import InformacaoGeralOperacao, Operacao
+from operations.models import (
+    InformacaoGeralOperacao,
+    InformacaoOperacionalOperacao,
+    Operacao,
+)
 
 
 User = get_user_model()
@@ -72,3 +76,38 @@ class TestSendInformacaoGeralOperacao(TestCase):
         resp = self.client.post(self.url)
 
         assert resp.status_code == 403
+
+
+class TestSendInformacaoOperacionalOperacao(TestCase):
+    url_name = "api-operations:create-operational-info"
+
+    def setUp(self):
+        self.username = "username"
+        self.pwd = "pwd1234"
+
+        self.user = User.objects.create_user(username=self.username, password=self.pwd)
+        self.client.force_login(self.user)
+
+        self.form_uuid = uuid.uuid4()
+        self.url = reverse(self.url_name, kwargs={"form_uuid": self.form_uuid})
+
+        self.operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
+
+        self.form_data = {
+            "unidade_responsavel": "Unidade A",
+            "apoio_outras_unidades": False,
+            "nome_comandante": "Nome Comandante",
+            "rg_pm_comandante": "123456",
+            "posto_comandante": "Maj",
+            "tipo_operacao": "Pl",
+            "tipo_de_acao_repressiva": "AREP II",
+            "objetivo_operacao": "Objetivo A",
+            "numero_policiais_mobilizados": 10,
+        }
+
+    def test_save_database_info(self):
+        resp = self.client.post(self.url, data=self.form_data)
+
+        assert resp.status_code == 200
+        op = Operacao.objects.get(identificador=self.form_uuid)
+        op_operational_info = InformacaoOperacionalOperacao.objects.get(operacao=op)

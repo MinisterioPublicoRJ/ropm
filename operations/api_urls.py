@@ -10,4 +10,9 @@ urlpatterns = [
         api_views.CreateGeneralInfo.as_view(),
         name="create-general-info"
     ),
+    path(
+        "cria-informacoes-operacionais/<uuid:form_uuid>",
+        api_views.CreateOperationalInfo.as_view(),
+        name="create-operational-info"
+    ),
 ]
