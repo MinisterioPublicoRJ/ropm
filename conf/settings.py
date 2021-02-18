@@ -86,12 +86,16 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+GEO_DATABASE_NAME = "geo"
+DEFAULT_DATABASE_NAME = "default"
 DATABASE_URL = config("DATABASE_URL")
 GEO_DATABASE_URL = config("GEO_DATABASE_URL")
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL),
-    'geo': dj_database_url.parse(GEO_DATABASE_URL),
+    DEFAULT_DATABASE_NAME: dj_database_url.parse(DATABASE_URL),
+    GEO_DATABASE_NAME: dj_database_url.parse(GEO_DATABASE_URL),
 }
+
+DATABASE_ROUTERS = ["conf.db_router.DBRouter"]
 
 
 # Password validation
