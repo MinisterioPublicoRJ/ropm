@@ -44,7 +44,7 @@ class TestSendInformacaoGeralOperacao(TestCase):
 
         assert resp.status_code == 200
         op = Operacao.objects.get(identificador=self.form_uuid)
-        op_general_info = InformacaoGeralOperacao.objects.get(operacao=op)
+        InformacaoGeralOperacao.objects.get(operacao=op)
         assert op.usuario == self.user
         assert not op.editado
 
@@ -74,7 +74,7 @@ class TestSendInformacaoGeralOperacao(TestCase):
         assert op_operational_info.bairro == "Novo Bairro"
 
     def test_another_user_tries_to_update_info(self):
-        operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
+        baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
 
         self.client.logout()
         self.username = "another-username"
@@ -89,7 +89,7 @@ class TestSendInformacaoGeralOperacao(TestCase):
         assert resp.status_code == 404
 
     def test_404_for_object_doesnt_exists(self):
-        operacao = baker.make(Operacao, usuario=self.user)
+        baker.make(Operacao, usuario=self.user)
 
         resp = self.client.get(self.url)
 
@@ -145,7 +145,7 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
 
         assert resp.status_code == 200
         op = Operacao.objects.get(identificador=self.form_uuid)
-        op_operational_info = InformacaoOperacionalOperacao.objects.get(operacao=op)
+        InformacaoOperacionalOperacao.objects.get(operacao=op)
 
     def test_retrieve_saved_info(self):
         op_operationaol_info = baker.make(InformacaoOperacionalOperacao, operacao=self.operacao)
@@ -178,7 +178,7 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         assert resp.status_code == 404
 
     def test_404_for_object_doesnt_exists(self):
-        operacao = baker.make(Operacao, usuario=self.user)
+        baker.make(Operacao, usuario=self.user)
 
         resp = self.client.get(self.url)
 
