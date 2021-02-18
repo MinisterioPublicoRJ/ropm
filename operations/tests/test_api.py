@@ -42,7 +42,7 @@ class TestSendInformacaoGeralOperacao(TestCase):
     def test_save_database_info(self):
         resp = self.client.post(self.url, data=self.form_data)
 
-        assert resp.status_code == 200
+        assert resp.status_code == 201
         op = Operacao.objects.get(identificador=self.form_uuid)
         InformacaoGeralOperacao.objects.get(operacao=op)
         assert op.usuario == self.user

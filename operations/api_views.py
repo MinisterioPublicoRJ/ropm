@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from operations.models import (
@@ -22,29 +21,25 @@ class GeneralInfoViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        form_uuid = self.kwargs.get(self.lookup_url_kwarg)
+        identificador = self.kwargs.get(self.lookup_url_kwarg)
         return InformacaoGeralOperacao.objects.filter(
             operacao__usuario=user,
-            operacao__identificador=form_uuid
+            operacao__identificador=identificador
         )
 
-    def get_or_create_operation(self, user, id_):
-        objs = Operacao.objects.filter(identificador=id_)
+    def get_or_create_operation(self):
+        user = self.request.user
+        identificador = self.kwargs.get(self.lookup_url_kwarg)
+        objs = Operacao.objects.filter(identificador=identificador)
         if objs:
             obj = get_object_or_404(objs, usuario=user)
         else:
-            obj = Operacao.objects.create(identificador=id_, usuario=user)
+            obj = Operacao.objects.create(identificador=identificador, usuario=user)
 
         return obj
 
-    def create(self, request, *args, **kwargs):
-        form_uuid = kwargs.get("form_uuid")
-        user = self.request.user
-        operacao = self.get_or_create_operation(user, form_uuid)
-        ser = self.get_serializer_class()(data=request.data)
-        ser.is_valid(raise_exception=True)
-        ser.save(operacao=operacao)
-        return Response()
+    def perform_create(self, serializer):
+        serializer.save(operacao=self.get_or_create_operation())
 
 
 class OperationalInfoViewSet(ModelViewSet):
@@ -66,8 +61,8 @@ class OperationalInfoViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        form_uuid = self.kwargs.get(self.lookup_url_kwarg)
+        identificador = self.kwargs.get(self.lookup_url_kwarg)
         return InformacaoOperacionalOperacao.objects.filter(
             operacao__usuario=user,
-            operacao__identificador=form_uuid
+            operacao__identificador=identificador
         )
