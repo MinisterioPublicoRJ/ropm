@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 
 import dj_database_url
+from django.urls import reverse_lazy
 from decouple import Csv, config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -133,3 +134,5 @@ STATICFILES_DIRS = [
     Path(BASE_DIR, "static"),
 ]
 STATIC_ROOT = Path(BASE_DIR, "staticfiles")
+
+LOGIN_REDIRECT_URL = reverse_lazy("operations:form")
