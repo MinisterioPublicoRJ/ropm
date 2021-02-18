@@ -65,13 +65,24 @@ class TestSendInformacaoGeralOperacao(TestCase):
         assert data["batalhao_responsavel"] == op_general_info.batalhao_responsavel
 
     def test_update_some_fields(self):
-        self.form_data["bairro"] = "Novo Bairro"
-        resp = self.client.post(self.url, data=self.form_data)
+        operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
+        op_general_info = baker.make(
+            InformacaoGeralOperacao,
+            operacao=operacao
+        )
 
+        new_info = "Novo Bairro"
+        self.form_data["bairro"] = new_info
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+
+        op_general_info.refresh_from_db()
+        assert InformacaoGeralOperacao.objects.count() == 1
         assert resp.status_code == 200
-        op = Operacao.objects.get(identificador=self.form_uuid)
-        op_operational_info = InformacaoGeralOperacao.objects.get(operacao=op)
-        assert op_operational_info.bairro == "Novo Bairro"
+        assert op_general_info.bairro == new_info
 
     def test_another_user_tries_to_update_info(self):
         baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
@@ -94,6 +105,11 @@ class TestSendInformacaoGeralOperacao(TestCase):
         resp = self.client.get(self.url)
 
         assert resp.status_code == 404
+
+    def test_user_cannot_delete_info(self):
+        resp = self.client.delete(self.url)
+
+        assert resp.status_code == 405
 
     def test_login_required(self):
         self.client.logout()
@@ -143,26 +159,54 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
     def test_save_database_info(self):
         resp = self.client.post(self.url, data=self.form_data)
 
-        assert resp.status_code == 200
+        assert resp.status_code == 201
         op = Operacao.objects.get(identificador=self.form_uuid)
         InformacaoOperacionalOperacao.objects.get(operacao=op)
 
     def test_retrieve_saved_info(self):
-        op_operationaol_info = baker.make(InformacaoOperacionalOperacao, operacao=self.operacao)
+        op_operational_info = baker.make(InformacaoOperacionalOperacao, operacao=self.operacao)
 
         resp = self.client.get(self.url)
         data = resp.data
 
         assert resp.status_code == 200
-        assert data["unidade_responsavel"] == op_operationaol_info.unidade_responsavel
-        assert data["apoio_outras_unidades"] == op_operationaol_info.apoio_outras_unidades
-        assert data["nome_comandante"] == op_operationaol_info.nome_comandante
-        assert data["rg_pm_comandante"] == op_operationaol_info.rg_pm_comandante
-        assert data["posto_comandante"] == op_operationaol_info.posto_comandante
-        assert data["tipo_operacao"] == op_operationaol_info.tipo_operacao
-        assert data["tipo_de_acao_repressiva"] == op_operationaol_info.tipo_de_acao_repressiva
-        assert data["objetivo_operacao"] == op_operationaol_info.objetivo_operacao
-        assert data["numero_policiais_mobilizados"] == op_operationaol_info.numero_policiais_mobilizados
+        assert data["unidade_responsavel"] == op_operational_info.unidade_responsavel
+        assert data["apoio_outras_unidades"] == op_operational_info.apoio_outras_unidades
+        assert data["nome_comandante"] == op_operational_info.nome_comandante
+        assert data["rg_pm_comandante"] == op_operational_info.rg_pm_comandante
+        assert data["posto_comandante"] == op_operational_info.posto_comandante
+        assert data["tipo_operacao"] == op_operational_info.tipo_operacao
+        assert data["tipo_de_acao_repressiva"] == op_operational_info.tipo_de_acao_repressiva
+        assert data["objetivo_operacao"] == op_operational_info.objetivo_operacao
+        assert data["numero_policiais_mobilizados"] == op_operational_info.numero_policiais_mobilizados
+
+    def test_update_some_fields(self):
+        operacao = Operacao.objects.get(identificador=self.form_uuid)
+        op_operational_info = baker.make(
+            InformacaoOperacionalOperacao,
+            operacao=operacao
+        )
+
+        new_info = "891011"
+        self.form_data["rg_pm_comandante"] = new_info
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+
+        op_operational_info.refresh_from_db()
+        assert resp.status_code == 200
+        assert InformacaoOperacionalOperacao.objects.count() == 1
+        op_operational_info = InformacaoOperacionalOperacao.objects.get(
+            operacao=operacao
+        )
+        assert op_operational_info.rg_pm_comandante == new_info
+
+    def test_user_cannot_delete_info(self):
+        resp = self.client.delete(self.url)
+
+        assert resp.status_code == 405
 
     def test_another_user_tries_to_update_info(self):
         self.client.logout()
