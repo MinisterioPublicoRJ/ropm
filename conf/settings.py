@@ -47,6 +47,7 @@ THIRD_PARTY_APPS = []
 INTERNAL_APPS = [
     "users",
     "operations",
+    "coredata",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + INTERNAL_APPS
@@ -86,8 +87,10 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASE_URL = config("DATABASE_URL")
+GEO_DATABASE_URL = config("GEO_DATABASE_URL")
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
+    'default': dj_database_url.parse(DATABASE_URL),
+    'geo': dj_database_url.parse(GEO_DATABASE_URL),
 }
 
 
