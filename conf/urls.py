@@ -22,9 +22,18 @@ API_VERSION = "v1"
 
 
 urlpatterns = [
-    path("conta/login", auth_views.LoginView.as_view(), name="login"),
-    path("conta/logout", auth_views.LogoutView.as_view(), name="logout"),
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path("operacoes/", include("operations.urls", namespace="operations")),
     path(f"{API_VERSION}/operacoes/", include("operations.api_urls", namespace="api-operations")),
+]
+
+# Auth views
+urlpatterns += [
+    path("conta/login", auth_views.LoginView.as_view(), name="login"),
+    path("conta/logout", auth_views.LogoutView.as_view(), name="logout"),
+    path("conta/redefinir-senha", auth_views.PasswordResetView.as_view(), name="password_reset"),
+    path("conta/redefinir-senha/enviado", auth_views.PasswordResetDoneView.as_view(), name="password_reset_done"),
+    path("conta/nova-senha/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})",
+         auth_views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    path("conta/nova-senha/pronto", auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
 ]
