@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
+from accounts.views import SignUpView
+
 
 API_VERSION = "v1"
 
@@ -37,4 +39,5 @@ urlpatterns += [
     path("conta/nova-senha/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})",
          auth_views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
     path("conta/nova-senha/pronto", auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
+    path("conta/cadastro", SignUpView.as_view(), name="signup"),
 ]

@@ -50,6 +50,7 @@ INTERNAL_APPS = [
     "users",
     "operations",
     "coredata",
+    "accounts",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + INTERNAL_APPS
