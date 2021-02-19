@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 
 import dj_database_url
+from django.urls import reverse_lazy
 from decouple import Csv, config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,10 +43,14 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "rest_framework",
+]
 INTERNAL_APPS = [
     "users",
     "operations",
+    "coredata",
+    "accounts",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + INTERNAL_APPS
@@ -84,10 +89,16 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+GEO_DATABASE_NAME = "geo"
+DEFAULT_DATABASE_NAME = "default"
 DATABASE_URL = config("DATABASE_URL")
+GEO_DATABASE_URL = config("GEO_DATABASE_URL")
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
+    DEFAULT_DATABASE_NAME: dj_database_url.parse(DATABASE_URL),
+    GEO_DATABASE_NAME: dj_database_url.parse(GEO_DATABASE_URL),
 }
+
+DATABASE_ROUTERS = ["conf.db_router.DBRouter"]
 
 
 # Password validation
@@ -133,3 +144,5 @@ STATICFILES_DIRS = [
     Path(BASE_DIR, "static"),
 ]
 STATIC_ROOT = Path(BASE_DIR, "staticfiles")
+
+LOGIN_REDIRECT_URL = reverse_lazy("operations:form")
