@@ -15,17 +15,10 @@ body{
   grid-area: navBar;
   width: 250px;
 }
-.navbarLeft p{
-  color: #8F9BB3;
-  font-size: 22px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-}
-.navbarLeft span{
-  color: #707070;
-  font-size: 34px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: bold;
+.navbarLeft img{
+  width: 210px;
+  height: 50px;
+  padding-top: 30px;
 }
 .navbarLeft ul li{
   list-style: none;
