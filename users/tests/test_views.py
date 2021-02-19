@@ -16,7 +16,7 @@ class TestRevokeUserAccess(TestCase):
         password = "password"
         self.user = User.objects.create_user(username=username, password=password)
         self.client.force_login(self.user)
-        self.url = reverse(self.url_name, kwargs={"user_pk": self.user.pk})
+        self.url = reverse(self.url_name, kwargs={"username": self.user.username})
 
         self.p_delete_sessions = mock.patch("users.views.delete_users_all_sessions")
         self.m_delete_sessions = self.p_delete_sessions.start()
@@ -29,3 +29,10 @@ class TestRevokeUserAccess(TestCase):
 
         assert resp.status_code == 302
         self.m_delete_sessions.assert_called_once_with(self.user)
+
+    def test_login_required(self):
+        self.client.logout()
+        resp = self.client.get(self.url)
+
+        expected_url = f"{reverse('login')}?next={self.url}"
+        self.assertRedirects(resp, expected_url, fetch_redirect_response=False)

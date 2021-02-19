@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
@@ -11,9 +12,9 @@ from users.sessions import delete_users_all_sessions
 User = get_user_model()
 
 
-class RevokeAccessView(View):
+class RevokeAccessView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        target_user = get_object_or_404(User, pk=self.kwargs.get("user_pk"))
+        target_user = get_object_or_404(User, username=self.kwargs.get("username"))
         delete_users_all_sessions(target_user)
 
         app_name = User._meta.app_label
