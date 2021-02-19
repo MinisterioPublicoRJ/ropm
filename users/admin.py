@@ -10,22 +10,25 @@ from users.models import User
 class CustomUserAdmin(UserAdmin):
     list_display = UserAdmin.list_display + ("instituicao",)
     fieldsets = (
-        (None, {"fields": ("username", "password")}),
+        (None, {"fields": ("username", "password", "revoke_user_access")}),
         (_("Personal info"), {"fields": ("first_name", "last_name", "email", "instituicao")}),
         (_("Permissions"), {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions"),}),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
+    readonly_fields = UserAdmin.readonly_fields + ("revoke_user_access",)
 
-    def reveoke_user_access(self, obj):
+    def revoke_user_access(self, obj):
         content = ""
         if obj.id:
-            url = reverse("users:revoke-access")
+            url = reverse("users:revoke-access", args=(obj.username,))
             button_name = "Revogar acesso"
             content = format_html(
-                f"<button href='{url}'>{button_name}</button>"
+                f"<a class='button' href='{url}'>{button_name}</a>"
             )
 
         return content
+
+    revoke_user_access.short_description = "Acesso"
 
 
 admin.site.register(User, CustomUserAdmin)
