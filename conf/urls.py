@@ -26,6 +26,7 @@ API_VERSION = "v1"
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("operacoes/", include("operations.urls", namespace="operations")),
+    path("usuario/", include("users.urls", namespace="users")),
     path(f"{API_VERSION}/dados/", include("coredata.api_urls", namespace="coredata")),
     path(f"{API_VERSION}/operacoes/", include("operations.api_urls", namespace="api-operations")),
 ]
