@@ -11,3 +11,4 @@ urlpatterns = [
     path("lista/", views.OperationListView.as_view(), name="operations-list"),
 
 ]
+

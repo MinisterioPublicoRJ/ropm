@@ -146,3 +146,4 @@ STATICFILES_DIRS = [
 STATIC_ROOT = Path(BASE_DIR, "staticfiles")
 
 LOGIN_REDIRECT_URL = reverse_lazy("operations:form")
+LOGIN_URL = reverse_lazy("login")
