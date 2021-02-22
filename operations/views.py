@@ -14,4 +14,4 @@ class OperationReportView(LoginRequiredMixin, TemplateView):
 
 
 class OperationListView(LoginRequiredMixin, TemplateView):
-    template_name = "operations/operations_list_template.html.html"
+    template_name = "operations/operations_list_template.html"
