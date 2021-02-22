@@ -1,3 +1,12 @@
+.tela-login-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.tela-login-main img {
+    margin-top: 30px ;
+}
 .tela-login {
     display: flex;
     justify-content: center;
@@ -5,11 +14,16 @@
     flex-direction: column;
     background-color: #F8F8F8;
     width: 548px;
-    height: 550px;
+    height: 500px;
     margin: 0 auto;
     border-radius: 9px;
     opacity: 1;
     margin-top: 50px;
+}
+.tela-login img {
+    width: 290px;
+    height: 68px;
+    margin-top: 80px;
 }
 form input {
     border: 1px solid #f1eeee;
@@ -22,6 +36,7 @@ form input {
     margin-bottom: 10px;
     margin-top: 10px;
     padding: 0 18px 0 18px;
+    
 }
 
 form button {
