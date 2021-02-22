@@ -25,6 +25,7 @@
 </head>
 
 <body>
+  {% block sidenavebar %}
   <div class="main-page">
     <div class="navbarLeft">
       <img src="{% static " img/logo.png" %}" type="images/png" alt="logo">
@@ -49,6 +50,8 @@
         </ul>
       </div>
     </div>
+    {% endblock sidenavebar %}
+
     {% block content %}
     {% endblock content %}
   </div>

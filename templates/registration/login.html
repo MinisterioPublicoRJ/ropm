@@ -2,12 +2,18 @@
 
 {% block title %}<title>Login</title>{% endblock title %}
 
+{% block sidenavebar %}
+{% endblock sidenavebar %}
+
 {% block content %}
 <h2>Login</h2>
 <form method="POST">
   {% csrf_token %}
-  {{ form.as_p }}
+  <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
+  <input type="password" name="password" autocomplete="current-password" required="" id="id_password">
+
   <button type="submit">Login</button>
 </form>
+
 
 {% endblock content %}
