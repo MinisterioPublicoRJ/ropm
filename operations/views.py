@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 
 class OperationReportView(TemplateView):
-    template_name = "operations/form_template.html"
+    template_name = "operations/forms/form_template.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

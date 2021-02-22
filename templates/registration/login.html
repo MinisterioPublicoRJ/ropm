@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}<title>Login</title>{% endblock title %}
 
 {% block content %}
-<h2>Login</h2>
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+<div class="tela-login">
+  <form action="operacoes/cadastro" class="tela-login" method="POST">
+    <img src="{% static " img/logo.png" %}" type="images/png" alt="logo">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button id="btnSubmit" type="submit">Entrar</button>
+  </form>
+  <a href="/accounts/templates/accounts/signup.html">Criar Conta</a> 
+  <img src="{% static " img/logo.png" %}" type="images/png" alt="logoMPRJ">
 
+</div>
 {% endblock content %}
