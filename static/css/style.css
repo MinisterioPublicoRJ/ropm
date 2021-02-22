@@ -57,6 +57,9 @@ body{
   border-radius: 9px 9px 0px 0px;
   display: flex;
 }
+a:link { 
+ text-decoration:none; 
+} 
 .text-header-form{
   padding: 20px;
 }
@@ -75,26 +78,13 @@ body{
 .form-main {
   margin-top: 30px;
 }
-.input-operation{
-  display: flex !important;
-}
-.input-operation input{
-  width: 412px !important; 
-  margin-left: 30px;
-  margin-right: 20px;
-
-}
-.input-operation label{
-  margin-left: 30px;
-
-}
 .form-main input, select {
   border: 1px solid #0676ED;
   border-radius: 4px;
   box-sizing: border-box;
   color: #8a8a8a;
   font-family: SFProDisplay-Regular;
-  width: 236px;
+  width: 300px;
   height: 45px;
   margin-bottom: 10px;
   margin-top: 10px;
@@ -102,12 +92,15 @@ body{
 }
 .btns-forms{
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 .btns-forms button{
   border-radius: 12px;
   width: 224px;
   height: 47px;
+  margin: 30px;
 }
 .btn-next{
   background-color: #0676ED;
@@ -125,7 +118,7 @@ label {
   color: #8F9BB3;
   display: flex;
   font-family: Helvetica Neue regular;
-  font-size: 16px;
+  font-size: 12px;
 }
 .box-form-group{
   display: flex;

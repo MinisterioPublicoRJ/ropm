@@ -10,7 +10,7 @@
     <div class="header-form">
       <div class="text-header-form">
         <span>Cadastro de Operações</span>
-        <p>Informações do Usuário</p>
+        <p>Informações da Operação</p>
       </div>
       <div id="progressbar"></div>
     </div>
@@ -18,88 +18,25 @@
       <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
         <div class="box-form-group">
           <div class="">
-            <label for="data">Nome Completo</label>
-            <input type="text" id="name" name="name" value="" placeholder="Nome"
-              onchange="getVals(this, 'name_field');">
+            <label for="name">Data da operação </label>
+            <input type="date" id="date" name="">
           </div>
-          <div class="">
-            <label for="hora">Email</label>
-            <input type="time" id="hora" name="hora" placeholder="Horário da Operação">
-          </div>
-          <div class="">
-            <label for="localidade">Localidade</label>
-            <input type="text" id="localidade" name="localidade" placeholder="Localidade">
+          <div class="styled-select">
+            <label>Hora da operação </label>
+            <input type="time" id="time" name="">
           </div>
         </div>
         <div class="box-form-group">
-          <div class="">
-            <label for="name">Responsável pela operação</label>
-            <input type="text" id="name" name="name" placeholder="Data da Operação">
-          </div>
           <div class="styled-select">
-            <label>Município</label>
+            <label>Localidade da operação</label>
             <select class="form-control required" id="municipio" name="municipio">
               <option value="rio de janeiro">Rio de Janeiro</option>
               <option value="niterói">Niterói</option>
               <option value="são gonçalo">São Gonçalo</option>
             </select>
           </div>
-          <div class="styled-select">
-            <label>Bairro</label>
-            <select class="form-control required" id="bairro" name="bairro">
-              <option value="rio de janeiro">Jacarepaguá</option>
-              <option value="niterói">Boa Viagem</option>
-              <option value="são gonçalo">Centro</option>
-            </select>
-          </div>
-        </div>
-        <div class="box-form-group">
-          <div class="input-operation">
-            <div class="form-group">
-              <label>Endereço de Referência</label>
-              <input type="text" name="endereco_referencia" id="endereco_referencia" class="form-control required"
-                onchange="getVals(this, 'email_field');">
-            </div>
-            <div class="form-group">
-              <label for="fname">Batalhão responsável</label>
-              <input type="text" id="" name="firstname" placeholder="Batalhão responsável">
-            </div>
-          </div>
-        </div>
-
-        <div class="box-form-group">
-          <div>
-            <label>Unidade Responsável</label>
-            <input type="text" name="unidade_responsavel" id="unidade_responsavel" class="form-control required"
-              onchange="getVals(this, 'email_field');">
-          </div>
-          <div class="styled-select">
-            <label>Recebeu apoio de outras unidades ? </label>
-            <select class="form-control required" id="municipio" name="municipio">
-              <option value="rio de janeiro">Rio de Janeiro</option>
-              <option value="niterói">Niterói</option>
-              <option value="são gonçalo">São Gonçalo</option>
-            </select>
-          </div>
-          <div>
-            <label>Unidade Apoiadora</label>
-            <input type="text" name="unidade_apoiadora" id="unidade_apoiadora" class="form-control required"
-              onchange="getVals(this, 'email_field');">
-          </div>
-        </div>
-        <div class="box-form-group">
           <div class="form-group">
-            <label>Nome Comandante</label>
-            <input type="text" name="nome_comandante" id="nome_comandante" class="form-control required"
-              onchange="getVals(this, 'email_field');">
-          </div>
-          <div class="form-group">
-            <label>RG PM Comandante</label>
-            <input type="text" name="rg_pm_comandante" id="rg_pm_comandante" class="form-control required"
-              onchange="getVals(this, 'email_field');">
-          </div>
-          <div class="form-group">
-            <label>Posto Comandante</label>
+            <label>Município da Operação </label>
             <div class="styled-select">
               <select class="form-control required" id="posto_comandante" name="posto_comandante">
                 <option value="coronel">Coronel</option>
@@ -111,52 +48,38 @@
         </div>
         <div class="box-form-group">
           <div class="form-group">
-            <label>Tipo de Operação</label>
-            <div class="styled-select">
-              <select class="form-control required" id="tipo_operacao" name="tipo_operacao">
-                <option value="Pl">Planejada</option>
-                <option value="Em">Emergencial</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Tipo de Ação Repressiva</label>
-            <div class="styled-select">
-              <select class="form-control required" id="tipo_de_acao_repressiva" name="tipo_de_acao_repressiva">
-                <option value="AREP I">AREP I</option>
-                <option value="AREP II">AREP II</option>
-                <option value="AREP II">AREP III</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Objetivo da Operação</label>
-            <input type="text" name="objetivo_operacao" id="objetivo_operacao" class="form-control required"
+            <label>Endereço de Referência</label>
+            <input type="text" name="endereco_referencia" id="endereco_referencia" class="form-control required"
               onchange="getVals(this, 'email_field');">
           </div>
-          <div class="box-form-group">
-            <div class="input-operation">
-              <div class="form-group">
-                <label>Número de Policiais Mobilizados</label>
-                <input class="input-operation" type="number" min="0" name="numero_policiais_mobilizados"
-                  id="numero_policiais_mobilizados" class="form-control required"
-                  onchange="getVals(this, 'email_field');">
-              </div>
-              <div class="">
-                <label for="fname">Existiu apoio? Se sim, de qual batalhão</label>
-                <input type="text" id="fname" name="firstname" placeholder="Data da Operação">
-              </div>
-            </div>
+          <div class="styled-select">
+            <label>Bairro da operação </label>
+            <select class="form-control required" id="bairro" name="bairro">
+              <option value="rio de janeiro">Jacarepaguá</option>
+              <option value="niterói">Boa Viagem</option>
+              <option value="são gonçalo">Centro</option>
+            </select>
+          </div>
+        </div>
+        <div class="box-form-group">
+          <div class="">
+            <label for="name">Mapa interativo para seleção do local</label>
+            <input type="text" id="date" name="" placeholder="Data da Operação">
+          </div>
+          <div class="styled-select">
+            <label>Batalhão Responsável </label>
+            <select class="form-control required" id="municipio" name="municipio">
+              <option value="rio de janeiro">Rio de Janeiro</option>
+              <option value="niterói">Niterói</option>
+              <option value="são gonçalo">São Gonçalo</option>
+            </select>
           </div>
         </div>
       </form>
       <div class="btns-forms">
-        <button class="btn-previus">Anterior
-          <a href="../operations/templates/operations/form_template.html">
-        </button>
-        <button class="btn-next">Próximo
-          <a href="../operations/templates/operations/initialPage_template.html">
-        </button>
+        <a href="{% url 'operations:form-info-operation' %}">
+          <button type="submit" class="btn-next">Próximo</button>
+        </a>
       </div>
     </div>
   </div>

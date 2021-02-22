@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Cadastro de Operaçãoes</title>
+{% endblock title %}
+
+{% block content %}
+<div class="operation-form">
+    <div class="main-page-form">
+        <div class="header-form">
+            <div class="text-header-form">
+                <span>Cadastro de Operações</span>
+                <p>Informações da Ocorrência</p>
+            </div>
+            <div id="progressbar"></div>
+        </div>
+        <div class="form-main">
+            <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="data">Boletim de Ocorrência da Polícia Militar (BOPM) </label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                    <div class="">
+                        <label for="data">Registro de Ocorrência</label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                </div>
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="data">Nome do Comandante</label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                    <div class="">
+                        <label for="data">RG PM do Comandante</label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                </div>
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="data">Quantidade de apreensão de drogas (kg) </label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                    <div class="">
+                        <label for="data">Número de fuzis apreendidos </label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                </div>
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="data">Número de presos</label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                    <div class="">
+                        <label for="data">Número de adolescentes apreendidos</label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                </div>
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="data">Número de policiais feridos</label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                    <div class="">
+                        <label for="data">N: de mortes por intervenção de agentes do Estado </label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                </div>
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="data">Número de civis feridos</label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                    <div class="">
+                        <label for="data">N de civis mortos – morte não provocada por agente policiais </label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                </div>
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="data">Número de veículos recuperados </label>
+                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                            class="form-control required">
+                    </div>
+                </div>
+            </form>
+            <div class="btns-forms">
+                <div class="btns-forms">
+                    <a href="{% url 'operations:form-info-result' %}">
+                        <button type="submit" class="btn-previus">Anterior</button>
+                    </a>
+                </div>
+                <div class="btns-forms">
+                    <button type="submit" class="btn-next">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+
+{% endblock extra_js %}
