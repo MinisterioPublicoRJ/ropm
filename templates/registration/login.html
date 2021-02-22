@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}<title>Login</title>{% endblock title %}
 
-{% block content %}
-<div class="tela-login">
-  <form action="operacoes/cadastro" class="tela-login" method="POST">
-    <img src="{% static " img/logo.png" %}" type="images/png" alt="logo">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button id="btnSubmit" type="submit">Entrar</button>
-  </form>
-  <a href="/accounts/templates/accounts/signup.html">Criar Conta</a> 
-  <img src="{% static " img/logo.png" %}" type="images/png" alt="logoMPRJ">
+{% block sidenavebar %}
+{% endblock sidenavebar %}
 
+{% block content %}
+<div class="tela-login-main">
+  <div class="tela-login">
+    <img src="{% static "img/logo.png" %}" alt="logo_painel">
+    <form method="POST" class="tela-login">
+      {% csrf_token %}
+      <input placeholder="Email PMRJ" type="text" name="username" autocapitalize="none" autocomplete="username"
+        maxlength="150" required="" id="id_username">
+      <input placeholder="Senha" type="password" name="password" autocomplete="current-password" required=""
+        id="id_password">
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+  <img src="{% static "img/logo_MP.png" %}" alt="logo_MP">
 </div>
 {% endblock content %}
