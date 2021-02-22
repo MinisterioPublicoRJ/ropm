@@ -6,3 +6,4 @@ app_name = "operations"
 urlpatterns = [
     path("cadastro/", views.OperationReportView.as_view(), name="form"),
 ]
+
