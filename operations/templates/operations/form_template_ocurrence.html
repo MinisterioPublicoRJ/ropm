@@ -91,9 +91,12 @@
                 <div class="box-form-group">
                     <div class="">
                         <label for="data">Número de veículos recuperados </label>
-                        <input type="text" name="endereco_referencia" id="endereco_referencia"
+                        <input style="width: 750px" type="text" name="endereco_referencia" id="endereco_referencia"
                             class="form-control required">
                     </div>
+                </div>
+                <div class="btns-forms">
+                    <button style="width: 330px" type="submit" class="btn-next">Enviar</button>
                 </div>
             </form>
             <div class="btns-forms">
@@ -101,9 +104,6 @@
                     <a href="{% url 'operations:form-info-result' %}">
                         <button type="submit" class="btn-previus">Anterior</button>
                     </a>
-                </div>
-                <div class="btns-forms">
-                    <button type="submit" class="btn-next">Enviar</button>
                 </div>
             </div>
         </div>
