@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Cadastro de Operaçãoes</title>
+{% endblock title %}
+
+{% block content %}
+<div class="operation-form">
+    <div class="main-page-form">
+        <div class="header-form">
+            <div class="text-header-form">
+                <span>Cadastro de Operações</span>
+                <p>Informações de Resultados</p>
+            </div>
+            <div id="progressbar"></div>
+        </div>
+        <div class="form-main">
+            <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="data">Houve confronto com DAF</label>
+                        <select class="form-control required" id="posto_comandante" name="posto_comandante">
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                    </div>
+                    <div class="">
+                        <label for="data">Houve resultados na operação</label>
+                        <select class="form-control required" id="posto_comandante" name="posto_comandante">
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="name">Responsável pelo preenchimento</label>
+                        <input style="width: 750px" type="text" id="name" name="name" placeholder="Data da Operação">
+                    </div>
+                </div>
+            </form>
+            <div class="btns-forms">
+                <div class="btns-forms">
+                    <a href="{% url 'operations:form-info-operation' %}">
+                        <button type="submit" class="btn-previus">Anterior</button>
+                    </a>
+                </div>
+                <div class="btns-forms">
+                    <a href="{% url 'operations:form-info-ocurrence' %}">
+                        <button type="submit" class="btn-next">Próximo</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+
+{% endblock extra_js %}

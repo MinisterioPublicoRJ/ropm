@@ -11,3 +11,19 @@ class OperationReportView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["form_uuid"] = uuid.uuid4()
         return context
+
+
+class OperationInfoResultRegisterView(LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_template_result_info.html"
+
+
+class OperationInfoView(LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_template_info_operation.html"
+
+
+class OperationOcurrenceView(LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_template_ocurrence.html"
+
+
+class OperationListView(LoginRequiredMixin, TemplateView):
+    template_name = "operations/operations_list_template.html"

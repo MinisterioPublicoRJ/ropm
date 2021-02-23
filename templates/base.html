@@ -16,7 +16,7 @@
   <!-- BASE CSS -->
   <!--<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"> -->
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" crossorigin="anonymous">
+  <link href="{% static 'css/login.css' %}" rel="stylesheet">
   </script>
   {% block extra_head %}
   {% endblock extra_head %}
@@ -27,23 +27,24 @@
   {% block sidenavebar %}
   <div class="main-page">
     <div class="navbarLeft">
-      <img src="{% static " img/logo.png" %}" type="images/png" alt="logo">
+      <img class="navbarLeft-img-logo" src="{% static "img/logo.png" %}" type="images/png" alt="logo-panel">
       <div class="navbarLeft-list">
         <ul>
           <li>
-            <img src="{% static " img/bar chart.png" %}" type="images/png" alt="chart">
+            <img src="{% static "img/chart.png" %}" alt="logo-chart">
             Pagina Inicial
+            </a>
           </li>
           <li>
-            <img src="{% static " img/bar chart.png" %}" type="images/png" alt="logo">
+            <img src="{% static "img/align-left.png" %}" alt="logo">
             Lista de operações
           </li>
           <li>
-            <img src="{% static " img/bar chart.png" %}" type="images/png" alt="logo">
+            <img src="{% static "img/chart.png" %}" alt="logo">
             Cadastrar Operação
           </li>
           <li>
-            <img src="{% static " img/bar chart.png" %}" type="images/png" alt="logo">
+            <img src="{% static "img/chart.png" %}" alt="logo">
             Painel
           </li>
         </ul>
