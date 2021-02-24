@@ -1,7 +1,24 @@
 from django.db import models
 
 
+class MunicipioManager(models.Manager):
+    def get_ordered_values(self):
+        return self.all().order_by("nm_mun").values("cod_6_dig", "nm_mun")
+
+
+class BairroManager(models.Manager):
+    def get_ordered_for_municipio(self, nome_municipio):
+        return self.filter(cod_mun__nm_mun=nome_municipio).order_by("bairro")
+
+
+class BatalhaoManager(models.Manager):
+    def get_ordered_for_municipio(self, nome_municipio):
+        return self.filter(codigo_mun__nm_mun=nome_municipio).order_by("bpm").distinct()
+
+
 class Municipio(models.Model):
+    objects = MunicipioManager()
+
     cod_6_dig = models.IntegerField(primary_key=True, db_column="cod_6_dig")
     nm_mun = models.CharField(max_length=60, db_column="nm_mun")
     cod_mun = models.CharField(max_length=7, db_column="cod_mun")
@@ -15,6 +32,8 @@ class Municipio(models.Model):
 
 
 class Bairro(models.Model):
+    objects = BairroManager()
+
     cod_mun = models.ForeignKey(
         Municipio,
         db_column="cod_mun",
@@ -37,6 +56,8 @@ class Bairro(models.Model):
 
 
 class Batalhao(models.Model):
+    objects = BatalhaoManager()
+
     id = models.IntegerField(primary_key=True, db_column="id")
     bpm = models.CharField(max_length=50, db_column="bpm")
     codigo_mun = models.ForeignKey(

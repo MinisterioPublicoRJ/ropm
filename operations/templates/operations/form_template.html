@@ -10,7 +10,7 @@
     <div class="header-form">
       <div class="text-header-form">
         <span>Cadastro de Operações</span>
-        <p>Informações da Operação</p>
+        <p>Informações Gerais</p>
       </div>
       <div id="progressbar"></div>
     </div>
@@ -19,29 +19,29 @@
         <div class="box-form-group">
           <div class="">
             <label for="name">Data da operação </label>
-            <input type="date" id="date" name="">
+            <input type="date" id="date" name="" required>
           </div>
           <div class="styled-select">
             <label>Hora da operação </label>
-            <input type="time" id="time" name="">
+            <input type="time" id="time" name="" required>
           </div>
         </div>
         <div class="box-form-group">
           <div class="styled-select">
-            <label>Localidade da operação</label>
-            <select class="form-control required" id="municipio" name="municipio">
-              <option value="rio de janeiro">Rio de Janeiro</option>
-              <option value="niterói">Niterói</option>
-              <option value="são gonçalo">São Gonçalo</option>
-            </select>
+            <label>Localidade</label>
+            <input type="text" id="localidade_operacao" name="localidade_operacao" required>
           </div>
           <div class="form-group">
             <label>Município da Operação </label>
             <div class="styled-select">
-              <select class="form-control required" id="posto_comandante" name="posto_comandante">
-                <option value="coronel">Coronel</option>
-                <option value="major">Major</option>
-                <option value="capitão">Capitão</option>
+              <select
+                  class="form-control required"
+                  id="municipio_operacao"
+                  name="municipio_operacao"
+                  onchange="getBairros(this); getBatalhoes(this);">
+                  {% for municipio in municipios %}
+                      <option value="{{ municipio.nm_mun }}">{{ municipio.nm_mun}}</option>
+                  {% endfor %}
               </select>
             </div>
           </div>
@@ -54,24 +54,24 @@
           </div>
           <div class="styled-select">
             <label>Bairro da operação </label>
-            <select class="form-control required" id="bairro" name="bairro">
-              <option value="rio de janeiro">Jacarepaguá</option>
-              <option value="niterói">Boa Viagem</option>
-              <option value="são gonçalo">Centro</option>
+            <select class="form-control required" id="bairro_operacao" name="bairro_operacao">
+                {% for bairro in bairros %}
+                    <option value="{{ bairro.bairro_id}}">{{ bairro.bairro}}</option>
+                {% endfor %}
             </select>
           </div>
         </div>
         <div class="box-form-group">
           <div class="">
             <label for="name">Mapa interativo para seleção do local</label>
-            <input type="text" id="date" name="" placeholder="Data da Operação">
+            <input type="text" id="mapaa_interativo" name="mapa_interativo" placeholder="">
           </div>
           <div class="styled-select">
-            <label>Batalhão Responsável </label>
-            <select class="form-control required" id="municipio" name="municipio">
-              <option value="rio de janeiro">Rio de Janeiro</option>
-              <option value="niterói">Niterói</option>
-              <option value="são gonçalo">São Gonçalo</option>
+            <label>Batalhão Responsável</label>
+            <select class="form-control required" id="batalhao_operacao" name="batalhao_operacao">
+                {% for batalhao in batalhoes %}
+                    <option value="{{ batalhao.id}}">{{batalhao.bpm}}</option>
+                {% endfor %}
             </select>
           </div>
         </div>
@@ -88,5 +88,5 @@
 {% endblock content %}
 
 {% block extra_js %}
-
+      <script src="{% static 'js/informacoes_gerais.js' %}"></script>
 {% endblock extra_js %}
