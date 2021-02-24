@@ -11,35 +11,40 @@ from operations.serializers import InformacaoGeralOperacaoSerializer
 
 class OperationReportView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["municipios"] = Municipio.objects.get_ordered_values()
+        context["form_uuid"] = uuid.uuid4()
+        context["municipios"] = Municipio.objects.get_ordered_values()
+        nm_first_city = context["municipios"][0]["nm_mun"]
+        context["bairros"] = Bairro.objects.get_ordered_for_municipio(nm_first_city)
+        context["batalhoes"] = Batalhao.objects.get_ordered_for_municipio(nm_first_city)
+        context["operacao_data"] = dict()
+        return context
+
+
+class UpdateOperationReportView(LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_template.html"
     lookup_url_kwarg = "form_uuid"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["municipios"] = Municipio.objects.get_ordered_values()
         form_uuid = self.kwargs.get(self.lookup_url_kwarg)
-        if form_uuid:
-            context["form_uuid"] = form_uuid
-            operacao_info = get_object_or_404(
-                InformacaoGeralOperacao,
-                operacao__identificador=form_uuid
-            )
-            operacao_data = InformacaoGeralOperacaoSerializer(operacao_info).data
-            context["bairros"] = Bairro.objects.get_ordered_for_municipio(
-                operacao_data["municipio"]
-            )
-            context["batalhoes"] = Batalhao.objects.get_ordered_for_municipio(
-                operacao_data["municipio"]
-            )
-            context["operacao_data"] = operacao_data
-            context["operacao_already_exists"] = True
-        else:
-            context["form_uuid"] = uuid.uuid4()
-            context["municipios"] = Municipio.objects.get_ordered_values()
-            nm_first_city = context["municipios"][0]["nm_mun"]
-            context["bairros"] = Bairro.objects.get_ordered_for_municipio(nm_first_city)
-            context["batalhoes"] = Batalhao.objects.get_ordered_for_municipio(nm_first_city)
-            context["operacao_data"] = dict()
-            context["operacao_already_exists"] = False
+        context["form_uuid"] = form_uuid
+        operacao_info = get_object_or_404(
+            InformacaoGeralOperacao,
+            operacao__identificador=form_uuid
+        )
+        operacao_data = InformacaoGeralOperacaoSerializer(operacao_info).data
+        context["bairros"] = Bairro.objects.get_ordered_for_municipio(
+            operacao_data["municipio"]
+        )
+        context["batalhoes"] = Batalhao.objects.get_ordered_for_municipio(
+            operacao_data["municipio"]
+        )
+        context["operacao_data"] = operacao_data
         return context
 
 

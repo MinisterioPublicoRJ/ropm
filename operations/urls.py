@@ -4,7 +4,7 @@ from operations import views
 
 app_name = "operations"
 urlpatterns = [
-    path("cadastro/<uuid:form_uuid>", views.OperationReportView.as_view(), name="form-update"),
+    path("cadastro/<uuid:form_uuid>", views.UpdateOperationReportView.as_view(), name="form-update"),
     path("cadastro/", views.OperationReportView.as_view(), name="form"),
     path("cadastro/informacoes/resultado", views.OperationInfoResultRegisterView.as_view(), name="form-info-result"),
     path(
