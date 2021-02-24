@@ -18,12 +18,14 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
 from accounts.views import SignUpView
+from operations import views as operations_views
 
 
 API_VERSION = "v1"
 
 
 urlpatterns = [
+    path("", operations_views.InitialPageListView.as_view(), name="home"),
     path("admin/", admin.site.urls),
     path("operacoes/", include("operations.urls", namespace="operations")),
     path("usuario/", include("users.urls", namespace="users")),
