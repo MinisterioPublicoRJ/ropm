@@ -16,6 +16,7 @@
     </div>
     <div class="form-main">
       <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+      <input type="hidden" value="{{ form_uuid }}">
         <div class="box-form-group">
           <div class="">
             <label for="name">Unidade operacional responsável</label>
@@ -100,7 +101,7 @@
       </form>
       <div class="btns-forms">
         <div class="btns-forms">
-          <a href="{% url 'operations:form' %}">
+            <a href="{% url 'operations:form-update' form_uuid %}">
             <button type="submit" class="btn-previus">Anterior</button>
           </a>
         </div>
