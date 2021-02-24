@@ -25,3 +25,6 @@ class OperationOcurrenceView(LoginRequiredMixin, TemplateView):
 # Classes que renderizam as páginas dos do app
 class OperationListView(LoginRequiredMixin, TemplateView):
     template_name = "operations/operations_list_template.html"
+
+class InitialPageListView(LoginRequiredMixin, TemplateView):
+    template_name = "operations/initial_page_template.html"
