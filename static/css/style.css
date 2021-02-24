@@ -4,6 +4,7 @@ body{
 }
 .main-page{
   display: grid;
+  height: 100%;
   grid-template-areas:
   'navBar pageForm pageForm pageForm pageForm pageForm'
 }
@@ -14,6 +15,7 @@ body{
   opacity: 1;
   grid-area: navBar;
   width: 260px;
+  height: 100%;
 }
 .navbarLeft-img-logo{
   width: 210px;

@@ -10,6 +10,7 @@ urlpatterns = [
     path("cadastro/informacoes/ocorrencia", views.OperationOcurrenceView.as_view(), name="form-info-ocurrence"),
     path("pagina/inicial", views.InitialPageListView.as_view(), name="initial-page"),
     path("lista/", views.OperationListView.as_view(), name="operations-list"),
+    path("painel/", views.PanelListView.as_view(), name="operations-panel"),
 
 ]
 

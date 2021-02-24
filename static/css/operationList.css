@@ -1,0 +1,19 @@
+td {
+    border: 1px solid #e9e3e3;
+    height: 78px;
+    border-radius: 4px;
+}
+th {
+    background: #F8F8F8 0% 0% no-repeat padding-box;
+    height: 78px;
+    color: #707070;
+    border-radius: 4px;
+
+}
+
+table {
+    border-collapse: collapse;
+    opacity: 1;
+    width: 75vw;
+    text-align: center;
+}

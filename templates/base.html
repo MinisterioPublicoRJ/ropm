@@ -18,6 +18,7 @@
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
   <link href="{% static 'css/login.css' %}" rel="stylesheet">
   <link href="{% static 'css/initialPage.css' %}" rel="stylesheet">
+  <link href="{% static 'css/operationList.css' %}" rel="stylesheet">
   </script>
   {% block extra_head %}
   {% endblock extra_head %}
@@ -49,7 +50,7 @@
               Cadastrar Operação
             </li>
           </a>
-          <a href="{% url 'operations:initial-page' %}">
+          <a href="{% url 'operations:operations-panel' %}">
             <li>
               <img src="{% static "img/chart.png" %}" alt="logo">
               Painel

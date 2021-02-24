@@ -28,3 +28,6 @@ class OperationListView(LoginRequiredMixin, TemplateView):
 
 class InitialPageListView(LoginRequiredMixin, TemplateView):
     template_name = "operations/initial_page_template.html"
+
+class PanelListView(LoginRequiredMixin, TemplateView):
+    template_name = "operations/panel_template.html"
