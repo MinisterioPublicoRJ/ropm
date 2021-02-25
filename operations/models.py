@@ -3,6 +3,16 @@ from django.db import models
 from users.models import User
 
 
+class InformacaoManager(models.Manager):
+    def get_obj_or_none(self, operacao):
+        try:
+            obj = self.get(operacao=operacao)
+        except models.ObjectDoesNotExist:
+            obj = None
+
+        return obj
+
+
 class Operacao(models.Model):
     identificador = models.UUIDField(unique=True, editable=False)
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
@@ -17,6 +27,8 @@ class Operacao(models.Model):
 
 
 class InformacaoGeralOperacao(models.Model):
+    objects = InformacaoManager()
+
     operacao = models.OneToOneField(Operacao, on_delete=models.CASCADE)
 
     data = models.DateField("Data")
@@ -36,6 +48,8 @@ class InformacaoGeralOperacao(models.Model):
 
 
 class InformacaoOperacionalOperacao(models.Model):
+    objects = InformacaoManager()
+
     POSTO_COMANDANTE = [
         ("Cel", "Coronel"),
         ("Ten Cel", "Tenente Coronel"),

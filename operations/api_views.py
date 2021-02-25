@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
+from operations.mixins import AllowPUTAsCreateMixin
 from operations.models import (
     InformacaoGeralOperacao,
     InformacaoOperacionalOperacao,
@@ -13,11 +14,12 @@ from operations.serializers import (
 )
 
 
-class GeneralInfoViewSet(ModelViewSet):
+class GeneralInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = InformacaoGeralOperacaoSerializer
     lookup_url_kwarg = "form_uuid"
     lookup_field = "operacao__identificador"
+    model_class = InformacaoGeralOperacao
 
     def get_queryset(self):
         user = self.request.user
@@ -27,7 +29,7 @@ class GeneralInfoViewSet(ModelViewSet):
             operacao__identificador=identificador
         )
 
-    def get_or_create_operation(self):
+    def get_operation(self):
         user = self.request.user
         identificador = self.kwargs.get(self.lookup_url_kwarg)
         objs = Operacao.objects.filter(identificador=identificador)
@@ -38,15 +40,13 @@ class GeneralInfoViewSet(ModelViewSet):
 
         return obj
 
-    def perform_create(self, serializer):
-        serializer.save(operacao=self.get_or_create_operation())
 
-
-class OperationalInfoViewSet(ModelViewSet):
+class OperationalInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = InformacaoOperacionalOperacaoSerializer
     lookup_url_kwarg = "form_uuid"
     lookup_field = "operacao__identificador"
+    model_class = InformacaoOperacionalOperacao
 
     def get_operation(self):
         identificador = self.kwargs.get(self.lookup_url_kwarg)
@@ -55,9 +55,6 @@ class OperationalInfoViewSet(ModelViewSet):
             identificador=identificador,
             usuario=self.request.user,
         )
-
-    def perform_create(self, serializer):
-        serializer.save(operacao=self.get_operation())
 
     def get_queryset(self):
         user = self.request.user

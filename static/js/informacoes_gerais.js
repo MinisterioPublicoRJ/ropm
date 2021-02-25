@@ -30,37 +30,38 @@ function getBatalhoes(object) {
     .catch((error) => {});
 }
 
-function submitInfoGeraisForm(event) {
-  event.preventDefault();
-  let is_valid = validateFields(
-    document.querySelector("#form-informacoes-gerais")
-  );
-  if (is_valid) {
-    const urlUUID = window.location.pathname.split("/").pop();
-    const formUUID = document.querySelector("#form_uuid").value;
-    const method = formUUID == urlUUID ? "PUT" : "POST";
-    const apiOperacoesGeraisURL = `/v1/operacoes/cria-informacoes-gerais/${formUUID}`;
-    const formData = JSON.stringify({
-      data: document.querySelector("#data_operacao").value,
-      hora: document.querySelector("#hora_operacao").value,
-      municipio: document.querySelector("#municipio_operacao").value,
-      bairro: document.querySelector("#bairro_operacao").value,
-      localidade: document.querySelector("#localidade_operacao").value,
-      endereco_referencia: document.querySelector("#endereco_referencia").value,
-      batalhao_responsavel: document.querySelector("#batalhao_operacao").value,
-    });
-    fetch(apiOperacoesGeraisURL, {
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"),
-      },
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        window.location = `/operacoes/cadastro/informacoes/operacionais/${formUUID}`;
-      });
-  }
+function submitInfoGeraisForm(event){
+    event.preventDefault();
+    let is_valid = validateFields(document.querySelector("#form-informacoes-gerais"));
+
+    if (is_valid){
+        const formUUID = document.querySelector("#form_uuid").value;
+        const forwardURL = `/operacoes/cadastro/informacoes/operacionais/${formUUID}`;
+
+        const apiOperacoesGeraisURL = `/v1/operacoes/cria-informacoes-gerais/${formUUID}`;
+        const formData = JSON.stringify({
+            data: document.querySelector("#data_operacao").value,
+            hora: document.querySelector("#hora_operacao").value,
+            municipio: document.querySelector("#municipio_operacao").value,
+            bairro: document.querySelector("#bairro_operacao").value,
+            localidade: document.querySelector("#localidade_operacao").value,
+            endereco_referencia: document.querySelector("#endereco_referencia").value,
+            batalhao_responsavel: document.querySelector("#batalhao_operacao").value,
+        });
+        fetch(
+            apiOperacoesGeraisURL,
+        {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie("csrftoken")
+                },
+                body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            window.location = forwardURL;
+        })
+    }
 }

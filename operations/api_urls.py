@@ -6,7 +6,6 @@ from operations import api_views
 single_actions = {
     "get": "retrieve",
     "put": "update",
-    "post": "create",
 }
 
 
