@@ -37,7 +37,9 @@ function submitInfoGeraisForm(event){
     if (is_valid){
         const urlUUID = window.location.pathname.split("/").pop();
         const formUUID = document.querySelector("#form_uuid").value;
-        const method = formUUID == urlUUID ? "PUT" : "POST"
+        const forwardURL = `/operacoes/cadastro/informacoes/operacionais/${formUUID}`;
+
+        const method = formUUID == urlUUID ? "PUT" : "POST";
         const apiOperacoesGeraisURL = `/v1/operacoes/cria-informacoes-gerais/${formUUID}`;
         const formData = JSON.stringify({
             data: document.querySelector("#data_operacao").value,
@@ -61,7 +63,7 @@ function submitInfoGeraisForm(event){
         })
         .then(response => response.json())
         .then(data => {
-            window.location = `/operacoes/cadastro/informacoes/operacionais/${formUUID}`;
+            window.location = forwardURL;
         })
     }
 }
