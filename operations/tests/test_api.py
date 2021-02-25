@@ -86,6 +86,27 @@ class TestSendInformacaoGeralOperacao(TestCase):
         assert resp.status_code == 200
         assert op_general_info.bairro == new_info
 
+    def test_update_fields_with_POST_method(self):
+        operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
+        op_general_info = baker.make(
+            InformacaoGeralOperacao,
+            operacao=operacao
+        )
+
+        new_info = "Novo Bairro"
+        self.form_data["bairro"] = new_info
+        resp = self.client.post(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+
+        op_general_info.refresh_from_db()
+        assert InformacaoGeralOperacao.objects.count() == 1
+        # TODO method should return 200?
+        assert resp.status_code == 201
+        assert op_general_info.bairro == new_info
+
     def test_another_user_tries_to_update_info(self):
         baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
 
