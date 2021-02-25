@@ -16,7 +16,7 @@
     </div>
     <div class="form-main">
       <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
-      <input type="hidden" value="{{ form_uuid }}">
+        <input type="hidden" value="{{ form_uuid }}">
         <div class="box-form-group">
           <div class="">
             <label for="name">Unidade operacional responsável</label>
@@ -32,9 +32,9 @@
           </div>
         </div>
         <div class="box-form-group">
-          <div class="styled-select">
-            <label>Unidade Apoiadora</label>
-            <input type="text" id="date" name="">
+          <div class="form-group">
+            <label>Número de Policiais mobilizados </label>
+            <input type="text" name="" id="" class="form-control required">
           </div>
           <div class="form-group">
             <label>Nome do Comandante</label>
@@ -92,16 +92,10 @@
             <input type="text" name="endereco_referencia" id="endereco_referencia" class="form-control required">
           </div>
         </div>
-        <div class="box-form-group">
-          <div class="form-group">
-            <label>Número de Policiais mobilizados </label>
-            <input style="width: 750px" type="text" name="" id="" class="form-control required">
-          </div>
-        </div>
       </form>
       <div class="btns-forms">
         <div class="btns-forms">
-            <a href="{% url 'operations:form-update' form_uuid %}">
+          <a href="{% url 'operations:form-update' form_uuid %}">
             <button type="submit" class="btn-previus">Anterior</button>
           </a>
         </div>

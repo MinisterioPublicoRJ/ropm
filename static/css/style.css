@@ -79,6 +79,9 @@ a:link {
 .form-main {
   margin-top: 30px;
 }
+/*.form-main input:invalid {
+  border: 1px solid #ed0606;
+}*/
 .form-main input, select {
   border: 1px solid #0676ED;
   border-radius: 4px;
