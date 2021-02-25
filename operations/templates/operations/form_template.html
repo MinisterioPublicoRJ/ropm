@@ -58,7 +58,7 @@
             <label>Bairro da operação </label>
             <select class="form-control required" id="bairro_operacao" name="bairro_operacao" required>
                 {% for bairro in bairros %}
-                <option value="{{ bairro.bairro_id}}" {% if bairro.bairro == operacao_data.bairro|default:"''" %} selected {% endif %}>{{ bairro.bairro}}</option>
+                <option value="{{ bairro.bairro }}" {% if bairro.bairro == operacao_data.bairro|default:"''" %} selected {% endif %}>{{ bairro.bairro}}</option>
                 {% endfor %}
             </select>
           </div>
@@ -72,7 +72,7 @@
             <label>Batalhão Responsável</label>
             <select class="form-control required" id="batalhao_operacao" name="batalhao_operacao">
                 {% for batalhao in batalhoes %}
-                <option value="{{ batalhao.id}}" {% if batalhao.bpm == operacao_data.batalhao_responsavel|default:"''" %} selected {% endif %}>{{batalhao.bpm}}</option>
+                <option value="{{ batalhao.bpm}}" {% if batalhao.bpm == operacao_data.batalhao_responsavel|default:"''" %} selected {% endif %}>{{batalhao.bpm}}</option>
                 {% endfor %}
             </select>
           </div>
