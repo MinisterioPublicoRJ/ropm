@@ -1,8 +1,9 @@
 import uuid
 
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import ListView, TemplateView
 
 from coredata.models import Bairro, Batalhao, Municipio
 from operations.models import (
@@ -73,7 +74,9 @@ class OperationInfoView(LoginRequiredMixin, TemplateView):
         context["tipos_acoes_repressivas"] = InformacaoOperacionalOperacao.TIPO_ACAO_REPRESSIVA
         context["postos_comandante"] = InformacaoOperacionalOperacao.POSTO_COMANDANTE
         context["tipos_operacoes"] = InformacaoOperacionalOperacao.TIPO_OPERACAO
-        context["info_operacional"] = info_operacional
+        context["info_operacional"] = InformacaoOperacionalOperacaoSerializer(
+            info_operacional
+        ).data
         return context
 
 
@@ -81,8 +84,14 @@ class OperationOcurrenceView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_ocurrence.html"
 
 
-class OperationListView(LoginRequiredMixin, TemplateView):
+class OperationListView(LoginRequiredMixin, ListView):
     template_name = "operations/operations_list_template.html"
+    paginate_by = settings.OPERATIONS_PER_PAGE
+
+    def get_queryset(self):
+        return InformacaoGeralOperacao.objects.filter(
+            operacao__usuario=self.request.user
+        )
 
 
 class InitialPageListView(LoginRequiredMixin, TemplateView):

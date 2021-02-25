@@ -69,18 +69,20 @@
                     <th>Responsável</th>
                     <th>Local</th>
                 </tr>
-                <tr>
-                    <td>Missão tal</td>
-                    <td>11/02/2021</td>
-                    <td>Tenente Fulano de tal</td>
-                    <td>Madureira</td>
-                </tr>
-                <tr>
-                    <td>Missão tal</td>
-                    <td>11/02/2021</td>
-                    <td>Tenente Fulano de tal</td>
-                    <td>Madureira</td>
-                </tr>
+                {% for info_operacao in object_list %}
+                    <tr>
+                        <td>
+                            <a
+                                target=_blank
+                                href="{% url 'operations:form-update' info_operacao.operacao.identificador %}">
+                                Missão tal
+                            </a>
+                        </td>
+                        <td>{{ info_operacao.data }}</td>
+                        <td>{{ info_operacao.batalhao_responsavel }}</td>
+                        <td>{{ info_operacao.bairro }}</td>
+                    </tr>
+                {% endfor %}
             </table>
         </div>
     </div>
