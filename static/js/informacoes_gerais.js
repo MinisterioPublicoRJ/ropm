@@ -1,3 +1,16 @@
+const FORWARD_URL = '/operacoes/cadastro/informacoes/operacionais/';
+const API_URL = '/v1/operacoes/cria-informacoes-gerais/';
+const FORM_VAR_LIST = {
+    "data": "#data_operacao",
+    "hora": "#hora_operacao",
+    "municipio": "#municipio_operacao",
+    "bairro": "#bairro_operacao",
+    "localidade": "#localidade_operacao",
+    "endereco_referencia": "#endereco_referencia",
+    "batalhao_responsavel": "#batalhao_operacao"
+};
+
+
 function getBairros(object) {
   const bairroUrl = `/v1/dados/bairros-rj/${object.value}`;
   fetch(bairroUrl, { method: "GET" })
@@ -28,40 +41,4 @@ function getBatalhoes(object) {
       });
     })
     .catch((error) => {});
-}
-
-function submitInfoGeraisForm(event){
-    event.preventDefault();
-    let is_valid = validateFields(document.querySelector("#form-informacoes-gerais"));
-
-    if (is_valid){
-        const formUUID = document.querySelector("#form_uuid").value;
-        const forwardURL = `/operacoes/cadastro/informacoes/operacionais/${formUUID}`;
-
-        const apiOperacoesGeraisURL = `/v1/operacoes/cria-informacoes-gerais/${formUUID}`;
-        const formData = JSON.stringify({
-            data: document.querySelector("#data_operacao").value,
-            hora: document.querySelector("#hora_operacao").value,
-            municipio: document.querySelector("#municipio_operacao").value,
-            bairro: document.querySelector("#bairro_operacao").value,
-            localidade: document.querySelector("#localidade_operacao").value,
-            endereco_referencia: document.querySelector("#endereco_referencia").value,
-            batalhao_responsavel: document.querySelector("#batalhao_operacao").value,
-        });
-        fetch(
-            apiOperacoesGeraisURL,
-        {
-                method: "PUT",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie("csrftoken")
-                },
-                body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            window.location = forwardURL;
-        })
-    }
 }

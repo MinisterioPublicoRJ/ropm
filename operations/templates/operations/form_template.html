@@ -15,7 +15,7 @@
       <div id="progressbar"></div>
     </div>
     <div class="form-main">
-      <form action="/" id="form-informacoes-gerais"   method="post" enctype="multipart/form-data">
+      <form action="/" id="main-form"   method="post" enctype="multipart/form-data">
           <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
         <div class="box-form-group">
           <div class="">
@@ -80,7 +80,7 @@
       </form>
       <div class="btns-forms">
         <a href="{% url 'operations:form-info-operation' form_uuid %}">
-          <button type="submit" class="btn-next" onclick="submitInfoGeraisForm(event);">Próximo</button>
+          <button type="submit" class="btn-next" onclick="submitFormInfo(event);">Próximo</button>
         </a>
       </div>
     </div>

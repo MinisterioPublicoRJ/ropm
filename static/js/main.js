@@ -27,3 +27,39 @@ function validateFields(formObj) {
   }
   return errors;
 }
+
+function buildFormData(fields){
+    let formData = {};
+    Object.entries(fields).forEach(field => {
+        formData[field[0]] = document.querySelector(field[1]).value;
+    });
+    return JSON.stringify(formData);
+}
+
+function submitFormInfo(event){
+    event.preventDefault();
+    let is_valid = validateFields(document.querySelector("#main-form"));
+
+    if (is_valid){
+        const formUUID = document.querySelector("#form_uuid").value;
+
+        const apiFullURL = API_URL + formUUID;
+        const forwardFullURL = FORWARD_URL + formUUID;
+        const formData = buildFormData(FORM_VAR_LIST);
+        fetch(
+            apiFullURL,
+        {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie("csrftoken")
+                },
+                body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            window.location = forwardFullURL;
+        })
+    }
+}
