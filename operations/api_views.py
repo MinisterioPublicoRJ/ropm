@@ -39,8 +39,7 @@ class GeneralInfoViewSet(ModelViewSet):
         return obj
 
     def perform_create(self, serializer):
-        pass
-        # serializer.save(operacao=self.get_or_create_operation())
+        serializer.save(operacao=self.get_or_create_operation())
 
 
 class OperationalInfoViewSet(ModelViewSet):

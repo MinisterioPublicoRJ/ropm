@@ -14,7 +14,6 @@ class OperationReportView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["municipios"] = Municipio.objects.get_ordered_values()
         context["form_uuid"] = uuid.uuid4()
         context["municipios"] = Municipio.objects.get_ordered_values()
         nm_first_city = context["municipios"][0]["nm_mun"]
@@ -24,6 +23,7 @@ class OperationReportView(LoginRequiredMixin, TemplateView):
         return context
 
 
+# TODO: add tests
 class UpdateOperationReportView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template.html"
     lookup_url_kwarg = "form_uuid"
@@ -52,6 +52,7 @@ class OperationInfoResultRegisterView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_result_info.html"
 
 
+# TODO: add tests
 class OperationInfoView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_info_operation.html"
     lookup_url_kwarg = "form_uuid"
@@ -74,6 +75,7 @@ class OperationOcurrenceView(LoginRequiredMixin, TemplateView):
 
 class OperationListView(LoginRequiredMixin, TemplateView):
     template_name = "operations/operations_list_template.html"
+
 
 class InitialPageListView(LoginRequiredMixin, TemplateView):
     template_name = "operations/initial_page_template.html"

@@ -1,5 +1,6 @@
 import uuid
 
+import pytest
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -39,6 +40,7 @@ class TestSendInformacaoGeralOperacao(TestCase):
             "batalhao_responsavel": "X BPM",
         }
 
+    @pytest.mark.skip(reson="Saving and updating data will be reimplemeted")
     def test_save_database_info(self):
         resp = self.client.post(self.url, data=self.form_data)
 
@@ -95,7 +97,11 @@ class TestSendInformacaoGeralOperacao(TestCase):
         self.client.force_login(user)
 
         self.form_data["bairro"] = "novo bairro"
-        resp = self.client.post(self.url, data=self.form_data)
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
 
         assert resp.status_code == 404
 
@@ -217,7 +223,11 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         self.client.force_login(user)
 
         self.form_data["bairro"] = "novo bairro"
-        resp = self.client.post(self.url, data=self.form_data)
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
 
         assert resp.status_code == 404
 
