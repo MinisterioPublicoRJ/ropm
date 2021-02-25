@@ -69,18 +69,14 @@
                     <th>Responsável</th>
                     <th>Local</th>
                 </tr>
-                <tr>
-                    <td>Missão tal</td>
-                    <td>11/02/2021</td>
-                    <td>Tenente Fulano de tal</td>
-                    <td>Madureira</td>
-                </tr>
-                <tr>
-                    <td>Missão tal</td>
-                    <td>11/02/2021</td>
-                    <td>Tenente Fulano de tal</td>
-                    <td>Madureira</td>
-                </tr>
+                {% for operacao in object_list %}
+                    <tr>
+                        <td>Missão tal</td>
+                        <td>{{ operacao.data }}</td>
+                        <td>{{ operacao.batalhao_responsavel }}</td>
+                        <td>{{ operacao.bairro }}</td>
+                    </tr>
+                {% endfor %}
             </table>
         </div>
     </div>
