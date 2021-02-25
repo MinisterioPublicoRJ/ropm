@@ -3,6 +3,16 @@ from django.db import models
 from users.models import User
 
 
+class InformacaoManager(models.Manager):
+    def get_obj_or_none(self, operacao):
+        try:
+            obj = self.get(operacao=operacao)
+        except models.ObjectDoesNotExist:
+            obj = None
+
+        return obj
+
+
 class Operacao(models.Model):
     identificador = models.UUIDField(unique=True, editable=False)
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
@@ -17,6 +27,8 @@ class Operacao(models.Model):
 
 
 class InformacaoGeralOperacao(models.Model):
+    objects = InformacaoManager()
+
     operacao = models.OneToOneField(Operacao, on_delete=models.CASCADE)
 
     data = models.DateField("Data")
@@ -35,20 +47,8 @@ class InformacaoGeralOperacao(models.Model):
         verbose_name_plural = "informações gerais de operação"
 
 
-class InformacaoOperacionalOperacaoManager(models.Manager):
-    def get_data_or_empty(self, operacao):
-        from operations.serializers import InformacaoOperacionalOperacaoSerializer
-        try:
-            obj = self.get(operacao=operacao)
-            data = InformacaoOperacionalOperacaoSerializer(obj).data
-        except models.ObjectDoesNotExist:
-            data = {}
-
-        return data
-
-
 class InformacaoOperacionalOperacao(models.Model):
-    objects = InformacaoOperacionalOperacaoManager()
+    objects = InformacaoManager()
 
     POSTO_COMANDANTE = [
         ("Cel", "Coronel"),

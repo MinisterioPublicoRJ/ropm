@@ -35,11 +35,9 @@ function submitInfoGeraisForm(event){
     let is_valid = validateFields(document.querySelector("#form-informacoes-gerais"));
 
     if (is_valid){
-        const urlUUID = window.location.pathname.split("/").pop();
         const formUUID = document.querySelector("#form_uuid").value;
         const forwardURL = `/operacoes/cadastro/informacoes/operacionais/${formUUID}`;
 
-        const method = formUUID == urlUUID ? "PUT" : "POST";
         const apiOperacoesGeraisURL = `/v1/operacoes/cria-informacoes-gerais/${formUUID}`;
         const formData = JSON.stringify({
             data: document.querySelector("#data_operacao").value,
@@ -53,7 +51,7 @@ function submitInfoGeraisForm(event){
         fetch(
             apiOperacoesGeraisURL,
         {
-                method: method,
+                method: "PUT",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',

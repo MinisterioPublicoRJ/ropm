@@ -8,9 +8,11 @@ from coredata.models import Bairro, Batalhao, Municipio
 from operations.models import (
     InformacaoGeralOperacao,
     InformacaoOperacionalOperacao,
-    Operacao,
 )
-from operations.serializers import InformacaoGeralOperacaoSerializer
+from operations.serializers import (
+    InformacaoGeralOperacaoSerializer,
+    InformacaoOperacionalOperacaoSerializer,
+)
 
 
 class OperationReportView(LoginRequiredMixin, TemplateView):
@@ -50,7 +52,6 @@ class UpdateOperationReportView(LoginRequiredMixin, TemplateView):
         )
         context["operacao_data"] = operacao_data
         return context
-
 
 
 # TODO: add tests

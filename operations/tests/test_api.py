@@ -40,7 +40,11 @@ class TestSendInformacaoGeralOperacao(TestCase):
         }
 
     def test_save_database_info(self):
-        resp = self.client.post(self.url, data=self.form_data)
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
 
         assert resp.status_code == 201
         op = Operacao.objects.get(identificador=self.form_uuid)
@@ -161,7 +165,11 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         }
 
     def test_save_database_info(self):
-        resp = self.client.post(self.url, data=self.form_data)
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
 
         assert resp.status_code == 201
         op = Operacao.objects.get(identificador=self.form_uuid)
