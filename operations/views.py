@@ -73,7 +73,9 @@ class OperationInfoView(LoginRequiredMixin, TemplateView):
         context["tipos_acoes_repressivas"] = InformacaoOperacionalOperacao.TIPO_ACAO_REPRESSIVA
         context["postos_comandante"] = InformacaoOperacionalOperacao.POSTO_COMANDANTE
         context["tipos_operacoes"] = InformacaoOperacionalOperacao.TIPO_OPERACAO
-        context["info_operacional"] = info_operacional
+        context["info_operacional"] = InformacaoOperacionalOperacaoSerializer(
+            info_operacional
+        ).data
         return context
 
 
