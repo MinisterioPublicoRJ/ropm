@@ -19,7 +19,7 @@ function validateFields(formObj) {
   let errors = true;
   for (i = 0; i < fields.length; i++) {
     if (!fields[i].value) {
-      fields[i].style.borderColor = "red";
+      fields[i].style.borderColor = "#ED0606";
       errors = false;
     } else {
       fields[i].style.borderColor = "#0676ED";
