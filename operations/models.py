@@ -35,7 +35,21 @@ class InformacaoGeralOperacao(models.Model):
         verbose_name_plural = "informações gerais de operação"
 
 
+class InformacaoOperacionalOperacaoManager(models.Manager):
+    def get_data_or_empty(self, operacao):
+        from operations.serializers import InformacaoOperacionalOperacaoSerializer
+        try:
+            obj = self.get(operacao=operacao)
+            data = InformacaoOperacionalOperacaoSerializer(obj).data
+        except models.ObjectDoesNotExist:
+            data = {}
+
+        return data
+
+
 class InformacaoOperacionalOperacao(models.Model):
+    objects = InformacaoOperacionalOperacaoManager()
+
     POSTO_COMANDANTE = [
         ("Cel", "Coronel"),
         ("Ten Cel", "Tenente Coronel"),
