@@ -16,19 +16,7 @@ class Operacao(models.Model):
         verbose_name_plural = "operações"
 
 
-class InformacaoGeralOperacaoManager(models.Manager):
-    def get_or_none(self, operacao):
-        try:
-            obj = self.get(operacao=operacao)
-        except models.ObjectDoesNotExist:
-            obj = None
-
-        return obj
-
-
 class InformacaoGeralOperacao(models.Model):
-    objects = InformacaoGeralOperacaoManager()
-
     operacao = models.OneToOneField(Operacao, on_delete=models.CASCADE)
 
     data = models.DateField("Data")
