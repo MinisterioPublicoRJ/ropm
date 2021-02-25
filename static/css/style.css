@@ -23,8 +23,6 @@ body{
 .navbarLeft ul li{
   list-style: none;
   text-align: left;
-  font-family: 'Nunito',;
-  color: #707070;
   font-size: 23px;
   height: 102px;
 }
@@ -33,8 +31,8 @@ body{
   margin-left: -17px;
 }
 .navbarLeft-list img{
-  height: 27;
-  width: 37px;
+  height: 30px;
+  width: 30px;
 }
 
 .navbarLeft ul li:hover{
@@ -58,7 +56,8 @@ body{
   display: flex;
 }
 a:link { 
- text-decoration:none; 
+  text-decoration: none; 
+  color: #707070 !important;
 } 
 .text-header-form{
   padding: 20px;
@@ -94,7 +93,7 @@ a:link {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
 }
 .btns-forms button{
   border-radius: 12px;
@@ -134,5 +133,5 @@ label {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-
 }
+
