@@ -1,6 +1,5 @@
 import uuid
 
-import pytest
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -40,7 +39,6 @@ class TestSendInformacaoGeralOperacao(TestCase):
             "batalhao_responsavel": "X BPM",
         }
 
-    @pytest.mark.skip(reson="Saving and updating data will be reimplemeted")
     def test_save_database_info(self):
         resp = self.client.post(self.url, data=self.form_data)
 
