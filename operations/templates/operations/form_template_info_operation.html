@@ -20,15 +20,11 @@
         <div class="box-form-group">
           <div class="">
             <label for="name">Unidade operacional responsável</label>
-            <input type="text" id="date" name="">
+            <input type="text" id="unidade_operacional_responsavel" name="unidade_operacional_responsavel">
           </div>
-          <div class="styled-select">
-            <label>Recebeu apoio de outras unidades, Qual ?</label>
-            <select class="form-control required" id="municipio" name="municipio">
-              <option value="rio de janeiro">Rio de Janeiro</option>
-              <option value="niterói">Niterói</option>
-              <option value="são gonçalo">São Gonçalo</option>
-            </select>
+          <div class="">
+            <label for="name">Recebeu apoio de outras unidades, Qual ?</label>
+            <input type="text" id="apoio_unidade" name="apoio_unidade">
           </div>
         </div>
         <div class="box-form-group">
@@ -37,65 +33,66 @@
             <input type="text" id="date" name="">
           </div>
           <div class="form-group">
-            <label>Nome do Comandante</label>
-            <div class="styled-select">
-              <select class="form-control required" id="posto_comandante" name="posto_comandante">
-                <option value="coronel">Coronel</option>
-                <option value="major">Major</option>
-                <option value="capitão">Capitão</option>
-              </select>
-            </div>
+          <div class="">
+            <label for="name">Nome Comandante da Operação</label>
+            <input type="text" id="nome_comandante_operacao" name="nome_comandante_operacao">
+          </div>
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
             <label>RG PM Comandante </label>
-            <input type="text" name="endereco_referencia" id="endereco_referencia" class="form-control required">
+            <input type="text" name="rg_pm_comandante_operacao" id="rg_pm_comandante_operacao" class="form-control required">
           </div>
           <div class="form-group">
             <label>Posto/graduação do comandante </label>
-            <input type="text" name="endereco_referencia" id="endereco_referencia" class="form-control required">
+            <div class="styled-select">
+              <select class="form-control required" id="posto_comandante" name="posto_comandante">
+                {% for posto in postos_comandante %}
+                    <option value="{{ posto.0 }}">{{ posto.1 }}</option>
+                {% endfor %}
+              </select>
+            </div>
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
             <label for="fname">Tipo de operação</label>
             <div class="styled-select">
-              <select class="form-control required" id="posto_comandante" name="posto_comandante">
-                <option value="coronel">Planejada</option>
-                <option value="major">Emergencial</option>
+              <select class="form-control required" id="tipo_operacao" name="tipo_operacao">
+                {% for tipo_operacao in tipos_operacoes %}
+                    <option value="{{ tipo_operacao.0 }}">{{ tipo_operacao.1 }}</option>
+                {% endfor %}
               </select>
             </div>
           </div>
           <div class="form-group">
             <label>Tipo de ação repressiva</label>
-            <select class="form-control required" id="posto_comandante" name="posto_comandante">
-              <option value="AREP I">AREP I</option>
-              <option value="major">AREP II</option>
-              <option value="major">AREP III</option>
-              <option value="major">AREP IV </option>
+            <select class="form-control required" id="tipo_acao_repressiva" name="tipo_acao_repressiva">
+                {% for tipo_acao_repressiva in tipos_acoes_repressivas %}
+                <option value="{{ tipo_acao_repressiva.0 }}">{{ tipo_acao_repressiva.1 }}</option>
+                {% endfor %}
             </select>
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
-            <label for="fname">Objetivo estratégico da Operação </label>
-            <div class="styled-select">
-              <select class="form-control required" id="posto_comandante" name="posto_comandante">
-                <option value="coronel">Planejada</option>
-                <option value="major">Emergencial</option>
-              </select>
-            </div>
+            <label>Objetivo Estratégico da Operação</label>
+            <input type="text" name="objetivo_estrategico_operacao" id="objetivo_estrategico_operacao" class="form-control required">
           </div>
           <div class="form-group">
-            <label>Código de Guarnições mobilizadas</label>
-            <input type="text" name="endereco_referencia" id="endereco_referencia" class="form-control required">
+            <label>Número de Guarnições mobilizadas</label>
+            <input type="number" min="1" name="numero_guarnicoes_mobilizadas" id="numero_guarnicoes_mobilizadas" class="form-control required">
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
             <label>Número de Policiais mobilizados </label>
-            <input style="width: 750px" type="text" name="" id="" class="form-control required">
+            <input type="number" min="1" name="numero_policiais_mobilizados" id="numero_policiais_mobilizados" class="form-control required">
+          </div>
+          <div class="form-group">
+            <label>Número da ordem de operações</label>
+            <input type="text" name="numero_ordem_operacoes" id="numero_ordem_operacoes" class="form-control required">
           </div>
         </div>
       </form>
