@@ -10,7 +10,7 @@
     <div class="header-form">
       <div class="text-header-form">
         <span>Cadastro de Operações</span>
-        <p>Informações Operacionais parte 2</p>
+        <p>Informações Operacionais - Parte 2</p>
       </div>
       <div id="progressbar"></div>
     </div>
@@ -60,11 +60,11 @@
       </form>
       <div class="btns-forms">
         <div class="btns-forms">
-          <a href="{% url 'operations:form-update' form_uuid %}">
+          <a href="{% url 'operations:form-info-operation-page-one' form_uuid %}">
             <button type="submit" class="btn-previus">Anterior</button>
           </a>
         </div>
-        <a href="{% url 'operations:form-info-result' %}">
+        <a href="{% url 'operations:form-info-result' form_uuid %}">
           <button type="submit" class="btn-next">Proxímo</button>
         </a>
       </div>
