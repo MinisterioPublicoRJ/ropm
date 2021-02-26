@@ -79,6 +79,8 @@ class OperationInfoView(LoginRequiredMixin, TemplateView):
         ).data
         return context
 
+class OperationInfoViewPageTwo(LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_template_info_operation_second_page.html"
 
 class OperationOcurrenceView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_ocurrence.html"
