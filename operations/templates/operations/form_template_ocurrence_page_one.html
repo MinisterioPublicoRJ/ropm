@@ -10,7 +10,7 @@
         <div class="header-form">
             <div class="text-header-form">
                 <span>Cadastro de Operações</span>
-                <p>Informações da Ocorrência</p>
+                <p>Informações da Ocorrência Parte 1</p>
             </div>
             <div id="progressbar"></div>
         </div>
@@ -65,45 +65,19 @@
                             class="form-control required">
                     </div>
                 </div>
-                <div class="box-form-group">
-                    <div class="">
-                        <label for="data">Número de policiais feridos</label>
-                        <input type="text" name="endereco_referencia" id="endereco_referencia"
-                            class="form-control required">
-                    </div>
-                    <div class="">
-                        <label for="data">N: de mortes por intervenção de agentes do Estado </label>
-                        <input type="text" name="endereco_referencia" id="endereco_referencia"
-                            class="form-control required">
-                    </div>
-                </div>
-                <div class="box-form-group">
-                    <div class="">
-                        <label for="data">Número de civis feridos</label>
-                        <input type="text" name="endereco_referencia" id="endereco_referencia"
-                            class="form-control required">
-                    </div>
-                    <div class="">
-                        <label for="data">N de civis mortos – morte não provocada por agente policiais </label>
-                        <input type="text" name="endereco_referencia" id="endereco_referencia"
-                            class="form-control required">
-                    </div>
-                </div>
-                <div class="box-form-group">
-                    <div class="">
-                        <label for="data">Número de veículos recuperados </label>
-                        <input style="width: 750px" type="text" name="endereco_referencia" id="endereco_referencia"
-                            class="form-control required">
-                    </div>
-                </div>
-                <div class="btns-forms">
-                    <button style="width: 330px" type="submit" class="btn-next">Enviar</button>
-                </div>
+               
             </form>
             <div class="btns-forms">
-                <a href="{% url 'operations:form-info-result' form_uuid %}">
-                    <button type="submit" class="btn-previus">Anterior</button>
-                </a>
+                <div class="btns-forms">
+                    <a href="{% url 'operations:form-info-result' form_uuid %}">
+                        <button type="submit" class="btn-previus">Anterior</button>
+                    </a>
+                </div>
+                <div class="btns-forms">
+                    <a href="{% url 'operations:form-info-ocurrence-page-two' form_uuid %}">
+                        <button type="submit" class="btn-next">Próximo</button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
