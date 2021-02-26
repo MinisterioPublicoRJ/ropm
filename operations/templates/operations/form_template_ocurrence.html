@@ -16,6 +16,7 @@
         </div>
         <div class="form-main">
             <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+              <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
                 <div class="box-form-group">
                     <div class="">
                         <label for="data">Boletim de Ocorrência da Polícia Militar (BOPM) </label>
@@ -100,7 +101,7 @@
                 </div>
             </form>
             <div class="btns-forms">
-                <a href="{% url 'operations:form-info-result' %}">
+                <a href="{% url 'operations:form-info-result' form_uuid %}">
                     <button type="submit" class="btn-previus">Anterior</button>
                 </a>
             </div>

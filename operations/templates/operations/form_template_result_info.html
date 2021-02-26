@@ -16,6 +16,7 @@
         </div>
         <div class="form-main">
             <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+              <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
                 <div class="box-form-group">
                     <div class="">
                         <label for="data">Houve confronto com DAF</label>
@@ -41,12 +42,12 @@
             </form>
             <div class="btns-forms">
                 <div class="btns-forms">
-                    <a href="{% url 'operations:form-info-operation' %}">
+                    <a href="{% url 'operations:form-info-operation-page-two' form_uuid %}">
                         <button type="submit" class="btn-previus">Anterior</button>
                     </a>
                 </div>
                 <div class="btns-forms">
-                    <a href="{% url 'operations:form-info-ocurrence' %}">
+                    <a href="{% url 'operations:form-info-ocurrence' form_uuid %}">
                         <button type="submit" class="btn-next">Próximo</button>
                     </a>
                 </div>
