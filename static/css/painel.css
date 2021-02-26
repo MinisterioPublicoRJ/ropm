@@ -1,0 +1,26 @@
+.progressbar {
+    counter-reset: step;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -17px;
+    padding: 0px;
+}
+.progressbar li {
+    list-style-type: none;
+}
+.progressbar li:before {
+    width: 15px;
+    height: 15px;
+    content: counter(step);
+    counter-increment: step;
+    border: 6px solid #4AD13B;
+    display: block;
+    border-radius: 50%;
+    background-color: #4AD13B;
+    color: transparent;
+   
+}
+
+
+
+
