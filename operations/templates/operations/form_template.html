@@ -42,6 +42,7 @@
                   onchange="getBairros(this); getBatalhoes(this);"
                   required
                   >
+                  <option value="">-</option>
                   {% for municipio in municipios %}
                   <option value="{{ municipio.nm_mun }}" {% if municipio.nm_mun == operacao_data.municipio %} selected {% endif %}>{{ municipio.nm_mun}}</option>
                   {% endfor %}
@@ -57,6 +58,7 @@
           <div class="styled-select">
             <label>Bairro da operação </label>
             <select class="form-control required" id="bairro_operacao" name="bairro_operacao" required>
+                <option value="">-</option>
                 {% for bairro in bairros %}
                 <option value="{{ bairro.bairro }}" {% if bairro.bairro == operacao_data.bairro|default:"''" %} selected {% endif %}>{{ bairro.bairro}}</option>
                 {% endfor %}
@@ -70,7 +72,8 @@
           </div>
           <div class="styled-select">
             <label>Batalhão Responsável</label>
-            <select class="form-control required" id="batalhao_operacao" name="batalhao_operacao">
+            <select class="form-control required" id="batalhao_operacao" name="batalhao_operacao" required>
+                <option value="">-</option>
                 {% for batalhao in batalhoes %}
                 <option value="{{ batalhao.bpm}}" {% if batalhao.bpm == operacao_data.batalhao_responsavel|default:"''" %} selected {% endif %}>{{batalhao.bpm}}</option>
                 {% endfor %}

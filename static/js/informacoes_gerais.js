@@ -18,9 +18,14 @@ function getBairros(object) {
     .then((data) => {
       let bairroSelector = document.querySelector("#bairro_operacao");
       bairroSelector.innerHTML = "";
+      let option = document.createElement("option");
+      option.text = "-";
+      option.value = "";
+      bairroSelector.add(option);
       data.forEach((bairro) => {
-        let option = document.createElement("option");
+        option = document.createElement("option");
         option.text = bairro.bairro;
+        option.value = bairro.bairro;
         bairroSelector.add(option);
       });
     })
@@ -34,9 +39,14 @@ function getBatalhoes(object) {
     .then((data) => {
       let batalhaoSelector = document.querySelector("#batalhao_operacao");
       batalhaoSelector.innerHTML = "";
+      let option = document.createElement("option");
+      option.text = "-";
+      option.value = "";
+      batalhaoSelector.add(option);
       data.forEach((batalhao) => {
-        let option = document.createElement("option");
+        option = document.createElement("option");
         option.text = batalhao.bpm;
+        option.value = batalhao.bpm;
         batalhaoSelector.add(option);
       });
     })
