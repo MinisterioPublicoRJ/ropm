@@ -22,11 +22,12 @@ body{
 }
 .progressbar-text{
   display: flex;
-  font-size: 9px;
+  font-size: 10px;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: 30px;
   color: #707070;
   font-family: Nunito,Regular;
+  max-width: 100vh;
 }
 progress::-moz-progress-bar {
   background: #0055FF;

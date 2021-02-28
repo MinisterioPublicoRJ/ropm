@@ -16,13 +16,17 @@ function getCookie(name) {
 
 function validateFields(formObj) {
   const fields = formObj.querySelectorAll("[required]");
+  //const progressChecked = document.querySelector(".progressbar li");
+
   let errors = true;
   for (i = 0; i < fields.length; i++) {
     if (!fields[i].value) {
       fields[i].style.borderColor = "#ED0606";
+      //progressChecked.style.backgroundColor = "red";
       errors = false;
     } else {
       fields[i].style.borderColor = "#0676ED";
+      //progressChecked.style.backgroundColor = "#4AD13B";
     }
   }
   return errors;
