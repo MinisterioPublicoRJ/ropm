@@ -3,12 +3,9 @@
     display: flex;
     justify-content: space-between;
     margin-top: -17px;
-    padding: 0px;
 }
 .progressbar li {
     list-style-type: none;
-}
-.progressbar li:before {
     width: 15px;
     height: 15px;
     content: counter(step);
@@ -18,7 +15,7 @@
     display: block;
     border-radius: 50%;
     color: transparent;
-   
+    margin-left: -34px;
 }
 
 

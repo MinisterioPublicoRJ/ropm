@@ -91,19 +91,17 @@ a:link {
 } 
 .text-header-form{
   padding: 17px;
+  max-width: 200px;
 }
 .text-header-form p{
   color: #AEAEAE;
-  font-size: 20px;
+  font-size: 18px;
 }
 .text-header-form span{
   color: #707070;
   font-size: 20px;
 }
-.text-header-form p{
-  color: #AEAEAE;
-  font-size: 22px;
-}
+
 .form-main {
   margin-top: 30px;
 }

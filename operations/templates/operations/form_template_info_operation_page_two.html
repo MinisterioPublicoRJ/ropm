@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Cadastro de Operaçãoes</title>
+{% endblock title %}
+
+{% block content %}
+<div class="operation-form">
+  <div class="main-page-form">
+    <div class="header-form">
+      <div class="text-header-form">
+        <span>Cadastro de Operações</span>
+        <p>Informações Operacionais - Parte 2</p>
+      </div>
+      <div>
+        <div class="progressbar-text">
+        <p>Informações Gerais</p>
+        <p>Informações Operacionais parte 1</p>
+        <p>Informações Operacionais parte 2</p>
+        <p>Informações de Resultado</p>
+        <p>Informações da Ocorrência parte 1</p>
+        <p>Informações da Ocorrência parte 2</p>
+        </div>
+        <progress  max="100" value="40" id="progressbar"></progress>
+        <ul class="progressbar">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+      </div>
+    </div>
+    <div class="form-main">
+      <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+        <input type="hidden" value="{{ form_uuid }}">
+        <div class="box-form-group">
+          <div class="form-group">
+            <label for="fname">Tipo de operação</label>
+            <div class="styled-select">
+              <select class="form-control required" id="tipo_operacao" name="tipo_operacao">
+                {% for tipo_operacao in tipos_operacoes %}
+                    <option value="{{ tipo_operacao.0 }}">{{ tipo_operacao.1 }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="">
+            <label>Tipo de ação repressiva</label>
+            <select class="form-control required" id="tipo_acao_repressiva" name="tipo_acao_repressiva">
+                {% for tipo_acao_repressiva in tipos_acoes_repressivas %}
+                <option value="{{ tipo_acao_repressiva.0 }}">{{ tipo_acao_repressiva.1 }}</option>
+                {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="box-form-group">
+          <div class="form-group">
+            <div class="form-group">
+              <label>Objetivo Estratégico da Operação</label>
+              <input type="text" name="objetivo_estrategico_operacao" id="objetivo_estrategico_operacao" class="form-control required">
+            </div>
+          </div>
+          <div class="form-group">
+          <div class="">
+            <label>Número de Guarnições mobilizadas</label>
+            <input type="number" min="1" name="numero_guarnicoes_mobilizadas" id="numero_guarnicoes_mobilizadas" class="form-control required">
+          </div>
+          </div>
+        </div>
+        <div class="box-form-group">
+          <div class="form-group">
+            <label>Número de Policiais mobilizados </label>
+            <input type="number" min="1" name="numero_policiais_mobilizados" id="numero_policiais_mobilizados" class="form-control required">
+          </div>
+          <div class="form-group">
+            <label>Número da ordem de operações</label>
+            <input type="text" name="numero_ordem_operacoes" id="numero_ordem_operacoes" class="form-control required">
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="btns-forms">
+        <div class="btns-forms">
+          <a href="{% url 'operations:form-info-operation-page-one' form_uuid %}">
+            <button type="submit" class="btn-previus">Anterior</button>
+          </a>
+        </div>
+        <a href="{% url 'operations:form-info-result' form_uuid %}">
+          <button type="submit" class="btn-next" onclick="">Proxímo</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+
+{% endblock extra_js %}

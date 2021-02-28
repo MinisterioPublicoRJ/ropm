@@ -9,7 +9,7 @@
     <div class="main-page-form">
         <div class="header-form">
             <div class="text-header-form">
-              <span>Cadastro de Operações</span>
+              <span>Cadastro de resultado</span>
               <p>Informações Gerais</p>
             </div>
             <div>
@@ -20,7 +20,7 @@
               <p>Informações da Ocorrência</p>
               <p>Finalizar o Cadastro</p>
               </div>
-              <progress  max="100" value="40" id="progressbar"></progress>
+              <progress  max="100" value="60" id="progressbar"></progress>
               <ul class="progressbar">
                   <li class="active"></li>
                   <li></li>
@@ -32,6 +32,7 @@
           </div>
         <div class="form-main">
             <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+              <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
                 <div class="box-form-group">
                     <div class="">
                         <label for="data">Houve confronto com DAF</label>
@@ -57,12 +58,12 @@
             </form>
             <div class="btns-forms">
                 <div class="btns-forms">
-                    <a href="{% url 'operations:form-info-operation' %}">
+                    <a href="{% url 'operations:form-info-operation-page-two' form_uuid %}">
                         <button type="submit" class="btn-previus">Anterior</button>
                     </a>
                 </div>
                 <div class="btns-forms">
-                    <a href="{% url 'operations:form-info-ocurrence' %}">
+                    <a href="{% url 'operations:form-info-ocurrence' form_uuid %}">
                         <button type="submit" class="btn-next">Próximo</button>
                     </a>
                 </div>

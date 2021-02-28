@@ -56,8 +56,8 @@ class UpdateOperationReportView(LoginRequiredMixin, TemplateView):
 
 
 # TODO: add tests
-class OperationInfoView(LoginRequiredMixin, TemplateView):
-    template_name = "operations/form_template_info_operation.html"
+class OperationInfoPageOneView(LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_template_info_operation_page_one.html"
     lookup_url_kwarg = "form_uuid"
 
     def get_context_data(self, **kwargs):
@@ -71,12 +71,26 @@ class OperationInfoView(LoginRequiredMixin, TemplateView):
             info_geral.operacao
         )
         context["form_uuid"] = form_uuid
-        context["tipos_acoes_repressivas"] = InformacaoOperacionalOperacao.TIPO_ACAO_REPRESSIVA
         context["postos_comandante"] = InformacaoOperacionalOperacao.POSTO_COMANDANTE
-        context["tipos_operacoes"] = InformacaoOperacionalOperacao.TIPO_OPERACAO
         context["info_operacional"] = InformacaoOperacionalOperacaoSerializer(
             info_operacional
         ).data
+        return context
+
+
+class OperationInfoPageTwoView(LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_template_info_operation_page_two.html"
+    lookup_url_kwarg = "form_uuid"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form_uuid = self.kwargs.get(self.lookup_url_kwarg)
+        get_object_or_404(
+            InformacaoGeralOperacao.objects.select_related("operacao"),
+            operacao__identificador=form_uuid
+        )
+        context["tipos_operacoes"] = InformacaoOperacionalOperacao.TIPO_OPERACAO
+        context["tipos_acoes_repressivas"] = InformacaoOperacionalOperacao.TIPO_ACAO_REPRESSIVA
         return context
 
 
