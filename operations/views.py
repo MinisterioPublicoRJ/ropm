@@ -97,8 +97,10 @@ class OperationInfoPageTwoView(LoginRequiredMixin, TemplateView):
 class OperationOcurrencePageOneView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_ocurrence_page_one.html"
 
+
 class OperationOcurrencePageTwoView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_ocurrence_page_two.html"
+
 
 class OperationListView(LoginRequiredMixin, ListView):
     template_name = "operations/operations_list_template.html"
