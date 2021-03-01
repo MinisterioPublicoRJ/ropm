@@ -15,39 +15,39 @@
       <div id="progressbar"></div>
     </div>
     <div class="form-main">
-      <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+      <form action="/" id="main-form"  method="post" enctype="multipart/form-data">
         <input type="hidden" value="{{ form_uuid }}">
         <div class="box-form-group">
           <div class="">
             <label for="name">Unidade operacional responsável</label>
-            <input type="text" id="unidade_operacional_responsavel" name="unidade_operacional_responsavel">
+            <input type="text" id="unidade_operacional_responsavel" name="unidade_operacional_responsavel" required>
           </div>
           <div class="">
             <label for="name">Recebeu apoio de outras unidades, Qual ?</label>
-            <input type="text" id="apoio_unidade" name="apoio_unidade">
+            <input type="text" id="apoio_unidade" name="apoio_unidade" required>
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
             <label>Número de Policiais mobilizados </label>
-            <input type="text" name="" id="" class="form-control required">
+            <input type="text" name="" id="" required>
           </div>
           <div class="form-group">
           <div class="">
             <label for="name">Nome Comandante da Operação</label>
-            <input type="text" id="nome_comandante_operacao" name="nome_comandante_operacao">
+            <input type="text" id="nome_comandante_operacao" name="nome_comandante_operacao" required>
           </div>
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
             <label>RG PM Comandante </label>
-            <input type="text" name="rg_pm_comandante_operacao" id="rg_pm_comandante_operacao" class="form-control required">
+            <input type="text" name="rg_pm_comandante_operacao" id="rg_pm_comandante_operacao" required>
           </div>
           <div class="form-group">
             <label>Posto/graduação do comandante </label>
             <div class="styled-select">
-              <select class="form-control required" id="posto_comandante" name="posto_comandante">
+              <select class="form-control required" id="posto_comandante" name="posto_comandante" required>
                 {% for posto in postos_comandante %}
                     <option value="{{ posto.0 }}">{{ posto.1 }}</option>
                 {% endfor %}
