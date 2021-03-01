@@ -1,10 +1,29 @@
 {% extends "base.html" %}
 {% block title %}<title>Cadastro</title>{% endblock title %}
 
+{% block sidenavebar %}
+{% endblock sidenavebar %}
+
 {% block content %}
 <form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Enviar</button>
 </form>
+<div class="tela-login-main">
+  <div class="tela-login">
+    <form method="POST" class="tela-login">
+      <h3>Cadastro</h3>
+      {% csrf_token %}
+      <input placeholder="Usuário" type="text" name="username" autocapitalize="none" autocomplete="username"
+        maxlength="150" required="" id="id_username">
+      <input placeholder="Email" type="email" name="email" autocomplete="current-password" required=""
+        id="">
+      <input placeholder="Instituição" type="text" name="password" autocomplete="current-password" required=""
+        id="">
+      <input placeholder="Senha" type="password" name="password" autocomplete="current-password" required=""
+        id="">
+      <input placeholder="Confirmação de senha" type="password-confirmation" name="password" autocomplete="current-password"
+        required="" id="">
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
 {% endblock content %}
