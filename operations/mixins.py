@@ -4,8 +4,7 @@ from rest_framework.response import Response
 
 class AllowPUTAsCreateMixin:
     def update(self, request, *args, **kwargs):
-        self.operacao = self.get_operation()
-        instance = self.model_class.objects.get_obj_or_none(self.operacao)
+        instance = self.get_operation()
 
         partial = kwargs.pop('partial', False)
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -28,4 +27,4 @@ class AllowPUTAsCreateMixin:
         return Response(serializer.data)
 
     def perform_create_or_update(self, serializer):
-        serializer.save(operacao=self.operacao)
+        serializer.save()

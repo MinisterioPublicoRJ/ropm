@@ -15,46 +15,48 @@
       <div id="progressbar"></div>
     </div>
     <div class="form-main">
-      <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
-        <input type="hidden" value="{{ form_uuid }}">
+      <form action="/" id="main-form" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="form_uuid" value="{{ form_uuid }}">
         <div class="box-form-group">
           <div class="form-group">
             <label for="fname">Tipo de operação</label>
             <div class="styled-select">
-              <select class="form-control required" id="tipo_operacao" name="tipo_operacao">
+              <select class="form-control required" id="tipo_operacao" name="tipo_operacao" required>
+                  <option value="">-</option>
                 {% for tipo_operacao in tipos_operacoes %}
-                    <option value="{{ tipo_operacao.0 }}">{{ tipo_operacao.1 }}</option>
+                <option value="{{ tipo_operacao.0 }}" {% if tipo_operacao.0 == operacao_info.tipo_operacao %}selected{% endif %}>{{ tipo_operacao.1 }}</option>
                 {% endfor %}
               </select>
             </div>
           </div>
           <div class="form-group">
-            <label>Tipo de ação repressiva</label>
-            <select class="form-control required" id="tipo_acao_repressiva" name="tipo_acao_repressiva">
-                {% for tipo_acao_repressiva in tipos_acoes_repressivas %}
-                <option value="{{ tipo_acao_repressiva.0 }}">{{ tipo_acao_repressiva.1 }}</option>
-                {% endfor %}
-            </select>
+            <label>Número da ordem de operações</label>
+            <input type="text" value="{{ operacao_info.numero_ordem_operacoes|default:'' }}" name="numero_ordem_operacoes" id="numero_ordem_operacoes" class="form-control" required>
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
-            <label>Objetivo Estratégico da Operação</label>
-            <input type="text" name="objetivo_estrategico_operacao" id="objetivo_estrategico_operacao" class="form-control required">
+            <label>Tipo de ação repressiva</label>
+            <select class="form-control required" id="tipo_acao_repressiva" name="tipo_acao_repressiva" required>
+                <option value="">-</option>
+                {% for tipo_acao_repressiva in tipos_acoes_repressivas %}
+                <option value="{{ tipo_acao_repressiva.0 }}" {% if tipo_acao_repressiva.0 == operacao_info.tipo_acao_repressiva %}selected{% endif %}>{{ tipo_acao_repressiva.1 }}</option>
+                {% endfor %}
+            </select>
           </div>
           <div class="form-group">
-            <label>Número de Guarnições mobilizadas</label>
-            <input type="number" min="1" name="numero_guarnicoes_mobilizadas" id="numero_guarnicoes_mobilizadas" class="form-control required">
+            <label>Objetivo Estratégico da Operação</label>
+            <input type="text" value="{{ operacao_info.objetivo_estrategico_operacao|default:'' }}" name="objetivo_estrategico_operacao" id="objetivo_estrategico_operacao" class="form-control" required>
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
             <label>Número de Policiais mobilizados </label>
-            <input type="number" min="1" name="numero_policiais_mobilizados" id="numero_policiais_mobilizados" class="form-control required">
+            <input type="number" min="0" value="{{ operacao_info.numero_policiais_mobilizados|default:''}}" name="numero_policiais_mobilizados" id="numero_policiais_mobilizados" class="form-control" required>
           </div>
           <div class="form-group">
-            <label>Número da ordem de operações</label>
-            <input type="text" name="numero_ordem_operacoes" id="numero_ordem_operacoes" class="form-control required">
+            <label>Número de Guarnições mobilizadas</label>
+            <input type="number" min="0" value="{{ operacao_info.numero_guarnicoes_mobilizadas }}" name="numero_guarnicoes_mobilizadas" id="numero_guarnicoes_mobilizadas" class="form-control" required>
           </div>
         </div>
       </form>
@@ -65,7 +67,7 @@
           </a>
         </div>
         <a href="{% url 'operations:form-info-result' form_uuid %}">
-          <button type="submit" class="btn-next">Proxímo</button>
+          <button type="submit" class="btn-next" onclick="submitFormInfo(event);">Proxímo</button>
         </a>
       </div>
     </div>
@@ -74,5 +76,18 @@
 {% endblock content %}
 
 {% block extra_js %}
+<script>
+const FORWARD_URL = '/operacoes/cadastro/informacoes/resultado/';
+const API_URL = '/v1/operacoes/cria-informacoes-operacionais-parte-2/';
+const FORM_VAR_LIST = {
+    "tipo_operacao": "#tipo_operacao",
+    "tipo_acao_repressiva": "#tipo_acao_repressiva",
+    "numero_ordem_operacoes": "#numero_ordem_operacoes",
+    "objetivo_estrategico_operacao": "#objetivo_estrategico_operacao",
+    "numero_guarnicoes_mobilizadas": "#numero_guarnicoes_mobilizadas",
+    "numero_policiais_mobilizados": "#numero_policiais_mobilizados"
+};
+
+</script>
 
 {% endblock extra_js %}

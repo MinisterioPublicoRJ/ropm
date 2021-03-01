@@ -3,30 +3,28 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from operations.mixins import AllowPUTAsCreateMixin
-from operations.models import (
-    InformacaoGeralOperacao,
-    InformacaoOperacionalOperacao,
-    Operacao,
-)
+from operations.models import Operacao
 from operations.serializers import (
-    InformacaoGeralOperacaoSerializer,
-    InformacaoOperacionalOperacaoSerializer,
+    InfoGeraisOperacaoSerializer,
+    InfoOperacionaisOperacaoOneSerializer,
+    InfoOperacionaisOperacaoTwoSerializer,
+    InfoResultadosOperacaoSerializer,
 )
 
 
 class GeneralInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = InformacaoGeralOperacaoSerializer
+    serializer_class = InfoGeraisOperacaoSerializer
     lookup_url_kwarg = "form_uuid"
-    lookup_field = "operacao__identificador"
-    model_class = InformacaoGeralOperacao
+    lookup_field = "identificador"
+    model_class = Operacao
 
     def get_queryset(self):
         user = self.request.user
         identificador = self.kwargs.get(self.lookup_url_kwarg)
-        return InformacaoGeralOperacao.objects.filter(
-            operacao__usuario=user,
-            operacao__identificador=identificador
+        return Operacao.objects.filter(
+            usuario=user,
+            identificador=identificador
         )
 
     def get_operation(self):
@@ -41,12 +39,12 @@ class GeneralInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
         return obj
 
 
-class OperationalInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
+class OperationalInfoOneViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = InformacaoOperacionalOperacaoSerializer
+    serializer_class = InfoOperacionaisOperacaoOneSerializer
     lookup_url_kwarg = "form_uuid"
-    lookup_field = "operacao__identificador"
-    model_class = InformacaoOperacionalOperacao
+    lookup_field = "identificador"
+    model_class = Operacao
 
     def get_operation(self):
         identificador = self.kwargs.get(self.lookup_url_kwarg)
@@ -59,7 +57,55 @@ class OperationalInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         identificador = self.kwargs.get(self.lookup_url_kwarg)
-        return InformacaoOperacionalOperacao.objects.filter(
-            operacao__usuario=user,
-            operacao__identificador=identificador
+        return Operacao.objects.filter(
+            usuario=user,
+            identificador=identificador
+        )
+
+
+class OperationalInfoTwoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = InfoOperacionaisOperacaoTwoSerializer
+    lookup_url_kwarg = "form_uuid"
+    lookup_field = "identificador"
+    model_class = Operacao
+
+    def get_operation(self):
+        identificador = self.kwargs.get(self.lookup_url_kwarg)
+        return get_object_or_404(
+            Operacao,
+            identificador=identificador,
+            usuario=self.request.user,
+        )
+
+    def get_queryset(self):
+        user = self.request.user
+        identificador = self.kwargs.get(self.lookup_url_kwarg)
+        return Operacao.objects.filter(
+            usuario=user,
+            identificador=identificador
+        )
+
+
+class ResultInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = InfoResultadosOperacaoSerializer
+    lookup_url_kwarg = "form_uuid"
+    lookup_field = "identificador"
+    model_class = Operacao
+
+    def get_operation(self):
+        identificador = self.kwargs.get(self.lookup_url_kwarg)
+        return get_object_or_404(
+            Operacao,
+            identificador=identificador,
+            usuario=self.request.user,
+        )
+
+    def get_queryset(self):
+        user = self.request.user
+        identificador = self.kwargs.get(self.lookup_url_kwarg)
+        return Operacao.objects.filter(
+            usuario=user,
+            identificador=identificador
         )

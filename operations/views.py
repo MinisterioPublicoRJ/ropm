@@ -6,13 +6,12 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, TemplateView
 
 from coredata.models import Bairro, Batalhao, Municipio
-from operations.models import (
-    InformacaoGeralOperacao,
-    InformacaoOperacionalOperacao,
-)
+from operations.models import Operacao
 from operations.serializers import (
-    InformacaoGeralOperacaoSerializer,
-    InformacaoOperacionalOperacaoSerializer,
+    InfoGeraisOperacaoSerializer,
+    InfoOperacionaisOperacaoOneSerializer,
+    InfoOperacionaisOperacaoTwoSerializer,
+    InfoResultadosOperacaoSerializer,
 )
 
 
@@ -30,68 +29,67 @@ class OperationReportView(LoginRequiredMixin, TemplateView):
         return context
 
 
+class OperationViewMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form_uuid = self.kwargs.get(self.lookup_url_kwarg)
+        context["form_uuid"] = form_uuid
+        operacao_info = get_object_or_404(
+            Operacao,
+            identificador=form_uuid,
+            usuario=self.request.user
+        )
+        operacao_info = self.serializer_class(operacao_info).data
+        context["operacao_info"] = operacao_info
+        return context
+
+
 # TODO: add tests
-class UpdateOperationReportView(LoginRequiredMixin, TemplateView):
+class UpdateOperationReportView(OperationViewMixin, LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template.html"
     lookup_url_kwarg = "form_uuid"
+    serializer_class = InfoGeraisOperacaoSerializer
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["municipios"] = Municipio.objects.get_ordered_values()
-        form_uuid = self.kwargs.get(self.lookup_url_kwarg)
-        context["form_uuid"] = form_uuid
-        operacao_info = get_object_or_404(
-            InformacaoGeralOperacao,
-            operacao__identificador=form_uuid
-        )
-        operacao_data = InformacaoGeralOperacaoSerializer(operacao_info).data
         context["bairros"] = Bairro.objects.get_ordered_for_municipio(
-            operacao_data["municipio"]
+            context["operacao_info"]["municipio"]
         )
         context["batalhoes"] = Batalhao.objects.get_ordered_for_municipio(
-            operacao_data["municipio"]
+            context["operacao_info"]["municipio"]
         )
-        context["operacao_data"] = operacao_data
         return context
 
 
 # TODO: add tests
-class OperationInfoPageOneView(LoginRequiredMixin, TemplateView):
+class OperationInfoPageOneView(OperationViewMixin, LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_info_operation_page_one.html"
     lookup_url_kwarg = "form_uuid"
+    serializer_class = InfoOperacionaisOperacaoOneSerializer
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        form_uuid = self.kwargs.get(self.lookup_url_kwarg)
-        info_geral = get_object_or_404(
-            InformacaoGeralOperacao.objects.select_related("operacao"),
-            operacao__identificador=form_uuid
-        )
-        info_operacional = InformacaoOperacionalOperacao.objects.get_obj_or_none(
-            info_geral.operacao
-        )
-        context["form_uuid"] = form_uuid
-        context["postos_comandante"] = InformacaoOperacionalOperacao.POSTO_COMANDANTE
-        context["info_operacional"] = InformacaoOperacionalOperacaoSerializer(
-            info_operacional
-        ).data
+        context["postos_comandante"] = Operacao.POSTO_COMANDANTE
         return context
 
 
-class OperationInfoPageTwoView(LoginRequiredMixin, TemplateView):
+class OperationInfoPageTwoView(OperationViewMixin, LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_info_operation_page_two.html"
     lookup_url_kwarg = "form_uuid"
+    serializer_class = InfoOperacionaisOperacaoTwoSerializer
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        form_uuid = self.kwargs.get(self.lookup_url_kwarg)
-        get_object_or_404(
-            InformacaoGeralOperacao.objects.select_related("operacao"),
-            operacao__identificador=form_uuid
-        )
-        context["tipos_operacoes"] = InformacaoOperacionalOperacao.TIPO_OPERACAO
-        context["tipos_acoes_repressivas"] = InformacaoOperacionalOperacao.TIPO_ACAO_REPRESSIVA
+        context["tipos_operacoes"] = Operacao.TIPO_OPERACAO
+        context["tipos_acoes_repressivas"] = Operacao.TIPO_ACAO_REPRESSIVA
         return context
+
+
+class OperationInfoResultRegisterView(OperationViewMixin, LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_template_result_info.html"
+    lookup_url_kwarg = "form_uuid"
+    serializer_class = InfoResultadosOperacaoSerializer
 
 
 class OperationOcurrencePageOneView(LoginRequiredMixin, TemplateView):
@@ -107,9 +105,7 @@ class OperationListView(LoginRequiredMixin, ListView):
     paginate_by = settings.OPERATIONS_PER_PAGE
 
     def get_queryset(self):
-        return InformacaoGeralOperacao.objects.filter(
-            operacao__usuario=self.request.user
-        )
+        return Operacao.objects.filter(usuario=self.request.user)
 
 
 class InitialPageListView(LoginRequiredMixin, TemplateView):
@@ -118,7 +114,3 @@ class InitialPageListView(LoginRequiredMixin, TemplateView):
 
 class PanelListView(LoginRequiredMixin, TemplateView):
     template_name = "operations/panel_template.html"
-
-
-class OperationInfoResultRegisterView(LoginRequiredMixin, TemplateView):
-    template_name = "operations/form_template_result_info.html"

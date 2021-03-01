@@ -15,33 +15,33 @@
             <div id="progressbar"></div>
         </div>
         <div class="form-main">
-            <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+            <form action="/" id="main-form" method="post" enctype="multipart/form-data">
               <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
                 <div class="box-form-group">
                     <div class="">
                         <label for="data">Houve confronto com DAF?</label>
                         <select class="form-control" id="houve_confronto_daf" name="houve_confronto_daf" required>
                             <option value="">-</option>
-                            <option value="Sim">Sim</option>
-                            <option value="Não">Não</option>
+                            <option value="1"  {% if operacao_info.houve_confronto_daf %}selected{% endif %}>Sim</option>
+                            <option value="0" {% if operacao_info.houve_confronto_daf == False %}selected{% endif %}>Não</option>
                         </select>
                     </div>
                     <div class="">
                         <label for="data">Houve resultados na operação?</label>
-                        <select class="form-control" id="houve_resultados_na_operacao" name="houve_resultados_na_operacao" required>
+                        <select class="form-control" id="houve_resultados_operacao" name="houve_resultados_operacao" required>
                             <option value="">-</option>
-                            <option value="Sim">Sim</option>
-                            <option value="Não">Não</option>
+                            <option value="1"  {% if operacao_info.houve_resultados_operacao %}selected{% endif %}>Sim</option>
+                            <option value="0" {% if operacao_info.houve_resultados_operacao == False %}selected{% endif %}>Não</option>
                         </select>
                     </div>
                 </div>
                 <div class="box-form-group">
                     <div class="">
                         <label for="data">Houve ocorrência na operação?</label>
-                        <select class="form-control required" id="houve_ocorrencia_na_operacao" name="houve_ocorrencia_na_operacao" required>
+                        <select class="form-control required" id="houve_ocorrencia_operacao" name="houve_ocorrencia_operacao" required>
                             <option value="">-</option>
-                            <option value="Sim">Sim</option>
-                            <option value="Não">Não</option>
+                            <option value="1"  {% if operacao_info.houve_ocorrencia_operacao %}selected{% endif %}>Sim</option>
+                            <option value="0" {% if operacao_info.houve_ocorrencia_operacao == False %}selected{% endif %}>Não</option>
                         </select>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="btns-forms">
                     <a href="{% url 'operations:form-info-ocurrence-page-one' form_uuid %}">
-                        <button type="submit" class="btn-next">Próximo</button>
+                        <button type="submit" class="btn-next" onclick="submitFormInfo(event);">Próximo</button>
                     </a>
                 </div>
             </div>
@@ -65,5 +65,13 @@
 {% endblock content %}
 
 {% block extra_js %}
-
+<script>
+const FORWARD_URL = '/operacoes/cadastro/informacoes/ocorrencia/parte-1/';
+const API_URL = '/v1/operacoes/cria-informacoes-resultado/';
+const FORM_VAR_LIST = {
+    "houve_confronto_daf": "#houve_confronto_daf",
+    "houve_resultados_operacao": "#houve_resultados_operacao",
+    "houve_ocorrencia_operacao": "#houve_ocorrencia_operacao"
+};
+</script>
 {% endblock extra_js %}

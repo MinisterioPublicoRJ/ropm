@@ -20,17 +20,17 @@
         <div class="box-form-group">
           <div class="">
             <label for="name">Data da operação </label>
-            <input type="date" id="data_operacao" value={{ operacao_data.data|default:"''" }} name="data_operacao" required>
+            <input type="date" id="data_operacao" value={{ operacao_info.data|default:"''" }} name="data_operacao" required>
           </div>
           <div class="styled-select">
             <label>Hora da operação </label>
-            <input type="time" id="hora_operacao" value={{ operacao_data.hora|default:"''" }} name="hora_operacao" required>
+            <input type="time" id="hora_operacao" value={{ operacao_info.hora|default:"''" }} name="hora_operacao" required>
           </div>
         </div>
         <div class="box-form-group">
           <div class="styled-select">
             <label>Localidade</label>
-            <input type="text" id="localidade_operacao" value="{{ operacao_data.localidade|default:'' }}" name="localidade_operacao" required>
+            <input type="text" id="localidade_operacao" value="{{ operacao_info.localidade|default:'' }}" name="localidade_operacao" required>
           </div>
           <div class="form-group">
             <label>Município da Operação </label>
@@ -44,7 +44,7 @@
                   >
                   <option value="">-</option>
                   {% for municipio in municipios %}
-                  <option value="{{ municipio.nm_mun }}" {% if municipio.nm_mun == operacao_data.municipio %} selected {% endif %}>{{ municipio.nm_mun}}</option>
+                  <option value="{{ municipio.nm_mun }}" {% if municipio.nm_mun == operacao_info.municipio %} selected {% endif %}>{{ municipio.nm_mun}}</option>
                   {% endfor %}
               </select>
             </div>
@@ -53,14 +53,14 @@
         <div class="box-form-group">
           <div class="form-group">
             <label>Endereço de Referência</label>
-            <input type="text" name="endereco_referencia" value="{{ operacao_data.endereco_referencia|default:'' }}" id="endereco_referencia" class="form-control required" required>
+            <input type="text" name="endereco_referencia" value="{{ operacao_info.endereco_referencia|default:'' }}" id="endereco_referencia" class="form-control required" required>
           </div>
           <div class="styled-select">
             <label>Bairro da operação </label>
             <select class="form-control required" id="bairro_operacao" name="bairro_operacao" required>
                 <option value="">-</option>
                 {% for bairro in bairros %}
-                <option value="{{ bairro.bairro }}" {% if bairro.bairro == operacao_data.bairro|default:"''" %} selected {% endif %}>{{ bairro.bairro}}</option>
+                <option value="{{ bairro.bairro }}" {% if bairro.bairro == operacao_info.bairro|default:"''" %} selected {% endif %}>{{ bairro.bairro}}</option>
                 {% endfor %}
             </select>
           </div>
@@ -75,7 +75,7 @@
             <select class="form-control required" id="batalhao_operacao" name="batalhao_operacao" required>
                 <option value="">-</option>
                 {% for batalhao in batalhoes %}
-                <option value="{{ batalhao.bpm}}" {% if batalhao.bpm == operacao_data.batalhao_responsavel|default:"''" %} selected {% endif %}>{{batalhao.bpm}}</option>
+                <option value="{{ batalhao.bpm}}" {% if batalhao.bpm == operacao_info.batalhao_responsavel|default:"''" %} selected {% endif %}>{{batalhao.bpm}}</option>
                 {% endfor %}
             </select>
           </div>
