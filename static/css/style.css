@@ -72,10 +72,6 @@ a:link {
   color: #707070;
   font-size: 23px;
 }
-.text-header-form p{
-  color: #AEAEAE;
-  font-size: 22px;
-}
 .form-main {
   margin-top: 30px;
 }
@@ -91,6 +87,27 @@ a:link {
   margin-top: 10px;
   padding: 0 18px 0 18px;
 }
+.input-type-checked{
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+}
+.form-control{
+  display: flex;
+  font-size: 16px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.input-type-checked label{
+  font-size: 16px !important;
+}
+.form-control input{
+  display: flex;
+  width: 14px;
+  height: 14px;
+  margin-left: 20px;
+}
+
 .btns-forms{
   display: flex;
   align-items: center;

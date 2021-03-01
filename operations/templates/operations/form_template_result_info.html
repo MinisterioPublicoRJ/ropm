@@ -16,33 +16,30 @@
         </div>
         <div class="form-main">
             <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
-              <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
-                <div class="box-form-group">
-                    <div class="">
-                        <label for="data">Houve confronto com DAF?</label>
-                        <select class="form-control" id="houve_confronto_daf" name="houve_confronto_daf" required>
-                            <option value="">-</option>
-                            <option value="Sim">Sim</option>
-                            <option value="Não">Não</option>
-                        </select>
+                <input type="hidden" id="form_uuid" value="{{ form_uuid }}">
+                <div class="input-type-checked">
+                    <label for="data">Houve confronto com DAF?</label>
+                        <div class="form-control" id="houve_confronto_daf" name="houve_confronto_daf" required>
+                            <label> Sim</label>
+                            <input type="checkbox" name="choice-radio" value="Sim">
+                            <label>Não</label>
+                            <input type="checkbox" name="choice-radio" value="Não">
+                        </div>
+                    <label for="data">Houve resultados na operação?</label>
+                    <div class="form-control" id="houve_resultados_na_operacao" name="houve_resultados_na_operacao"
+                        required>
+                        <label> Sim</label>
+                        <input type="checkbox" name="choice-radio" value="Sim">
+                        <label>Não</label>
+                        <input type="checkbox" name="choice-radio" value="Não">
                     </div>
-                    <div class="">
-                        <label for="data">Houve resultados na operação?</label>
-                        <select class="form-control" id="houve_resultados_na_operacao" name="houve_resultados_na_operacao" required>
-                            <option value="">-</option>
-                            <option value="Sim">Sim</option>
-                            <option value="Não">Não</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="box-form-group">
-                    <div class="">
-                        <label for="data">Houve ocorrência na operação?</label>
-                        <select class="form-control required" id="houve_ocorrencia_na_operacao" name="houve_ocorrencia_na_operacao" required>
-                            <option value="">-</option>
-                            <option value="Sim">Sim</option>
-                            <option value="Não">Não</option>
-                        </select>
+                    <label for="data">Houve ocorrência na operação?</label>
+                    <div class="form-control" id="houve_ocorrencia_na_operacao" name="houve_ocorrencia_na_operacao"
+                        required>
+                        <label> Sim</label>
+                        <input type="checkbox" name="choice-radio" value="Sim">
+                        <label>Não</label>
+                        <input type="checkbox" name="choice-radio" value="Não">
                     </div>
                 </div>
             </form>
