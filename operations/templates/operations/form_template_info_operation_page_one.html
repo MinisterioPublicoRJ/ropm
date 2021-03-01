@@ -16,40 +16,37 @@
     </div>
     <div class="form-main">
       <form action="/" id="main-form"  method="post" enctype="multipart/form-data">
-        <input type="hidden" value="{{ form_uuid }}">
+        <input type="hidden" id="form_uuid" value="{{ form_uuid }}">
         <div class="box-form-group">
           <div class="">
             <label for="name">Unidade operacional responsável</label>
-            <input type="text" id="unidade_operacional_responsavel" name="unidade_operacional_responsavel" required>
+            <input type="text" value="{{ operacao_info.unidade_responsavel|default:'' }}" id="unidade_operacional_responsavel" name="unidade_operacional_responsavel" required>
           </div>
           <div class="">
             <label for="name">Recebeu apoio de outras unidades, Qual ?</label>
-            <input type="text" id="apoio_unidade" name="apoio_unidade" required>
+            <input type="text" value="{{ operacao_info.unidade_apoiadora|default:'' }}" id="unidade_apoiadora" name="unidade_apoiadora">
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
-            <label>Número de Policiais mobilizados </label>
-            <input type="text" name="" id="" required>
+            <label for="name">Nome Comandante da Operação</label>
+            <input type="text" value="{{ operacao_info.nome_comandante_operacao|default:'' }}" id="nome_comandante_operacao" name="nome_comandante_operacao" required>
           </div>
           <div class="form-group">
           <div class="">
-            <label for="name">Nome Comandante da Operação</label>
-            <input type="text" id="nome_comandante_operacao" name="nome_comandante_operacao" required>
+            <label>RG PM Comandante </label>
+            <input type="text" value="{{ operacao_info.rg_pm_comandante_operacao|default:'' }}" name="rg_pm_comandante_operacao" id="rg_pm_comandante_operacao" required>
           </div>
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
-            <label>RG PM Comandante </label>
-            <input type="text" name="rg_pm_comandante_operacao" id="rg_pm_comandante_operacao" required>
-          </div>
-          <div class="form-group">
             <label>Posto/graduação do comandante </label>
             <div class="styled-select">
-              <select class="form-control required" id="posto_comandante" name="posto_comandante" required>
+              <select class="form-control required" id="posto_comandante_operacao" name="posto_comandante_operacao" required>
+                  <option value="">-</option>
                 {% for posto in postos_comandante %}
-                    <option value="{{ posto.0 }}">{{ posto.1 }}</option>
+                <option value="{{ posto.0 }}" {% if posto.0 == operacao_info.posto_comandante_operacao %} selected {% endif %}>{{ posto.1 }}</option>
                 {% endfor %}
               </select>
             </div>
@@ -63,7 +60,7 @@
           </a>
         </div>
         <a href="{% url 'operations:form-info-operation-page-two' form_uuid %}">
-          <button type="submit" class="btn-next" onclick="">Proxímo</button>
+          <button type="submit" class="btn-next" onclick="submitFormInfo(event)">Proxímo</button>
         </a>
       </div>
     </div>
@@ -72,5 +69,16 @@
 {% endblock content %}
 
 {% block extra_js %}
+<script>
+const FORWARD_URL = '/operacoes/cadastro/informacoes/operacionais/parte-2/';
+const API_URL = '/v1/operacoes/cria-informacoes-operacionais-parte-1/';
+const FORM_VAR_LIST = {
+    "unidade_responsavel": "#unidade_operacional_responsavel",
+    "unidade_apoiadora": "#unidade_apoiadora",
+    "nome_comandante_operacao": "#nome_comandante_operacao",
+    "rg_pm_comandante_operacao": "#rg_pm_comandante_operacao",
+    "posto_comandante_operacao": "#posto_comandante_operacao"
+};
 
+</script>
 {% endblock extra_js %}

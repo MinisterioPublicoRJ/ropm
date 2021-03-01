@@ -26,12 +26,12 @@ urlpatterns = [
         name="form-info-result"
     ),
     path(
-        "cadastro/informacoes/ocorrencia/parte-1<uuid:form_uuid>",
+        "cadastro/informacoes/ocorrencia/parte-1/<uuid:form_uuid>",
         views.OperationOcurrencePageOneView.as_view(),
         name="form-info-ocurrence-page-one"
     ),
-     path(
-        "cadastro/informacoes/ocorrencia/parte-2<uuid:form_uuid>",
+    path(
+        "cadastro/informacoes/ocorrencia/parte-2/<uuid:form_uuid>",
         views.OperationOcurrencePageTwoView.as_view(),
         name="form-info-ocurrence-page-two"
     ),
