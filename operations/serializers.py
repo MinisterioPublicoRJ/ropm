@@ -33,7 +33,7 @@ class InfoOperacionaisOperacaoOneSerializer(OperacaoSerializer):
 class InfoOperacionaisOperacaoTwoSerializer(OperacaoSerializer):
     tipo_operacao = serializers.CharField(required=True)
     tipo_acao_repressiva = serializers.CharField(required=True)
-    numero_ordem_operacoes = serializers.CharField(required=True)
+    numero_ordem_operacoes = serializers.CharField(allow_blank=True)
     objetivo_estrategico_operacao = serializers.CharField(required=True)
     numero_guarnicoes_mobilizadas = serializers.IntegerField(required=True)
     numero_policiais_mobilizados = serializers.IntegerField(required=True)
