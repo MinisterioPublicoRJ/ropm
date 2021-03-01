@@ -12,7 +12,25 @@
         <span>Cadastro de Operações</span>
         <p>Informações Gerais</p>
       </div>
-      <div id="progressbar"></div>
+      <div>
+        <div class="progressbar-text">
+        <p>Informações Gerais</p>
+        <p>Informações Operacionais parte 1</p>
+        <p>Informações Operacionais parte 2</p>
+        <p>Informações de Resultado</p>
+        <p>Informações da Ocorrência parte 1</p>
+        <p>Informações da Ocorrência parte 2</p>
+        </div>
+        <progress  max="100" value="0" id="progressbar"></progress>
+        <ul class="progressbar">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+      </div>
     </div>
     <div class="form-main">
       <form action="/" id="main-form"   method="post" enctype="multipart/form-data">
@@ -23,7 +41,7 @@
             <input type="date" id="data_operacao" value={{ operacao_info.data|default:"''" }} name="data_operacao" required>
           </div>
           <div class="styled-select">
-            <label>Hora da operação </label>
+            <label>Horário da operação </label>
             <input type="time" id="hora_operacao" value={{ operacao_info.hora|default:"''" }} name="hora_operacao" required>
           </div>
         </div>

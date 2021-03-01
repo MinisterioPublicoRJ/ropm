@@ -10,9 +10,27 @@
     <div class="header-form">
       <div class="text-header-form">
         <span>Cadastro de Operações</span>
-        <p>Informações Operacionais - Parte 2</p>
+        <p>Informações Operacionais Parte 2</p>
       </div>
-      <div id="progressbar"></div>
+      <div>
+        <div class="progressbar-text">
+        <p>Informações Gerais</p>
+        <p>Informações Operacionais parte 1</p>
+        <p>Informações Operacionais parte 2</p>
+        <p>Informações de Resultado</p>
+        <p>Informações da Ocorrência parte 1</p>
+        <p>Informações da Ocorrência parte 2</p>
+      </div>
+        <progress  max="100" value="40" id="progressbar"></progress>
+        <ul class="progressbar">
+            <li class="progressbar-checked"></li>
+            <li class="progressbar-checked"></li>
+            <li class="progressbar-checked"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+      </div>
     </div>
     <div class="form-main">
       <form action="/" id="main-form" method="post" enctype="multipart/form-data">
@@ -35,20 +53,25 @@
           </div>
         </div>
         <div class="box-form-group">
-          <div class="form-group">
-            <label>Tipo de ação repressiva</label>
-            <select class="form-control required" id="tipo_acao_repressiva" name="tipo_acao_repressiva" required>
-                <option value="">-</option>
-                {% for tipo_acao_repressiva in tipos_acoes_repressivas %}
-                <option value="{{ tipo_acao_repressiva.0 }}" {% if tipo_acao_repressiva.0 == operacao_info.tipo_acao_repressiva %}selected{% endif %}>{{ tipo_acao_repressiva.1 }}</option>
-                {% endfor %}
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Objetivo Estratégico da Operação</label>
+            <div class="form-group">
+                <label>Tipo de ação repressiva</label>
+                <div class="styled-select">
+                <select class="form-control required" id="tipo_acao_repressiva" name="tipo_acao_repressiva" required>
+                    <option value="">-</option>
+                    {% for tipo_acao_repressiva in tipos_acoes_repressivas %}
+                    <option
+                        value="{{ tipo_acao_repressiva.0 }}"
+                        {% if tipo_acao_repressiva.0 == operacao_info.tipo_acao_repressiva %}selected{% endif %}>
+                    {{ tipo_acao_repressiva.1 }}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        </div>
+                <div class="">
+                    <label>Objetivo Estratégico da Operação</label>
             <input type="text" value="{{ operacao_info.objetivo_estrategico_operacao|default:'' }}" name="objetivo_estrategico_operacao" id="objetivo_estrategico_operacao" class="form-control" required>
           </div>
-        </div>
+          </div>
         <div class="box-form-group">
           <div class="form-group">
             <label>Número de Policiais mobilizados </label>

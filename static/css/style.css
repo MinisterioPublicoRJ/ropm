@@ -17,6 +17,35 @@ body{
   width: 260px;
   height: 100%;
 }
+
+#progressbar{
+  background-color: #E5E5E5;
+}
+.progressbar-text{
+  display: flex;
+  font-size: 10px;
+  justify-content: space-between;
+  margin-top: 17px;
+  color: #707070;
+  font-family: Nunito,Regular;
+  max-width: 100vh;
+}
+progress::-moz-progress-bar {
+  background: #0055FF;
+}
+progress::-webkit-progress-value { 
+  background: #0055FF;
+}
+progress { 
+  color: #0055FF;
+}
+
+progress[value]{
+  width: 100vh;
+  height: 7px;
+  background-color: #0055FF;
+}
+
 .navbarLeft-img-logo{
   width: 210px;
   height: 50px;
@@ -62,23 +91,22 @@ a:link {
   color: #707070 !important;
 } 
 .text-header-form{
-  padding: 20px;
+  padding: 17px;
+  max-width: 200px;
 }
 .text-header-form p{
   color: #AEAEAE;
-  font-size: 22px;
+  font-size: 18px;
 }
 .text-header-form span{
   color: #707070;
-  font-size: 23px;
+  font-size: 20px;
 }
-.text-header-form p{
-  color: #AEAEAE;
-  font-size: 22px;
-}
+
 .form-main {
   margin-top: 30px;
 }
+
 .form-main input, select {
   border: 1px solid #0676ED;
   border-radius: 4px;
