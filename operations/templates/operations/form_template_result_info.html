@@ -21,25 +21,25 @@
                     <label for="data">Houve confronto com DAF?</label>
                         <div class="form-control" id="houve_confronto_daf" name="houve_confronto_daf" required>
                             <label> Sim</label>
-                            <input type="radio" name="choice-radio" value="sim"  {% if operacao_info.houve_confronto_daf %}sim{% endif %} >
+                            <input type="radio" name="choice-radio" value="1"  {% if operacao_info.houve_confronto_daf %}sim{% endif %} >
                             <label>Não</label>
-                            <input type="radio" name="choice-radio" value="não" {% if operacao_info.houve_confronto_daf == False %}não{% endif %}>
+                            <input type="radio" name="choice-radio" value="0" {% if operacao_info.houve_confronto_daf == False %}não{% endif %}>
                         </div>
                     <label for="data">Houve resultados na operação?</label>
                     <div class="form-control" id="houve_resultados_na_operacao" name="houve_resultados_na_operacao"
                         required>
                         <label> Sim</label>
-                        <input type="radio" name="choice-radio" value="sim" {% if operacao_info.houve_resultados_operacao %}sim{% endif %}>
+                        <input type="radio" name="choice-radio" value="1" {% if operacao_info.houve_resultados_operacao %}sim{% endif %}>
                         <label>Não</label>
-                        <input type="radio" name="choice-radio" value="não" {% if operacao_info.houve_resultados_operacao == False %}não{% endif %}>
+                        <input type="radio" name="choice-radio" value="0" {% if operacao_info.houve_resultados_operacao == False %}não{% endif %}>
                     </div>
                     <label for="data">Houve ocorrência na operação?</label>
                     <div class="form-control" id="houve_ocorrencia_na_operacao" name="houve_ocorrencia_na_operacao"
                         required>
                         <label> Sim</label>
-                        <input type="radio" name="choice-radio" value="sim" {% if operacao_info.houve_ocorrencia_operacao %}sim{% endif %}>
+                        <input type="radio" name="choice-radio" value="1" {% if operacao_info.houve_ocorrencia_operacao %}sim{% endif %}>
                         <label>Não</label>
-                        <input type="radio" name="choice-radio" value="não" {% if operacao_info.houve_ocorrencia_operacao == False %}não{% endif %}>
+                        <input type="radio" name="choice-radio" value="0" {% if operacao_info.houve_ocorrencia_operacao == False %}não{% endif %}>
                     </div>
                 </div>
             </form>
