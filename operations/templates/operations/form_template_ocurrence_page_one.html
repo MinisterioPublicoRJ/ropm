@@ -43,6 +43,7 @@
                             name="boletim_ocorrencia_pm"
                             id="boletim_ocorrencia_pm"
                             class="form-control" value="{{operacao_info.boletim_ocorrencia_pm|default:''}}" required>
+                        <p>Campo obrigátorio</p>
                     </div>
                     <div class="">
                         <label for="data">Registro de Ocorrência</label>
@@ -51,6 +52,7 @@
                             name="registro_ocorrencia"
                             id="registro_ocorrencia"
                             class="form-control" value="{{ operacao_info.registro_ocorrencia|default:''}}" required>
+                        <p>Campo obrigátorio</p>
                     </div>
                 </div>
                 <div class="box-form-group">
@@ -61,6 +63,7 @@
                             name="nome_comandante_ocorrencia"
                             id="nome_comandante_ocorrencia"
                             class="form-control" value="{{ operacao_info.nome_comandante_ocorrencia|default:'' }}" required>
+                        <p>Campo obrigátorio</p>
                     </div>
                     <div class="">
                         <label for="data">RG PM do Comandante</label>
@@ -69,6 +72,7 @@
                             name="rg_pm_comandante_ocorrencia"
                             id="rg_pm_comandante_ocorrencia"
                             class="form-control" value="{{ operacao_info.rg_pm_comandante_ocorrencia|default:'' }}" required>
+                        <p>Campo obrigátorio</p>
                     </div>
                 </div>
                 <div class="box-form-group">
@@ -82,6 +86,7 @@
                             {% endfor %}
                         </select>
                         </div>
+                        <p>Campo obrigátorio</p>
                     </div>
                     <div class="">
                         <label for="data">Número de armas apreendidas </label>
@@ -90,6 +95,7 @@
                             name="numero_armas_apreendidas"
                             id="numero_armas_apreendidas"
                             class="form-control" value="{{ operacao_info.numero_armas_apreendidas|default:'' }}" required>
+                        <p>Campo obrigátorio</p>
                     </div>
                 </div>
                 <div class="box-form-group">
@@ -100,14 +106,16 @@
                             name="numero_fuzis_apreendidos"
                             id="numero_fuzis_apreendidos"
                             class="form-control" value="{{ operacao_info.numero_fuzis_apreendidos|default:''}}" required>
+                        <p>Campo obrigátorio</p>
                     </div>
                     <div class="">
-                    <label for="data">Número de presos</label>
-                    <input
-                        type="number" min="0"
-                         name="numero_presos"
-                         id="numero_presos"
-                         class="form-control" value="{{ operacao_info.numero_presos|default:''}}" required>
+                        <label for="data">Número de presos</label>
+                        <input
+                            type="number" min="0"
+                            name="numero_presos"
+                            id="numero_presos"
+                            class="form-control" value="{{ operacao_info.numero_presos|default:''}}" required>
+                        <p>Campo obrigátorio</p>
                     </div>
                 </div>
                 <div class="box-form-group">
@@ -119,6 +127,7 @@
                                 <label>Não</label>
                                 <input type="radio" name="option-confronto" {% if operacao_info.houve_apreensao_drogas == False %}checked{% endif %} value="0">
                             </div>
+                            <p>Campo obrigátorio</p>
                     </div>
                 </div>
             </form>
