@@ -9,19 +9,24 @@
 </form>
 <div class="tela-login-main">
   <div class="tela-login">
-    <form method="POST" class="tela-login">
+      <form method="POST" class="tela-login" action="{% url 'signup' %}">
       <h3>Cadastro</h3>
       {% csrf_token %}
       <input placeholder="Usuário" type="text" name="username" autocapitalize="none" autocomplete="username"
         maxlength="150" required="" id="id_username">
+        {{ form.username.errors }}
       <input placeholder="Email" type="email" name="email" autocomplete="current-password" required=""
         id="">
-      <input placeholder="Instituição" type="text" name="password" autocomplete="current-password" required=""
+      <select name="instituicao" id="id_instituicao">
+            <option value="PM">Polícia Militar</option>
+            <option value="MPRJ">MPRJ</option>
+      </select>
+      <input placeholder="Senha" type="password" name="password1" autocomplete="current-password" required=""
         id="">
-      <input placeholder="Senha" type="password" name="password" autocomplete="current-password" required=""
-        id="">
-      <input placeholder="Confirmação de senha" type="password-confirmation" name="password" autocomplete="current-password"
+        {{ form.password1.errors }}
+      <input placeholder="Confirmação de senha" type="password" name="password2" autocomplete="current-password"
         required="" id="">
+        {{ form.password2.errors }}
       <button type="submit">Enviar</button>
     </form>
   </div>
