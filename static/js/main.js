@@ -17,16 +17,16 @@ function getCookie(name) {
 function validateFields(formObj) {
   const fields = formObj.querySelectorAll("[required]");
 
-  let errors = true;
+  let no_errors = true;
   for (i = 0; i < fields.length; i++) {
     if (!fields[i].value) {
       fields[i].style.borderColor = "#ED0606";
-      errors = false;
+      no_errors = false;
     } else {
       fields[i].style.borderColor = "#0676ED";
     }
   }
-  return errors;
+  return no_errors;
 }
 
 function buildFormData(fields){
