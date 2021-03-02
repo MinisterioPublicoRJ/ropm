@@ -36,4 +36,9 @@ urlpatterns = [
         api_views.OcurrenceInfoOneViewSet.as_view(single_actions),
         name="create-ocurrence-info-1"
     ),
+    path(
+        "cria-informacoes-ocorrencia-parte-2/<uuid:form_uuid>",
+        api_views.OcurrenceInfoTwoViewSet.as_view(single_actions),
+        name="create-ocurrence-info-2"
+    ),
 ]

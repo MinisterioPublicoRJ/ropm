@@ -33,41 +33,56 @@
               </div>
         </div>
         <div class="form-main">
-            <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+            <form action="/" id="main-form" method="post" enctype="multipart/form-data">
               <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
               <div class="box-form-group">
                 <div class="">
                     <label for="data">Número de policiais feridos</label>
                     <input type="number" min="0" name="numero_policiais_feridos" id="numero_policiais_feridos"
-                        class="form-control" required>
+                     class="form-control" value="{{ operacao_info.numero_policiais_feridos|default:'' }}" required>
                 </div>
                 <div class="">
-                    <label for="data">Número de mortes por intervenção de agentes do Estado </label>
-                    <input type="number" min="0" name="numero_mortes_interv_estado" id="numero_mortes_interv_estado"
-                        class="form-control" required>
+                    <label for="data">Número de baixas policiais</label>
+                    <input type="number" min="0" name="numero_baixas_policiais" id="numero_baixas_policiais"
+                     class="form-control" value="{{ operacao_info.numero_baixas_policiais|default:'' }}" required>
                 </div>
             </div>
             <div class="box-form-group">
                 <div class="">
                     <label for="data">Número de civis feridos</label>
                     <input type="number" min="0" name="numero_civis_feridos" id="numero_civis_feridos"
-                        class="form-control" required>
+                     class="form-control" value="{{ operacao_info.numero_civis_feridos|default:'' }}" required>
                 </div>
                 <div class="">
                     <label for="data">Nº de civis mortos – morte não provocada por agente policiais </label>
                     <input type="number" min="0" name="numero_civis_mortos_npap" id="numero_civis_mortos_npap"
-                        class="form-control" required>
+                     class="form-control" value="{{ operacao_info.numero_civis_mortos_npap|default:'' }}" required>
                 </div>
             </div>
             <div class="box-form-group">
                 <div class="">
-                    <label for="data">Número de veículos recuperados </label>
-                    <input style="width: 750px" type="number" min="0" name="numero_veiculos_recuperados" id="numero_veiculos_recuperados"
-                        class="form-control" required>
+                    <label for="data">Número de feridos por resistência</label>
+                    <input
+                        type="number" min="0" name="numero_feridos_por_resistencia" id="numero_feridos_por_resistencia"
+                         class="form-control" value="{{ operacao_info.numero_feridos_por_resistencia|default:'' }}" required>
+                </div>
+                <div class="">
+                    <label for="data">Número de veículos recuperados</label>
+                    <input
+                        type="number" min="0" name="numero_veiculos_recuperados" id="numero_veiculos_recuperados"
+                         class="form-control" value="{{ operacao_info.numero_veiculos_recuperados|default:'' }}" required>
+                </div>
+            </div>
+            <div class="box-form-group">
+                <div class="">
+                    <label for="data">Número de mortes por intervenção de agentes do Estado</label>
+                    <input
+                        type="number" min="0" name="numero_mortes_interv_estado" id="numero_mortes_interv_estado"
+                         class="form-control" value="{{ operacao_info.numero_mortes_interv_estado|default:'' }}" required>
                 </div>
             </div>
                 <div class="btns-forms">
-                    <button type="submit" class="btn-next">Enviar</button>
+                    <button type="submit" class="btn-next" onclick="submitFormInfo(event);">Finalizar</button>
                 </div>
             </form>
             <div class="btns-forms">
@@ -82,5 +97,18 @@
 {% endblock content %}
 
 {% block extra_js %}
+<script>
+const FORWARD_URL = '/operacoes/cadastro/completo/';
+const API_URL = '/v1/operacoes/cria-informacoes-ocorrencia-parte-2/';
+const FORM_VAR_LIST ={
+    "numero_policiais_feridos": "#numero_policiais_feridos",
+    "numero_baixas_policiais": "#numero_baixas_policiais",
+    "numero_feridos_por_resistencia": "#numero_feridos_por_resistencia",
+    "numero_mortes_interv_estado": "#numero_mortes_interv_estado",
+    "numero_civis_feridos": "#numero_civis_feridos",
+    "numero_civis_mortos_npap": "#numero_civis_mortos_npap",
+    "numero_veiculos_recuperados": "#numero_veiculos_recuperados"
+}
+</script>
 
 {% endblock extra_js %}

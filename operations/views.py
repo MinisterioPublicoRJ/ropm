@@ -12,6 +12,7 @@ from operations.serializers import (
     InfoOperacionaisOperacaoOneSerializer,
     InfoOperacionaisOperacaoTwoSerializer,
     InfoOcorrenciaOneSerializer,
+    InfoOcorrenciaTwoSerializer,
     InfoResultadosOperacaoSerializer,
 )
 
@@ -106,8 +107,10 @@ class OperationOcurrencePageOneView(OperationViewMixin, LoginRequiredMixin, Temp
         return context
 
 
-class OperationOcurrencePageTwoView(LoginRequiredMixin, TemplateView):
+class OperationOcurrencePageTwoView(OperationViewMixin, LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_ocurrence_page_two.html"
+    lookup_url_kwarg = "form_uuid"
+    serializer_class = InfoOcorrenciaTwoSerializer
 
 
 class FormCompleteView(OperationViewMixin, LoginRequiredMixin, TemplateView):

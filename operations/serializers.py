@@ -56,3 +56,13 @@ class InfoOcorrenciaOneSerializer(OperacaoSerializer):
     numero_fuzis_apreendidos = serializers.IntegerField()
     numero_presos = serializers.IntegerField()
     numero_adolescentes_apreendindos = serializers.IntegerField()
+
+
+class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
+    numero_policiais_feridos = serializers.IntegerField()
+    numero_baixas_policiais = serializers.IntegerField()
+    numero_feridos_por_resistencia = serializers.IntegerField()
+    numero_mortes_interv_estado = serializers.IntegerField()
+    numero_civis_feridos = serializers.IntegerField()
+    numero_civis_mortos_npap = serializers.IntegerField()
+    numero_veiculos_recuperados = serializers.IntegerField()

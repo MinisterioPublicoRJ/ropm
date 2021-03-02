@@ -31,7 +31,7 @@ urlpatterns = [
         name="form-info-ocurrence-page-one"
     ),
     path(
-        "cadastro/<uuid:form_uuid>/completo",
+        "cadastro/completo/<uuid:form_uuid>",
         views.FormCompleteView.as_view(),
         name="form-complete"
     ),
