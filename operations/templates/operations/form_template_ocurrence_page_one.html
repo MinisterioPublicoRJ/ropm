@@ -73,29 +73,16 @@
                 </div>
                 <div class="box-form-group">
                     <div class="">
-                    <label>Posto/graduação do comandante </label>
-                    <div class="styled-select">
+                        <label>Posto/graduação do comandante </label>
+                        <div class="styled-select">
                         <select class="form-control required" id="posto_comandante_ocorrencia" name="posto_comandante_ocorrencia" required>
                             <option value="">-</option>
                             {% for posto in postos_comandante %}
                             <option value="{{ posto.0 }}" {% if posto.0 == operacao_info.posto_comandante_ocorrencia %} selected {% endif %}>{{ posto.1 }}</option>
                             {% endfor %}
                         </select>
-                    </div>
-                    </div>
-                </div>
-                <div class="box-form-group">
-                <div class="input-type-checked">
-                    <label for="data">Houve apreensao de drogas?</label>
-                        <div class="form-control" id="houve_apreensao_drogas" name="houve_apreensao_drogas" required>
-                            <label> Sim</label>
-                            <input type="radio" name="option-confronto" {% if operacao_info.houve_apreensao_drogas %}checked{% endif %} value="1">
-                            <label>Não</label>
-                            <input type="radio" name="option-confronto" {% if operacao_info.houve_apreensao_drogas == False %}checked{% endif %} value="0">
                         </div>
                     </div>
-                </div>
-                <div class="box-form-group">
                     <div class="">
                         <label for="data">Número de armas apreendidas </label>
                         <input
@@ -104,6 +91,8 @@
                             id="numero_armas_apreendidas"
                             class="form-control" value="{{ operacao_info.numero_armas_apreendidas|default:'' }}" required>
                     </div>
+                </div>
+                <div class="box-form-group">
                     <div class="">
                         <label for="data">Número de fuzis apreendidos</label>
                         <input
@@ -112,23 +101,24 @@
                             id="numero_fuzis_apreendidos"
                             class="form-control" value="{{ operacao_info.numero_fuzis_apreendidos|default:''}}" required>
                     </div>
+                    <div class="">
+                    <label for="data">Número de presos</label>
+                    <input
+                        type="number" min="0"
+                         name="numero_presos"
+                         id="numero_presos"
+                         class="form-control" value="{{ operacao_info.numero_presos|default:''}}" required>
+                    </div>
                 </div>
                 <div class="box-form-group">
-                    <div class="">
-                        <label for="data">Número de presos</label>
-                        <input
-                            type="number" min="0"
-                             name="numero_presos"
-                             id="numero_presos"
-                             class="form-control" value="{{ operacao_info.numero_presos|default:''}}" required>
-                    </div>
-                    <div class="">
-                        <label for="data">Número de adolescentes apreendidos</label>
-                        <input
-                            type="number" min="0"
-                            name="numero_adolescentes_apreendindos"
-                            id="numero_adolescentes_apreendindos"
-                            class="form-control" value="{{ operacao_info.numero_adolescentes_apreendindos|default:'' }}" required>
+                    <div class="input-type-checked">
+                        <label for="data">Houve apreensao de drogas?</label>
+                            <div class="form-control" id="houve_apreensao_drogas" name="houve_apreensao_drogas" required>
+                                <label> Sim</label>
+                                <input type="radio" name="option-confronto" {% if operacao_info.houve_apreensao_drogas %}checked{% endif %} value="1">
+                                <label>Não</label>
+                                <input type="radio" name="option-confronto" {% if operacao_info.houve_apreensao_drogas == False %}checked{% endif %} value="0">
+                            </div>
                     </div>
                 </div>
             </form>
@@ -162,7 +152,6 @@ const FORM_VAR_LIST = {
     "numero_armas_apreendidas": "#numero_armas_apreendidas",
     "numero_fuzis_apreendidos": "#numero_fuzis_apreendidos",
     "numero_presos": "#numero_presos",
-    "numero_adolescentes_apreendindos": "#numero_adolescentes_apreendindos",
 };
 
 </script>
