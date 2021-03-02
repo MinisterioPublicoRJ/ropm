@@ -14,11 +14,15 @@
     flex-direction: column;
     background-color: #F8F8F8;
     width: 548px;
-    height: 500px;
+    height: 550px;
     margin: 0 auto;
     border-radius: 9px;
     opacity: 1;
-    margin-top: 50px;
+    margin-top: 30px;
+    font-size: 25px;
+    color: #707070;
+    font-family: SFProDisplay-Regular;
+    font-weight: bold;
 }
 .tela-login img {
     width: 290px;
