@@ -129,9 +129,12 @@ a:link {
 }
 .input-type-checked .form-control{
   display: flex;
-  font-size: 16px;
+  font-size: 12px;
   margin-top: 20px;
   margin-bottom: 10px;
+}
+.input-type-checked {
+  margin-right: 600px;
 }
 .input-type-checked label{
   font-size: 16px !important;
@@ -177,6 +180,7 @@ label {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  margin-top: 20px;
 
 }
 .box-form-group h3{

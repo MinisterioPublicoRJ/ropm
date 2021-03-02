@@ -80,12 +80,20 @@
                         type="number" min="0" name="numero_mortes_interv_estado" id="numero_mortes_interv_estado"
                          class="form-control" value="{{ operacao_info.numero_mortes_interv_estado|default:'' }}" required>
                 </div>
+                <div class="">
+                    <label for="data">Número de adolescentes apreendidos</label>
+                    <input
+                        type="number" min="0"
+                        name="numero_adolescentes_apreendindos"
+                        id="numero_adolescentes_apreendindos"
+                        class="form-control" value="{{ operacao_info.numero_adolescentes_apreendindos|default:'' }}" required>
+                </div>
             </div>
-                <div class="btns-forms">
+                <div class="btns-forms" style="margin-left: 300px;">
                     <button type="submit" class="btn-next" onclick="submitFormInfo(event);">Finalizar</button>
                 </div>
             </form>
-            <div class="btns-forms">
+            <div class="btns-forms" style="margin-right: 300px; margin-top: -122px;">
                 <a href="{% url 'operations:form-info-ocurrence-page-one' form_uuid %}">
                     <button type="submit" class="btn-previus">Anterior</button>
                 </a>
@@ -107,7 +115,8 @@ const FORM_VAR_LIST ={
     "numero_mortes_interv_estado": "#numero_mortes_interv_estado",
     "numero_civis_feridos": "#numero_civis_feridos",
     "numero_civis_mortos_npap": "#numero_civis_mortos_npap",
-    "numero_veiculos_recuperados": "#numero_veiculos_recuperados"
+    "numero_veiculos_recuperados": "#numero_veiculos_recuperados",
+    "numero_adolescentes_apreendindos": "#numero_adolescentes_apreendindos",
 }
 </script>
 
