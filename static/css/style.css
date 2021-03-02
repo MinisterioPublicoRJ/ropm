@@ -16,6 +16,8 @@ body{
   grid-area: navBar;
   width: 260px;
   height: 100%;
+  position:relative; 
+
 }
 
 #progressbar{
@@ -55,17 +57,18 @@ progress[value]{
   list-style: none;
   text-align: left;
   font-size: 23px;
-  height: 102px;
+  color: #707070;
+  margin-top: 60px;
+  margin-left: 2px ;
 }
 .navbarLeft ul {
   margin-top: 40px;
   margin-left: -17px;
 }
 .navbarLeft-list img{
-  height: 30px;
+  height: 35px;
   width: 30px;
 }
-
 .navbarLeft ul li:hover{
   color: #0676ED;
   font-size: 23px;
@@ -89,6 +92,7 @@ progress[value]{
 a:link { 
   text-decoration: none; 
   color: #707070 !important;
+
 } 
 .text-header-form{
   padding: 17px;
@@ -184,4 +188,8 @@ label {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-
+.box-logo-mp{
+  position:absolute;
+  bottom: 30px; 
+  margin-left: 10px;
+}
