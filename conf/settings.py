@@ -145,7 +145,7 @@ STATIC_URL = config(
 )
 STATIC_ROOT = config(
     'STATIC_ROOT',
-    default=BASE_DIR.child('static')
+    default=BASE_DIR.joinpath("static")
 )
 STATICFILES_DIRS = [
     Path(BASE_DIR, "static"),
