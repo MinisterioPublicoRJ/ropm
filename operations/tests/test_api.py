@@ -5,11 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 from model_bakery import baker
 
-from operations.models import (
-    InformacaoGeralOperacao,
-    InformacaoOperacionalOperacao,
-    Operacao,
-)
+from operations.models import Operacao
 
 
 User = get_user_model()
@@ -46,34 +42,41 @@ class TestSendInformacaoGeralOperacao(TestCase):
             content_type="application/json",
         )
 
-        assert resp.status_code == 201
-        op = Operacao.objects.get(identificador=self.form_uuid)
-        InformacaoGeralOperacao.objects.get(operacao=op)
-        assert op.usuario == self.user
-        assert not op.editado
+        assert resp.status_code == 200
+        operacao = Operacao.objects.get(identificador=self.form_uuid)
+        assert operacao.usuario == self.user
+
+        data = resp.data
+        assert data["data"] == operacao.data.strftime("%Y-%m-%d")
+        assert data["hora"] == operacao.hora.strftime("%H:%M:%S")
+        assert data["localidade"] == operacao.localidade
+        assert data["bairro"] == operacao.bairro
+        assert data["municipio"] == operacao.municipio
+        assert data["endereco_referencia"] == operacao.endereco_referencia
+        assert data["batalhao_responsavel"] == operacao.batalhao_responsavel
 
     def test_retrieve_saved_info(self):
-        operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
-        op_general_info = baker.make(InformacaoGeralOperacao, operacao=operacao)
+        operacao = baker.make(
+            Operacao,
+            usuario=self.user,
+            identificador=self.form_uuid,
+            _fill_optional=True
+        )
 
         resp = self.client.get(self.url)
         data = resp.data
 
         assert resp.status_code == 200
-        assert data["data"] == op_general_info.data.strftime("%Y-%m-%d")
-        assert data["hora"] == op_general_info.hora.strftime("%H:%M:%S")
-        assert data["localidade"] == op_general_info.localidade
-        assert data["bairro"] == op_general_info.bairro
-        assert data["municipio"] == op_general_info.municipio
-        assert data["endereco_referencia"] == op_general_info.endereco_referencia
-        assert data["batalhao_responsavel"] == op_general_info.batalhao_responsavel
+        assert data["data"] == operacao.data.strftime("%Y-%m-%d")
+        assert data["hora"] == operacao.hora.strftime("%H:%M:%S")
+        assert data["localidade"] == operacao.localidade
+        assert data["bairro"] == operacao.bairro
+        assert data["municipio"] == operacao.municipio
+        assert data["endereco_referencia"] == operacao.endereco_referencia
+        assert data["batalhao_responsavel"] == operacao.batalhao_responsavel
 
     def test_update_some_fields(self):
         operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
-        op_general_info = baker.make(
-            InformacaoGeralOperacao,
-            operacao=operacao
-        )
 
         new_info = "Novo Bairro"
         self.form_data["bairro"] = new_info
@@ -83,10 +86,10 @@ class TestSendInformacaoGeralOperacao(TestCase):
             content_type="application/json",
         )
 
-        op_general_info.refresh_from_db()
-        assert InformacaoGeralOperacao.objects.count() == 1
+        operacao.refresh_from_db()
+        assert Operacao.objects.count() == 1
         assert resp.status_code == 200
-        assert op_general_info.bairro == new_info
+        assert operacao.bairro == new_info
 
     def test_another_user_tries_to_update_info(self):
         baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
@@ -138,7 +141,7 @@ class TestSendInformacaoGeralOperacao(TestCase):
 
 
 class TestSendInformacaoOperacionalOperacao(TestCase):
-    url_name = "api-operations:create-operational-info"
+    url_name = "api-operations:create-operational-info-1"
 
     def setUp(self):
         self.username = "username"
@@ -150,18 +153,19 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         self.form_uuid = uuid.uuid4()
         self.url = reverse(self.url_name, kwargs={"form_uuid": self.form_uuid})
 
-        self.operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
+        self.operacao = baker.make(
+            Operacao,
+            usuario=self.user,
+            identificador=self.form_uuid,
+            _fill_optional=True
+        )
 
         self.form_data = {
             "unidade_responsavel": "Unidade A",
-            "apoio_outras_unidades": False,
-            "nome_comandante": "Nome Comandante",
-            "rg_pm_comandante": "123456",
-            "posto_comandante": "Maj",
-            "tipo_operacao": "Pl",
-            "tipo_de_acao_repressiva": "AREP II",
-            "objetivo_operacao": "Objetivo A",
-            "numero_policiais_mobilizados": 10,
+            "unidade_apoiadora": "Unidade X",
+            "nome_comandante_operacao": "Nome Comandante",
+            "rg_pm_comandante_operacao": "123456",
+            "posto_comandante_operacao": "Maj",
         }
 
     def test_save_database_info(self):
@@ -171,49 +175,42 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
             content_type="application/json",
         )
 
-        assert resp.status_code == 201
-        op = Operacao.objects.get(identificador=self.form_uuid)
-        InformacaoOperacionalOperacao.objects.get(operacao=op)
+        assert resp.status_code == 200
+        operacao = Operacao.objects.get(identificador=self.form_uuid)
+
+        data = resp.data
+        assert data["unidade_responsavel"] == operacao.unidade_responsavel
+        assert data["unidade_apoiadora"] == operacao.unidade_apoiadora
+        assert data["nome_comandante_operacao"] == operacao.nome_comandante_operacao
+        assert data["rg_pm_comandante_operacao"] == operacao.rg_pm_comandante_operacao
+        assert data["posto_comandante_operacao"] == operacao.posto_comandante_operacao
 
     def test_retrieve_saved_info(self):
-        op_operational_info = baker.make(InformacaoOperacionalOperacao, operacao=self.operacao)
-
         resp = self.client.get(self.url)
         data = resp.data
 
         assert resp.status_code == 200
-        assert data["unidade_responsavel"] == op_operational_info.unidade_responsavel
-        assert data["apoio_outras_unidades"] == op_operational_info.apoio_outras_unidades
-        assert data["nome_comandante"] == op_operational_info.nome_comandante
-        assert data["rg_pm_comandante"] == op_operational_info.rg_pm_comandante
-        assert data["posto_comandante"] == op_operational_info.posto_comandante
-        assert data["tipo_operacao"] == op_operational_info.tipo_operacao
-        assert data["tipo_de_acao_repressiva"] == op_operational_info.tipo_de_acao_repressiva
-        assert data["objetivo_operacao"] == op_operational_info.objetivo_operacao
-        assert data["numero_policiais_mobilizados"] == op_operational_info.numero_policiais_mobilizados
+        assert data["unidade_responsavel"] == self.operacao.unidade_responsavel
+        assert data["unidade_apoiadora"] == self.operacao.unidade_apoiadora
+        assert data["nome_comandante_operacao"] == self.operacao.nome_comandante_operacao
+        assert data["rg_pm_comandante_operacao"] == self.operacao.rg_pm_comandante_operacao
+        assert data["posto_comandante_operacao"] == self.operacao.posto_comandante_operacao
 
     def test_update_some_fields(self):
         operacao = Operacao.objects.get(identificador=self.form_uuid)
-        op_operational_info = baker.make(
-            InformacaoOperacionalOperacao,
-            operacao=operacao
-        )
 
         new_info = "891011"
-        self.form_data["rg_pm_comandante"] = new_info
+        self.form_data["rg_pm_comandante_operacao"] = new_info
         resp = self.client.put(
             self.url,
             data=self.form_data,
             content_type="application/json",
         )
 
-        op_operational_info.refresh_from_db()
+        operacao.refresh_from_db()
         assert resp.status_code == 200
-        assert InformacaoOperacionalOperacao.objects.count() == 1
-        op_operational_info = InformacaoOperacionalOperacao.objects.get(
-            operacao=operacao
-        )
-        assert op_operational_info.rg_pm_comandante == new_info
+        assert Operacao.objects.count() == 1
+        assert operacao.rg_pm_comandante_operacao == new_info
 
     def test_user_cannot_delete_info(self):
         resp = self.client.delete(self.url)
@@ -240,7 +237,8 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
     def test_404_for_object_doesnt_exists(self):
         baker.make(Operacao, usuario=self.user)
 
-        resp = self.client.get(self.url)
+        url = reverse(self.url_name, kwargs={"form_uuid": uuid.uuid4()})
+        resp = self.client.get(url)
 
         assert resp.status_code == 404
 

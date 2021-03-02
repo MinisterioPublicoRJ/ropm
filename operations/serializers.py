@@ -11,8 +11,8 @@ class OperacaoSerializer(serializers.Serializer):
 
 
 class InfoGeraisOperacaoSerializer(OperacaoSerializer):
-    data = serializers.DateField(required=True)
-    hora = serializers.TimeField(required=True)
+    data = serializers.DateField(format="%Y-%m-%d", required=True)
+    hora = serializers.TimeField(format="%H:%M:%S", required=True)
 
     localidade = serializers.CharField(required=True)
     municipio = serializers.CharField(required=True)

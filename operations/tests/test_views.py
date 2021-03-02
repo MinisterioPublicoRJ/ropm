@@ -6,7 +6,7 @@ from django.urls import reverse
 from model_bakery import baker
 
 from coredata.models import Bairro, Batalhao, Municipio
-from operations.models import InformacaoGeralOperacao, Operacao
+from operations.models import Operacao
 
 User = get_user_model()
 
@@ -71,14 +71,6 @@ class TestOperationsListView(TestCase):
         self.client.force_login(self.user)
 
         self.operacoes = baker.make(Operacao, usuario=self.user, _quantity=2)
-        self.info_gerais_1 = baker.make(
-            InformacaoGeralOperacao,
-            operacao=self.operacoes[0]
-        )
-        self.info_gerais_2 = baker.make(
-            InformacaoGeralOperacao,
-            operacao=self.operacoes[1]
-        )
 
         self.url = reverse(self.url_name)
 
@@ -87,8 +79,8 @@ class TestOperationsListView(TestCase):
         resp = self.client.get(self.url)
 
         assert resp.status_code == 200
-        assert self.info_gerais_1 in resp.context["object_list"]
-        assert self.info_gerais_2 in resp.context["object_list"]
+        assert self.operacoes[0] in resp.context["object_list"]
+        assert self.operacoes[1] in resp.context["object_list"]
 
     def test_login_required(self):
         self.client.logout()
