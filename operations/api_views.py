@@ -9,6 +9,7 @@ from operations.serializers import (
     InfoOperacionaisOperacaoOneSerializer,
     InfoOperacionaisOperacaoTwoSerializer,
     InfoResultadosOperacaoSerializer,
+    InfoOcorrenciaOneSerializer,
 )
 
 
@@ -90,6 +91,30 @@ class OperationalInfoTwoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
 class ResultInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = InfoResultadosOperacaoSerializer
+    lookup_url_kwarg = "form_uuid"
+    lookup_field = "identificador"
+    model_class = Operacao
+
+    def get_operation(self):
+        identificador = self.kwargs.get(self.lookup_url_kwarg)
+        return get_object_or_404(
+            Operacao,
+            identificador=identificador,
+            usuario=self.request.user,
+        )
+
+    def get_queryset(self):
+        user = self.request.user
+        identificador = self.kwargs.get(self.lookup_url_kwarg)
+        return Operacao.objects.filter(
+            usuario=user,
+            identificador=identificador
+        )
+
+
+class OcurrenceInfoOneViewSet(AllowPUTAsCreateMixin, ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = InfoOcorrenciaOneSerializer
     lookup_url_kwarg = "form_uuid"
     lookup_field = "identificador"
     model_class = Operacao

@@ -11,6 +11,7 @@ from operations.serializers import (
     InfoGeraisOperacaoSerializer,
     InfoOperacionaisOperacaoOneSerializer,
     InfoOperacionaisOperacaoTwoSerializer,
+    InfoOcorrenciaOneSerializer,
     InfoResultadosOperacaoSerializer,
 )
 
@@ -94,8 +95,15 @@ class OperationInfoResultRegisterView(OperationViewMixin, LoginRequiredMixin, Te
     serializer_class = InfoResultadosOperacaoSerializer
 
 
-class OperationOcurrencePageOneView(LoginRequiredMixin, TemplateView):
+class OperationOcurrencePageOneView(OperationViewMixin, LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_ocurrence_page_one.html"
+    lookup_url_kwarg = "form_uuid"
+    serializer_class = InfoOcorrenciaOneSerializer
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["postos_comandante"] = Operacao.POSTO_COMANDANTE
+        return context
 
 
 class OperationOcurrencePageTwoView(LoginRequiredMixin, TemplateView):

@@ -43,3 +43,16 @@ class InfoResultadosOperacaoSerializer(OperacaoSerializer):
     houve_confronto_daf = serializers.BooleanField(required=True)
     houve_resultados_operacao = serializers.BooleanField(required=True)
     houve_ocorrencia_operacao = serializers.BooleanField(required=True)
+
+
+class InfoOcorrenciaOneSerializer(OperacaoSerializer):
+    boletim_ocorrencia_pm = serializers.CharField()
+    registro_ocorrencia = serializers.CharField()
+    nome_comandante_ocorrencia = serializers.CharField()
+    rg_pm_comandante_ocorrencia = serializers.CharField()
+    posto_comandante_ocorrencia = serializers.CharField()
+    houve_apreensao_drogas = serializers.BooleanField()
+    numero_armas_apreendidas = serializers.IntegerField()
+    numero_fuzis_apreendidos = serializers.IntegerField()
+    numero_presos = serializers.IntegerField()
+    numero_adolescentes_apreendindos = serializers.IntegerField()

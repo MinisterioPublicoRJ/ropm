@@ -39,9 +39,9 @@
                     <label for="data">Houve confronto com DAF?</label>
                         <div class="form-control" id="houve_confronto_daf" name="houve_confronto_daf" required>
                             <label> Sim</label>
-                            <input type="radio" name="option-confronto" {% if operacao_info.houve_confronto_daf %}checked{% endif %}>
+                            <input type="radio" name="option-confronto" {% if operacao_info.houve_confronto_daf %}checked{% endif %} value="1">
                             <label>Não</label>
-                            <input type="radio" name="option-confronto" {% if operacao_info.houve_confronto_daf == False %}checked{% endif %}>
+                            <input type="radio" name="option-confronto" {% if operacao_info.houve_confronto_daf == False %}checked{% endif %} value="0">
                         </div>
                     <label for="data">Houve resultados na operação?</label>
                     <div class="form-control" id="houve_resultados_operacao" name="houve_resultados_operacao"
@@ -86,34 +86,5 @@ const FORM_VAR_LIST = {
     "houve_resultados_operacao": "#houve_resultados_operacao",
     "houve_ocorrencia_operacao": "#houve_ocorrencia_operacao"
 };
-function validateFields(formObj) {
-  const fields = formObj.querySelectorAll("[required]");
-
-  let no_errors = true;
-  for (i = 0; i < fields.length; i++) {
-      let inputs = fields[i].getElementsByTagName("input");
-      if (!inputs[0].checked && !inputs[1].checked) {
-          no_errors = false;
-          fields[i].style.borderColor = "#ED0606";
-      }else {
-          fields[i].style.borderColor = "#0676ED";
-      }
-  }
-  return no_errors;
-}
-
-function buildFormData(fields){
-    let formData = {};
-    Object.entries(fields).forEach(field => {
-        let fieldObj = document.querySelector(field[1]);
-        let inputs = fieldObj.getElementsByTagName("input");
-        if(inputs[0].checked){
-            formData[field[0]] = 1;
-        }else if (inputs[1].checked){
-            formData[field[0]] = 0;
-        }
-    });
-    return JSON.stringify(formData);
-}
 </script>
 {% endblock extra_js %}

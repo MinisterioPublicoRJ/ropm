@@ -33,54 +33,102 @@
             </div>
         </div>
         <div class="form-main">
-            <form action="/" id="wrapped" method="post" enctype="multipart/form-data">
+            <form action="/" id="main-form" method="post" enctype="multipart/form-data">
               <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
                 <div class="box-form-group">
                     <div class="">
                         <label for="data">Boletim de Ocorrência da Polícia Militar (BOPM) </label>
-                        <input type="text" name="boletim_ocorrencia_pm" id="boletim_ocorrencia_pm"
-                            class="form-control" required>
+                        <input
+                            type="text"
+                            name="boletim_ocorrencia_pm"
+                            id="boletim_ocorrencia_pm"
+                            class="form-control" value="{{operacao_info.boletim_ocorrencia_pm|default:''}}" required>
                     </div>
                     <div class="">
                         <label for="data">Registro de Ocorrência</label>
-                        <input type="text" name="registro_ocorrencia" id="registro_ocorrencia"
-                            class="form-control" required>
+                        <input
+                            type="text"
+                            name="registro_ocorrencia"
+                            id="registro_ocorrencia"
+                            class="form-control" value="{{ operacao_info.registro_ocorrencia|default:''}}" required>
                     </div>
                 </div>
                 <div class="box-form-group">
                     <div class="">
                         <label for="data">Nome do Comandante</label>
-                        <input type="text" name="nome_comandante_ocorrencia" id="nome_comandante_ocorrencia"
-                            class="form-control" required>
+                        <input
+                            type="text"
+                            name="nome_comandante_ocorrencia"
+                            id="nome_comandante_ocorrencia"
+                            class="form-control" value="{{ operacao_info.nome_comandante_ocorrencia|default:'' }}" required>
                     </div>
                     <div class="">
                         <label for="data">RG PM do Comandante</label>
-                        <input type="text" name="rg_pm_comandante_ocorrencia" id="rg_pm_comandante_ocorrencia"
-                            class="form-control" required>
+                        <input
+                            type="text"
+                            name="rg_pm_comandante_ocorrencia"
+                            id="rg_pm_comandante_ocorrencia"
+                            class="form-control" value="{{ operacao_info.rg_pm_comandante_ocorrencia|default:'' }}" required>
                     </div>
                 </div>
                 <div class="box-form-group">
                     <div class="">
-                        <label for="data">Houve apreensão de Drogas?</label>
-                        <input type="text" name="houve_apreensao_drogas" id="houve_apreensao_drogas"
-                            class="form-control" required>
+                    <label>Posto/graduação do comandante </label>
+                    <div class="styled-select">
+                        <select class="form-control required" id="posto_comandante_ocorrencia" name="posto_comandante_ocorrencia" required>
+                            <option value="">-</option>
+                            {% for posto in postos_comandante %}
+                            <option value="{{ posto.0 }}" {% if posto.0 == operacao_info.posto_comandante_ocorrencia %} selected {% endif %}>{{ posto.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                <div class="box-form-group">
+                <div class="input-type-checked">
+                    <label for="data">Houve apreensao de drogas?</label>
+                        <div class="form-control" id="houve_apreensao_drogas" name="houve_apreensao_drogas" required>
+                            <label> Sim</label>
+                            <input type="radio" name="option-confronto" {% if operacao_info.houve_apreensao_drogas %}checked{% endif %} value="1">
+                            <label>Não</label>
+                            <input type="radio" name="option-confronto" {% if operacao_info.houve_apreensao_drogas == False %}checked{% endif %} value="0">
+                        </div>
+                    </div>
+                </div>
+                <div class="box-form-group">
+                    <div class="">
+                        <label for="data">Número de armas apreendidas </label>
+                        <input
+                            type="number" min="0"
+                            name="numero_armas_apreendidas"
+                            id="numero_armas_apreendidas"
+                            class="form-control" value="{{ operacao_info.numero_armas_apreendidas|default:'' }}" required>
                     </div>
                     <div class="">
-                        <label for="data">Número de fuzis apreendidos </label>
-                        <input type="number" min="0" name="numero_fuzis_apreendidos" id="numero_fuzis_apreendidos"
-                            class="form-control" required>
+                        <label for="data">Número de fuzis apreendidos</label>
+                        <input
+                            type="number" min="0"
+                            name="numero_fuzis_apreendidos"
+                            id="numero_fuzis_apreendidos"
+                            class="form-control" value="{{ operacao_info.numero_fuzis_apreendidos|default:''}}" required>
                     </div>
                 </div>
                 <div class="box-form-group">
                     <div class="">
                         <label for="data">Número de presos</label>
-                        <input type="number" min="0" name="numero_presos" id="numero_presos"
-                            class="form-control" required>
+                        <input
+                            type="number" min="0"
+                             name="numero_presos"
+                             id="numero_presos"
+                             class="form-control" value="{{ operacao_info.numero_presos|default:''}}" required>
                     </div>
                     <div class="">
                         <label for="data">Número de adolescentes apreendidos</label>
-                        <input type="number" min="0" name="numero_adolescentes_apreendindos" id="numero_adolescentes_apreendindos"
-                            class="form-control" required>
+                        <input
+                            type="number" min="0"
+                            name="numero_adolescentes_apreendindos"
+                            id="numero_adolescentes_apreendindos"
+                            class="form-control" value="{{ operacao_info.numero_adolescentes_apreendindos|default:'' }}" required>
                     </div>
                 </div>
             </form>
@@ -91,9 +139,7 @@
                     </a>
                 </div>
                 <div class="btns-forms">
-                    <a href="{% url 'operations:form-info-ocurrence-page-two' form_uuid %}">
-                        <button type="submit" class="btn-next">Próximo</button>
-                    </a>
+                    <button type="submit" class="btn-next" onclick="submitFormInfo(event);">Próximo</button>
                 </div>
             </div>
         </div>
@@ -103,5 +149,22 @@
 {% endblock content %}
 
 {% block extra_js %}
+<script>
+const FORWARD_URL = '/operacoes/cadastro/informacoes/ocorrencia/parte-2/';
+const API_URL = '/v1/operacoes/cria-informacoes-ocorrencia-parte-1/';
+const FORM_VAR_LIST = {
+    "boletim_ocorrencia_pm": "#boletim_ocorrencia_pm",
+    "registro_ocorrencia": "#registro_ocorrencia",
+    "nome_comandante_ocorrencia": "#nome_comandante_ocorrencia",
+    "rg_pm_comandante_ocorrencia": "#rg_pm_comandante_ocorrencia",
+    "posto_comandante_ocorrencia": "#posto_comandante_ocorrencia",
+    "houve_apreensao_drogas": "#houve_apreensao_drogas",
+    "numero_armas_apreendidas": "#numero_armas_apreendidas",
+    "numero_fuzis_apreendidos": "#numero_fuzis_apreendidos",
+    "numero_presos": "#numero_presos",
+    "numero_adolescentes_apreendindos": "#numero_adolescentes_apreendindos",
+};
+
+</script>
 
 {% endblock extra_js %}
