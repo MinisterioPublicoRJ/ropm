@@ -39,7 +39,7 @@
           <div class="form-group">
             <label for="fname">Tipo de operação</label>
             <div class="styled-select">
-              <select class="form-control required" id="tipo_operacao" name="tipo_operacao" required>
+              <select class="form-control required" id="tipo_operacao" name="tipo_operacao" onchange="toggleOrdemOperacoesField();" required>
                   <option value="">-</option>
                 {% for tipo_operacao in tipos_operacoes %}
                 <option value="{{ tipo_operacao.0 }}" {% if tipo_operacao.0 == operacao_info.tipo_operacao %}selected{% endif %}>{{ tipo_operacao.1 }}</option>
@@ -98,6 +98,7 @@
 
 {% block extra_js %}
 <script>
+toggleOrdemOperacoesField();
 const FORWARD_URL = '/operacoes/cadastro/informacoes/resultado/';
 const API_URL = '/v1/operacoes/cria-informacoes-operacionais-parte-2/';
 const FORM_VAR_LIST = {
@@ -108,6 +109,18 @@ const FORM_VAR_LIST = {
     "numero_guarnicoes_mobilizadas": "#numero_guarnicoes_mobilizadas",
     "numero_policiais_mobilizados": "#numero_policiais_mobilizados"
 };
+
+function toggleOrdemOperacoesField(){
+    tipoOperacaoField = document.querySelector("#tipo_operacao");
+    ordemOperacoesField = document.querySelector("#numero_ordem_operacoes");
+    if(tipoOperacaoField.value == "Em") {
+        ordemOperacoesField.disabled = true;
+        ordemOperacoesField.classList.add("input-disabled");
+    }else {
+        ordemOperacoesField.disabled = false;
+        ordemOperacoesField.classList.remove("input-disabled");
+    }
+}
 
 </script>
 

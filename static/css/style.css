@@ -143,6 +143,10 @@ a:link {
   margin-left: 10px;
 }
 
+.input-disabled {
+        background-color:#CBCDCB !important;
+}
+
 .btns-forms{
   display: flex;
   align-items: center;
