@@ -55,7 +55,6 @@ class InfoOcorrenciaOneSerializer(OperacaoSerializer):
     numero_armas_apreendidas = serializers.IntegerField()
     numero_fuzis_apreendidos = serializers.IntegerField()
     numero_presos = serializers.IntegerField()
-    numero_adolescentes_apreendindos = serializers.IntegerField()
 
 
 class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
@@ -66,3 +65,5 @@ class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
     numero_civis_feridos = serializers.IntegerField()
     numero_civis_mortos_npap = serializers.IntegerField()
     numero_veiculos_recuperados = serializers.IntegerField()
+    numero_adolescentes_apreendindos = serializers.IntegerField()
+
