@@ -89,10 +89,9 @@ progress[value]{
   border-radius: 9px 9px 0px 0px;
   display: flex;
 }
-a:link { 
+.navbarLeft-list ul a:link { 
   text-decoration: none; 
   color: #707070 !important;
-
 } 
 .text-header-form{
   padding: 17px;
@@ -148,7 +147,7 @@ a:link {
 }
 
 .input-disabled {
-        background-color:#CBCDCB !important;
+  background-color:#CBCDCB !important;
 }
 
 .btns-forms{
@@ -201,4 +200,10 @@ label {
   position:absolute;
   bottom: 30px; 
   margin-left: 10px;
+}
+.tela-login-main a:link{
+  margin-bottom: 40px;
+}
+.tela-login-main a:link:hover{
+  color:red
 }
