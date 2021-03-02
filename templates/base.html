@@ -35,31 +35,33 @@
         <ul>
           <a href="{% url 'home' %}">
             <li>
-              <img src="{% static "img/Shape.png" %}" alt="logo-chart">
+              <img src="{% static "img/home.png" %}" alt="logo-home"  onmouseover="this.src='{% static "img/home-blue.png" %}'" onmouseout="this.src='{% static "img/home.png" %}'">
               Pagina Inicial
             </li>
           </a>
           <a href="{% url 'operations:operations-list' %}">
             <li>
-              <img src="{% static "img/align-left.png" %}" alt="logo">
+              <img src="{% static "img/align-left.png" %}" alt="logo-align" onmouseover="this.src='{% static "img/align-left-blue.png" %}'" onmouseout="this.src='{% static "img/align-left.png" %}'">
               Lista de operações
             </li>
           </a>
           <a href="{% url 'operations:form' %}">
             <li>
-              <img src="{% static "img/file-plus.png" %}" alt="logo">
+              <img src="{% static "img/file-plus.png" %}" alt="logo-file" onmouseover="this.src='{% static "img/file-plus-blue.png" %}'" onmouseout="this.src='{% static "img/file-plus.png" %}'">
               Cadastrar Operação
             </li>
           </a>
           <a href="{% url 'operations:operations-panel' %}">
             <li>
-              <img src="{% static "img/chart.png" %}" alt="logo">
+              <img src="{% static "img/chart.png" %}" alt="logo-chart" onmouseover="this.src='{% static "img/chart-blue.png" %}'" onmouseout="this.src='{% static "img/chart.png" %}'">
               Painel
             </li>
           </a>
         </ul>
       </div>
-      <img style="width: 220px" src="{% static "img/logo_MP.png" %}" alt="logo_MP">
+      <div class="box-logo-mp">
+        <img style="width: 220px" src="{% static "img/logo_MP.png" %}" alt="logo_MP">
+      </div>
     </div>
     {% endblock sidenavebar %}
 
