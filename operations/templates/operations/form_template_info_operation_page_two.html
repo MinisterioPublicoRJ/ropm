@@ -46,13 +46,15 @@
                 {% endfor %}
               </select>
             </div>
+            <p>Campo obrigátorio</p>
           </div>
           <div class="form-group">
             <label>Número da ordem de operações</label>
             <input type="text" value="{{ operacao_info.numero_ordem_operacoes|default:'' }}" name="numero_ordem_operacoes" id="numero_ordem_operacoes" class="form-control">
+            <p>Campo obrigátorio</p>
           </div>
         </div>
-        <div class="box-form-group">
+          <div class="box-form-group">
             <div class="form-group">
                 <label>Tipo de ação repressiva</label>
                 <div class="styled-select">
@@ -65,21 +67,26 @@
                     {{ tipo_acao_repressiva.1 }}</option>
                     {% endfor %}
                 </select>
-        </div>
-        </div>
-                <div class="">
-                    <label>Objetivo Estratégico da Operação</label>
+              </div>
+              <p>Campo obrigátorio</p>
+
+          </div>
+          <div class="">
+            <label>Objetivo Estratégico da Operação</label>
             <input type="text" value="{{ operacao_info.objetivo_estrategico_operacao|default:'' }}" name="objetivo_estrategico_operacao" id="objetivo_estrategico_operacao" class="form-control" required>
+            <p>Campo obrigátorio</p>
           </div>
           </div>
         <div class="box-form-group">
           <div class="form-group">
             <label>Número de Policiais mobilizados </label>
             <input type="number" min="0" value="{{ operacao_info.numero_policiais_mobilizados|default:''}}" name="numero_policiais_mobilizados" id="numero_policiais_mobilizados" class="form-control" required>
+            <p>Campo obrigátorio</p>
           </div>
           <div class="form-group">
             <label>Número de Guarnições mobilizadas</label>
             <input type="number" min="0" value="{{ operacao_info.numero_guarnicoes_mobilizadas }}" name="numero_guarnicoes_mobilizadas" id="numero_guarnicoes_mobilizadas" class="form-control" required>
+            <p>Campo obrigátorio</p>
           </div>
         </div>
       </form>

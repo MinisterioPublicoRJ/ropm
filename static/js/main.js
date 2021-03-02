@@ -42,6 +42,7 @@ function validateFields(formObj) {
   let no_radio_errors = true;
   for (i = 0; i < fields.length; i++) {
       let inputs = fields[i].getElementsByTagName("input");
+
       if(inputs.length == 0){ // check wether is a radion button
             if (!fields[i].value) {
               fields[i].style.borderColor = "#ED0606";

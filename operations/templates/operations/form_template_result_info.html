@@ -43,6 +43,7 @@
                             <label>Não</label>
                             <input type="radio" name="option-confronto" {% if operacao_info.houve_confronto_daf == False %}checked{% endif %} value="0">
                         </div>
+                        <p>Campo obrigátorio</p>
                     <label for="data">Houve resultados na operação?</label>
                     <div class="form-control" id="houve_resultados_operacao" name="houve_resultados_operacao"
                         required>
@@ -51,6 +52,7 @@
                         <label>Não</label>
                         <input type="radio" name="option-resultados" value="0" {% if operacao_info.houve_resultados_operacao == False %}checked{% endif %}>
                     </div>
+                        <p>Campo obrigátorio</p>
                     <label for="data">Houve ocorrência na operação?</label>
                     <div class="form-control" id="houve_ocorrencia_operacao" name="houve_ocorrencia_operacao"
                         required>
@@ -59,6 +61,7 @@
                         <label>Não</label>
                         <input type="radio" name="option-ocorrencia" value="0" {% if operacao_info.houve_ocorrencia_operacao == False %}checked{% endif %}>
                     </div>
+                    <p>Campo obrigátorio</p>
                 </div>
             </form>
             <div class="btns-forms">

@@ -39,16 +39,19 @@
           <div class="">
             <label for="name">Data da operação </label>
             <input type="date" id="data_operacao" value={{ operacao_info.data|default:"''" }} name="data_operacao" required>
+            <p>Campo obrigátorio</p>
           </div>
           <div class="styled-select">
             <label>Horário da operação </label>
             <input type="time" id="hora_operacao" value={{ operacao_info.hora|default:"''" }} name="hora_operacao" required>
+            <p>Campo obrigátorio</p>
           </div>
         </div>
         <div class="box-form-group">
           <div class="styled-select">
             <label>Localidade</label>
             <input type="text" id="localidade_operacao" value="{{ operacao_info.localidade|default:'' }}" name="localidade_operacao" required>
+            <p>Campo obrigátorio</p>
           </div>
           <div class="form-group">
             <label>Município da Operação </label>
@@ -65,6 +68,7 @@
                   <option value="{{ municipio.nm_mun }}" {% if municipio.nm_mun == operacao_info.municipio %} selected {% endif %}>{{ municipio.nm_mun}}</option>
                   {% endfor %}
               </select>
+              <p>Campo obrigátorio</p>
             </div>
           </div>
         </div>
@@ -72,6 +76,7 @@
           <div class="form-group">
             <label>Endereço de Referência</label>
             <input type="text" name="endereco_referencia" value="{{ operacao_info.endereco_referencia|default:'' }}" id="endereco_referencia" class="form-control required" required>
+            <p>Campo obrigátorio</p>
           </div>
           <div class="styled-select">
             <label>Bairro da operação </label>
@@ -81,6 +86,7 @@
                 <option value="{{ bairro.bairro }}" {% if bairro.bairro == operacao_info.bairro|default:"''" %} selected {% endif %}>{{ bairro.bairro}}</option>
                 {% endfor %}
             </select>
+            <p>Campo obrigátorio</p>
           </div>
         </div>
         <div class="box-form-group">
@@ -96,6 +102,7 @@
                 <option value="{{ batalhao.bpm}}" {% if batalhao.bpm == operacao_info.batalhao_responsavel|default:"''" %} selected {% endif %}>{{batalhao.bpm}}</option>
                 {% endfor %}
             </select>
+            <p>Campo obrigátorio</p>
           </div>
         </div>
       </form>
