@@ -1,3 +1,4 @@
+import uuid
 from unittest import mock
 
 from django.contrib.auth import get_user_model
@@ -98,3 +99,52 @@ class TestOperationsListView(TestCase):
         resp = self.client.get(self.url)
 
         assert resp.context["object_list"].count() == 0
+
+
+class TestOperationFormCompleteView(TestCase):
+    url_name = "operations:form-complete"
+
+    def setUp(self):
+        self.pwd = "pwd1234"
+        self.username = "username"
+
+        self.user = User.objects.create_user(username=self.username, password=self.pwd)
+        self.client.force_login(self.user)
+
+        self.form_uuid = uuid.uuid4()
+        self.operacao = baker.make(
+            Operacao,
+            usuario=self.user,
+            identificador=self.form_uuid,
+            _fill_optional=True
+        )
+
+        self.url = reverse(self.url_name, kwargs={"form_uuid": self.form_uuid})
+
+    def test_correct_response(self):
+        resp = self.client.get(self.url)
+
+        assert resp.status_code == 200
+
+    def test_404_if_object_does_not_exists(self):
+        url = reverse(self.url_name, kwargs={"form_uuid": uuid.uuid4()})
+        resp = self.client.get(url)
+
+        assert resp.status_code == 404
+
+    def test_login_required(self):
+        self.client.logout()
+        resp = self.client.get(self.url)
+
+        assert resp.status_code == 302
+
+    def test_another_user_tries_to_access_form(self):
+        another_user = User.objects.create_user(
+            username="another",
+            password="password"
+        )
+        self.client.force_login(another_user)
+
+        resp = self.client.get(self.url)
+
+        assert resp.status_code == 404

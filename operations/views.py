@@ -30,6 +30,9 @@ class OperationReportView(LoginRequiredMixin, TemplateView):
 
 
 class OperationViewMixin:
+    def get_serialized_data(self, operacao):
+        return self.serializer_class(operacao).data
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         form_uuid = self.kwargs.get(self.lookup_url_kwarg)
@@ -39,8 +42,7 @@ class OperationViewMixin:
             identificador=form_uuid,
             usuario=self.request.user
         )
-        operacao_info = self.serializer_class(operacao_info).data
-        context["operacao_info"] = operacao_info
+        context["operacao_info"] = self.get_serialized_data(operacao_info)
         return context
 
 
@@ -98,6 +100,14 @@ class OperationOcurrencePageOneView(LoginRequiredMixin, TemplateView):
 
 class OperationOcurrencePageTwoView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_template_ocurrence_page_two.html"
+
+
+class FormCompleteView(OperationViewMixin, LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_complete.html"
+    lookup_url_kwarg = "form_uuid"
+
+    def get_serialized_data(self, operacao):
+        return {}
 
 
 class OperationListView(LoginRequiredMixin, ListView):
