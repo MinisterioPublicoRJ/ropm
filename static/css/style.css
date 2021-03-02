@@ -155,6 +155,7 @@ a:link {
   background-color: #0676ED;
   color: #FFFFFF;
   border: solid 1px #0676ED;
+  cursor: pointer;
 
 }
 .btn-previus{
