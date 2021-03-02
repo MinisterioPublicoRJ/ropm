@@ -141,11 +141,11 @@ USE_TZ = True
 
 STATIC_URL = config(
     'STATIC_URL',
-    default='/static'
+    default='/static/'
 )
 STATIC_ROOT = config(
     'STATIC_ROOT',
-    default=BASE_DIR.joinpath("static")
+    default="/static/"
 )
 STATICFILES_DIRS = [
     Path(BASE_DIR, "static"),
