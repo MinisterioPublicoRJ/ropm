@@ -6,6 +6,25 @@ from django.urls import reverse
 from model_bakery import baker
 
 from operations.models import Operacao
+from operations.model_recipes import (
+    op_recipe_with_occurence,
+    op_recipe_without_occurence,
+)
+
+from operations.api_views import (
+    OcurrenceInfoOneViewSet,
+    OcurrenceInfoTwoViewSet,
+    OperationalInfoOneViewSet,
+    OperationalInfoTwoViewSet,
+    ResultInfoViewSet,
+)
+from operations.serializers import (
+    InfoOcorrenciaOneSerializer,
+    InfoOcorrenciaTwoSerializer,
+    InfoOperacionaisOperacaoOneSerializer,
+    InfoOperacionaisOperacaoTwoSerializer,
+    InfoResultadosOperacaoSerializer,
+)
 
 
 User = get_user_model()
@@ -258,3 +277,154 @@ class TestSendInformacaoOperacionalOperacao(TestCase):
         resp = self.client.get(self.url)
 
         assert resp.status_code == 404
+
+
+class TestOperationSectionFlowMixin:
+    url_name = None
+    view_class = None
+    serializer_class = None
+    expected_section = None
+
+    def setUp(self):
+        self.username = "username"
+        self.pwd = "pwd1234"
+
+        self.user = User.objects.create_user(username=self.username, password=self.pwd)
+        self.client.force_login(self.user)
+
+        self.form_uuid = uuid.uuid4()
+        self.operacao = baker.make(
+            Operacao,
+            usuario=self.user,
+            identificador=self.form_uuid,
+        )
+        self.url = reverse(self.url_name, kwargs={"form_uuid": self.form_uuid})
+        self.op_recipe_obj = op_recipe_with_occurence.prepare()
+
+        self.form_data = self.serializer_class(self.op_recipe_obj).data
+
+
+class TestOperationUpdateToSecondSection(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-operational-info-1"
+    view_class = OperationalInfoOneViewSet
+    serializer_class = InfoOperacionaisOperacaoOneSerializer
+    expected_section = 3
+
+    def test_update_section_when_saving_data(self):
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+        self.operacao.refresh_from_db()
+        assert resp.status_code == 200
+        assert self.operacao.secao_atual == self.expected_section
+
+
+class TestOperationUpdateToThirdSection(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-operational-info-2"
+    view_class = OperationalInfoTwoViewSet
+    serializer_class = InfoOperacionaisOperacaoTwoSerializer
+    expected_section = 4
+
+    def test_update_section_when_saving_data(self):
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+        self.operacao.refresh_from_db()
+        assert resp.status_code == 200
+        assert self.operacao.secao_atual == self.expected_section
+
+
+class TestOperationUpdateToFourthSection(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-result-info"
+    view_class = ResultInfoViewSet
+    serializer_class = InfoResultadosOperacaoSerializer
+    expected_section = 5
+
+    def test_update_section_when_saving_data(self):
+        self.form_data["houve_ocorrencia_operacao"] = True
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+        self.operacao.refresh_from_db()
+        assert resp.status_code == 200
+        assert self.operacao.secao_atual == self.expected_section
+
+
+class TestOperationUpdateToFifthSection(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-ocurrence-info-1"
+    view_class = OcurrenceInfoOneViewSet
+    serializer_class = InfoOcorrenciaOneSerializer
+    expected_section = 6
+
+    def test_update_section_when_saving_data(self):
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+        self.operacao.refresh_from_db()
+        assert resp.status_code == 200
+        assert self.operacao.secao_atual == self.expected_section
+
+
+class TestOperationUpdateToSixthSection(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-ocurrence-info-2"
+    view_class = OcurrenceInfoTwoViewSet
+    serializer_class = InfoOcorrenciaTwoSerializer
+    expected_section = 7
+
+    def test_update_section_when_saving_data(self):
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+        self.operacao.refresh_from_db()
+        assert resp.status_code == 200
+        assert self.operacao.secao_atual == self.expected_section
+
+
+class TestOperationFlowSkipLastSections(TestCase):
+    """
+        Quando o campo 'houve_ocorrencia_operacao' for False, as seções 5 e 6
+        são ignoradas
+    """
+    url_name = "operations_api:create-result-info"
+    view_class = ResultInfoViewSet
+    serializer_class = InfoResultadosOperacaoSerializer
+    expected_section = 5
+
+    def setUp(self):
+        self.username = "username"
+        self.pwd = "pwd1234"
+
+        self.user = User.objects.create_user(username=self.username, password=self.pwd)
+        self.client.force_login(self.user)
+
+        self.form_uuid = uuid.uuid4()
+        self.operacao = baker.make(
+            Operacao,
+            usuario=self.user,
+            identificador=self.form_uuid,
+        )
+        self.url = reverse(self.url_name, kwargs={"form_uuid": self.form_uuid})
+        self.op_recipe_obj = op_recipe_without_occurence.prepare()
+        self.form_data = self.serializer_class(self.op_recipe_obj).data
+        self.form_data["houve_ocorrencia_operacao"] = False
+
+    def test_skip_to_last_section(self):
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+
+        self.operacao.refresh_from_db()
+        assert resp.status_code == 200
+        assert self.operacao.secao_atual == self.expected_section

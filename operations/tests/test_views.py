@@ -8,6 +8,7 @@ from model_bakery import baker
 
 from coredata.models import Bairro, Batalhao, Municipio
 from operations.models import Operacao
+from operations.views import URL_SECTION_MAPPER
 
 User = get_user_model()
 
@@ -115,6 +116,7 @@ class TestOperationFormCompleteView(TestCase):
         self.operacao = baker.make(
             Operacao,
             usuario=self.user,
+            secao_atual=Operacao.n_sections + 1,
             identificador=self.form_uuid,
             _fill_optional=True
         )
@@ -148,3 +150,59 @@ class TestOperationFormCompleteView(TestCase):
         resp = self.client.get(self.url)
 
         assert resp.status_code == 404
+
+
+class TestFillOperacaoFlow(TestCase):
+    def setUp(self):
+        self.username = "username"
+        self.pwd = "pwd1234"
+
+        self.user = User.objects.create_user(username=self.username, password=self.pwd)
+        self.client.force_login(self.user)
+
+        self.secao_atual = 2
+        self.form_uuid = uuid.uuid4()
+        self.operacao = baker.make(
+            Operacao,
+            usuario=self.user,
+            secao_atual=self.secao_atual,
+            identificador=self.form_uuid,
+        )
+
+    def test_do_not_allow_user_to_skip_mandatory_sections(self):
+        url_name = "operations:form-info-operation-page-two"
+        url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
+        resp = self.client.get(url)
+
+        assert resp.status_code == 302  # Redirects to previews filled section
+
+    def test_go_to_complete_form_view_if_houve_ocorrencia(self):
+        self.operacao.secao_atual = 5
+        self.operacao.houve_ocorrencia_operacao = False
+        self.operacao.save()
+
+        url_name = "operations:form-info-ocurrence-page-one"
+        url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
+
+        resp = self.client.get(url)
+
+        expected_url = reverse("operations:form-complete", kwargs={"form_uuid": self.form_uuid})
+        assert resp.status_code == 302
+        self.assertRedirects(resp, expected_url, fetch_redirect_response=False)
+
+    def test_only_go_to_complete_only_when_form_is_complete(self):
+        self.operacao.secao_atual = 2
+        self.operacao.houve_ocorrencia_operacao = False
+        self.operacao.save()
+
+        url_name = "operations:form-complete"
+        url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
+
+        resp = self.client.get(url)
+
+        expected_url = reverse(
+            URL_SECTION_MAPPER[self.operacao.secao_atual],
+            kwargs={"form_uuid": self.form_uuid}
+        )
+        assert resp.status_code == 302
+        self.assertRedirects(resp, expected_url, fetch_redirect_response=False)

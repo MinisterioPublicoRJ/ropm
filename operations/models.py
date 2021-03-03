@@ -14,6 +14,8 @@ class InformacaoManager(models.Manager):
 
 
 class Operacao(models.Model):
+    n_sections = 6
+
     objects = InformacaoManager()
 
     POSTO_COMANDANTE = [
@@ -41,12 +43,13 @@ class Operacao(models.Model):
         ("AREP IV", "AREP IV"),
     ]
 
+    secao_atual = models.PositiveIntegerField("Seção Atual", default=1)
+
     identificador = models.UUIDField(unique=True, editable=False)
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
     criado_em = models.DateTimeField("Criado em", auto_now_add=True)
     editado = models.BooleanField("Editado", default=False)
-
     data = models.DateField("Data", null=True, blank=True)
     hora = models.TimeField("Hora", null=True, blank=True)
     localidade = models.CharField("Localidade", max_length=255, null=True, blank=True)
@@ -212,3 +215,9 @@ class Operacao(models.Model):
         db_table = "operacao"
         verbose_name = "operação"
         verbose_name_plural = "operações"
+
+    def update_section(self, new_section):
+        self.secao_atual = new_section
+        self.save()
+
+        return self.secao_atual

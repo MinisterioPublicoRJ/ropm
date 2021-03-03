@@ -21,6 +21,8 @@ class GeneralInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     lookup_field = "identificador"
     model_class = Operacao
 
+    next_section_number = 2
+
     def get_queryset(self):
         user = self.request.user
         identificador = self.kwargs.get(self.lookup_url_kwarg)
@@ -48,6 +50,8 @@ class OperationalInfoOneViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     lookup_field = "identificador"
     model_class = Operacao
 
+    next_section_number = 3
+
     def get_operation(self):
         identificador = self.kwargs.get(self.lookup_url_kwarg)
         return get_object_or_404(
@@ -71,6 +75,8 @@ class OperationalInfoTwoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     lookup_url_kwarg = "form_uuid"
     lookup_field = "identificador"
     model_class = Operacao
+
+    next_section_number = 4
 
     def get_operation(self):
         identificador = self.kwargs.get(self.lookup_url_kwarg)
@@ -96,6 +102,8 @@ class ResultInfoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     lookup_field = "identificador"
     model_class = Operacao
 
+    next_section_number = 5
+
     def get_operation(self):
         identificador = self.kwargs.get(self.lookup_url_kwarg)
         return get_object_or_404(
@@ -120,6 +128,8 @@ class OcurrenceInfoOneViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     lookup_field = "identificador"
     model_class = Operacao
 
+    next_section_number = 6
+
     def get_operation(self):
         identificador = self.kwargs.get(self.lookup_url_kwarg)
         return get_object_or_404(
@@ -143,6 +153,8 @@ class OcurrenceInfoTwoViewSet(AllowPUTAsCreateMixin, ModelViewSet):
     lookup_url_kwarg = "form_uuid"
     lookup_field = "identificador"
     model_class = Operacao
+
+    next_section_number = 7
 
     def get_operation(self):
         identificador = self.kwargs.get(self.lookup_url_kwarg)

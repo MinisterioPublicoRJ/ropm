@@ -2,8 +2,9 @@ import uuid
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
+from django.urls import reverse
 
 from coredata.models import Bairro, Batalhao, Municipio
 from operations.models import Operacao
@@ -15,6 +16,16 @@ from operations.serializers import (
     InfoOcorrenciaTwoSerializer,
     InfoResultadosOperacaoSerializer,
 )
+
+
+URL_SECTION_MAPPER = {
+    1: "operations:form-update",
+    2: "operations:form-info-operation-page-one",
+    3: "operations:form-info-operation-page-two",
+    4: "operations:form-info-result",
+    5: "operations:form-info-ocurrence-page-one",
+    6: "operations:form-info-ocurrence-page-two",
+}
 
 
 class OperationReportView(LoginRequiredMixin, TemplateView):
@@ -35,24 +46,49 @@ class OperationViewMixin:
     def get_serialized_data(self, operacao):
         return self.serializer_class(operacao).data
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        form_uuid = self.kwargs.get(self.lookup_url_kwarg)
-        context["form_uuid"] = form_uuid
-        operacao_info = get_object_or_404(
+    def dispatch(self, request, *args, **kwargs):
+        # TODO: Refatorar essa lógica
+        self.form_uuid = self.kwargs.get(self.lookup_url_kwarg)
+        self.operacao = self.get_operation(self.request.user, self.form_uuid)
+
+        if (
+            self.operacao.houve_ocorrencia_operacao is not None and
+            not self.operacao.houve_ocorrencia_operacao and
+            self.section_number in settings.SKIPPABLE_SECTIONS
+        ):
+            return redirect(
+                reverse("operations:form-complete", kwargs={"form_uuid": self.form_uuid})
+            )
+        if self.section_number > self.operacao.secao_atual:
+            secao_atual_url = URL_SECTION_MAPPER[self.operacao.secao_atual]
+            return redirect(
+                reverse(secao_atual_url, kwargs={"form_uuid": self.form_uuid})
+            )
+
+        handler = super().dispatch(request, *args, **kwargs)
+        return handler
+
+    def get_operation(self, usuario, form_uuid):
+        return get_object_or_404(
             Operacao,
             identificador=form_uuid,
-            usuario=self.request.user
+            usuario=usuario
         )
-        context["operacao_info"] = self.get_serialized_data(operacao_info)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form_uuid"] = self.form_uuid
+        context["operacao_info"] = self.get_serialized_data(self.operacao)
         return context
 
 
 # TODO: add tests
-class UpdateOperationReportView(OperationViewMixin, LoginRequiredMixin, TemplateView):
+class UpdateOperationReportView(LoginRequiredMixin, OperationViewMixin, TemplateView):
     template_name = "operations/form_template.html"
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoGeraisOperacaoSerializer
+
+    section_number = 1
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -67,10 +103,12 @@ class UpdateOperationReportView(OperationViewMixin, LoginRequiredMixin, Template
 
 
 # TODO: add tests
-class OperationInfoPageOneView(OperationViewMixin, LoginRequiredMixin, TemplateView):
+class OperationInfoPageOneView(LoginRequiredMixin, OperationViewMixin, TemplateView):
     template_name = "operations/form_template_info_operation_page_one.html"
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoOperacionaisOperacaoOneSerializer
+
+    section_number = 2
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -78,10 +116,12 @@ class OperationInfoPageOneView(OperationViewMixin, LoginRequiredMixin, TemplateV
         return context
 
 
-class OperationInfoPageTwoView(OperationViewMixin, LoginRequiredMixin, TemplateView):
+class OperationInfoPageTwoView(LoginRequiredMixin, OperationViewMixin, TemplateView):
     template_name = "operations/form_template_info_operation_page_two.html"
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoOperacionaisOperacaoTwoSerializer
+
+    section_number = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,16 +130,20 @@ class OperationInfoPageTwoView(OperationViewMixin, LoginRequiredMixin, TemplateV
         return context
 
 
-class OperationInfoResultRegisterView(OperationViewMixin, LoginRequiredMixin, TemplateView):
+class OperationInfoResultRegisterView(LoginRequiredMixin, OperationViewMixin, TemplateView):
     template_name = "operations/form_template_result_info.html"
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoResultadosOperacaoSerializer
 
+    section_number = 4
 
-class OperationOcurrencePageOneView(OperationViewMixin, LoginRequiredMixin, TemplateView):
+
+class OperationOcurrencePageOneView(LoginRequiredMixin, OperationViewMixin, TemplateView):
     template_name = "operations/form_template_ocurrence_page_one.html"
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoOcorrenciaOneSerializer
+
+    section_number = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -107,18 +151,71 @@ class OperationOcurrencePageOneView(OperationViewMixin, LoginRequiredMixin, Temp
         return context
 
 
-class OperationOcurrencePageTwoView(OperationViewMixin, LoginRequiredMixin, TemplateView):
+class OperationOcurrencePageTwoView(LoginRequiredMixin, OperationViewMixin, TemplateView):
     template_name = "operations/form_template_ocurrence_page_two.html"
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoOcorrenciaTwoSerializer
 
+    section_number = 6
 
-class FormCompleteView(OperationViewMixin, LoginRequiredMixin, TemplateView):
+
+class FormCompleteView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_complete.html"
     lookup_url_kwarg = "form_uuid"
 
+    section_number = 6
+
     def get_serialized_data(self, operacao):
         return {}
+
+    def dispatch(self, request, *args, **kwargs):
+        # TODO: Refatorar essa lógica
+        handler = super().dispatch(request, *args, **kwargs)
+        if request.user.is_anonymous:
+            return handler
+
+        self.form_uuid = self.kwargs.get(self.lookup_url_kwarg)
+        self.operacao = self.get_operation(self.request.user, self.form_uuid)
+
+        secao_atual_url = URL_SECTION_MAPPER.get(self.operacao.secao_atual)
+        if self.operacao.secao_atual == Operacao.n_sections + 1:
+            return handler
+        if (
+            self.operacao.secao_atual == Operacao.n_sections
+            and self.operacao.houve_ocorrencia_operacao is True
+        ):
+            return redirect(
+                reverse(secao_atual_url, kwargs={"form_uuid": self.form_uuid})
+            )
+        if (
+            self.operacao.secao_atual == Operacao.n_sections
+            and self.operacao.houve_ocorrencia_operacao is False
+        ):
+            return handler
+        if (
+            self.operacao.secao_atual in settings.SKIPPABLE_SECTIONS
+            and self.operacao.houve_ocorrencia_operacao is False
+        ):
+            return handler
+        else:
+            return redirect(
+                reverse(secao_atual_url, kwargs={"form_uuid": self.form_uuid})
+            )
+
+    def get_operation(self, usuario, form_uuid):
+        return get_object_or_404(
+            Operacao,
+            identificador=form_uuid,
+            usuario=usuario
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form_uuid = self.kwargs.get(self.lookup_url_kwarg)
+        operacao = self.get_operation(self.request.user, form_uuid)
+        context["form_uuid"] = form_uuid
+        context["operacao_info"] = self.get_serialized_data(operacao)
+        return context
 
 
 class OperationListView(LoginRequiredMixin, ListView):
