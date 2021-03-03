@@ -13,7 +13,7 @@
     font-weight: bold;
     margin-top: 10px;
 }
-.main-initial-page p{
+.main-initial-page h4{
     color: #DFE0E1;
     font-size: 18px;
 }
@@ -59,4 +59,5 @@
 .texts-initial-page p{
     font-size: 12px;
     margin-left: 5px;
+    color: #707070 !important;
 }

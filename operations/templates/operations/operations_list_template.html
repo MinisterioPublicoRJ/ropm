@@ -6,62 +6,31 @@
 {% block content %}
 <div class="main-initial-page">
     <h2>Últimas operações cadastradas</h2>
-    <p>Aqui é onde as informações referentes as operações devem ser cadastradas</p>
+    <h4>Aqui é onde as informações referentes as operações podem ser consultadas.</h4>
     <div class="info-initial-page">
+        {% for info_operacao in object_list %}
         <div class="maps-initial-page" style="background-color: #F8F8F8">
             <img src="{% static "img/mapa.png" %}" alt="logo-chart">
             <div class="texts-initial-page-main">
                 <div class="texts-initial-page">
                     <span>Operação:</span>
-                    <p>Missão tal</p>
+                    <p>{{ info_operacao.tipo_operacao }}</p>
                 </div>
                 <div class="texts-initial-page">
                     <span>Data:</span>
-                    <p>11/02/2020</p>
+                    <p>{{ info_operacao.data }}</p>
                 </div>
                 <div class="texts-initial-page">
                     <span>Responsável:</span>
-                    <p>Fulano de tal</p>
+                    <p>{{ info_operacao.batalhao_responsavel }}</p>
                 </div>
             </div>
         </div>
-        <div class="maps-initial-page" style="background-color: #F8F8F8">
-            <img src="{% static "img/mapa.png" %}" alt="logo-chart">
-            <div class="texts-initial-page-main">
-                <div class="texts-initial-page">
-                    <span>Operação:</span>
-                    <p>Missão tal</p>
-                </div>
-                <div class="texts-initial-page">
-                    <span>Data:</span>
-                    <p>11/02/2020</p>
-                </div>
-                <div class="texts-initial-page">
-                    <span>Responsável:</span>
-                    <p>Fulano de tal</p>
-                </div>
-            </div>
-        </div>
-        <div class="maps-initial-page" style="background-color: #F8F8F8">
-            <img src="{% static "img/mapa.png" %}" alt="logo-chart">
-            <div class="texts-initial-page-main">
-                <div class="texts-initial-page">
-                    <span>Operação:</span>
-                    <p>Missão tal</p>
-                </div>
-                <div class="texts-initial-page">
-                    <span>Data:</span>
-                    <p>11/02/2020</p>
-                </div>
-                <div class="texts-initial-page">
-                    <span>Responsável:</span>
-                    <p>Fulano de tal</p>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
+
         <div class="table-list">
             <h2>Lista de operações</h2>
-            <p>Aqui é onde as informações referentes as operações devem ser cadastradas</p>
+            <h4>Aqui é onde se encontra as informações referentes as operações cadastradas e pode editá-las.</h4>
             <table>
                 <tr>
                     <th>Operação</th>
