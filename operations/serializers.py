@@ -41,7 +41,7 @@ class InfoOperacionaisOperacaoTwoSerializer(OperacaoSerializer):
     def validate(self, attrs):
         if attrs["tipo_operacao"] == "Pl" and not attrs["numero_ordem_operacoes"]:
             raise serializers.ValidationError(
-                {"numero_ordem_operacoes": "Número de ordem deve ser fornecido."}
+                {"numero_ordem_operacoes": "Número da ordem deve ser fornecido."}
             )
         return attrs
 
