@@ -72,6 +72,17 @@ function buildFormData(fields){
     return JSON.stringify(formData);
 }
 
+function showValidationErros(errors){
+    document.querySelectorAll(".error-message").forEach(elem => elem.remove());
+    Object.entries(errors).forEach(error => {
+        let fieldObj = document.getElementById(error[0]);
+        let pObj = document.createElement("p");
+        pObj.classList.add("error-message");
+        pObj.innerHTML = error[1];
+        fieldObj.after(pObj);
+    })
+}
+
 function submitFormInfo(event) {
   event.preventDefault();
   let is_valid = validateFields(document.querySelector("#main-form"));
@@ -91,9 +102,15 @@ function submitFormInfo(event) {
       },
       body: formData,
     })
-      .then((response) => response.json())
-      .then((data) => {
-        window.location = forwardFullURL;
-      });
+      .then(response => {
+        let error = false;
+        if(response.status >= 400){
+            response.json().then(data => {
+                showValidationErros(data);
+            })
+        }else{
+            window.location = forwardFullURL;
+        }
+      })
   }
 }

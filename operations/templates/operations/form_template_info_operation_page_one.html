@@ -39,25 +39,21 @@
           <div class="">
             <label for="name">Unidade operacional responsável</label>
             <input type="text" value="{{ operacao_info.unidade_responsavel|default:'' }}" id="unidade_operacional_responsavel" name="unidade_operacional_responsavel" required>
-            <p>Campo obrigátorio</p>
           </div>
           <div class="">
             <label for="name">Recebeu apoio de outras unidades, Qual ?</label>
             <input type="text" value="{{ operacao_info.unidade_apoiadora|default:'' }}" id="unidade_apoiadora" name="unidade_apoiadora">
-            <p>Campo obrigátorio</p>
           </div>
         </div>
         <div class="box-form-group">
           <div class="form-group">
             <label for="name">Nome Comandante da Operação</label>
             <input type="text" value="{{ operacao_info.nome_comandante_operacao|default:'' }}" id="nome_comandante_operacao" name="nome_comandante_operacao" required>
-            <p>Campo obrigátorio</p>
           </div>
           <div class="form-group">
           <div class="">
             <label>RG PM Comandante </label>
             <input type="text" value="{{ operacao_info.rg_pm_comandante_operacao|default:'' }}" name="rg_pm_comandante_operacao" id="rg_pm_comandante_operacao" required>
-            <p>Campo obrigátorio</p>
           </div>
           </div>
         </div>
@@ -72,7 +68,6 @@
                 {% endfor %}
               </select>
             </div>
-            <p>Campo obrigátorio</p>
           </div>
         </div>
       </form>

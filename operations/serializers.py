@@ -38,6 +38,13 @@ class InfoOperacionaisOperacaoTwoSerializer(OperacaoSerializer):
     numero_guarnicoes_mobilizadas = serializers.IntegerField(required=True)
     numero_policiais_mobilizados = serializers.IntegerField(required=True)
 
+    def validate(self, attrs):
+        if attrs["tipo_operacao"] == "Pl" and not attrs["numero_ordem_operacoes"]:
+            raise serializers.ValidationError(
+                {"numero_ordem_operacoes": "Número de ordem deve ser fornecido."}
+            )
+        return attrs
+
 
 class InfoResultadosOperacaoSerializer(OperacaoSerializer):
     houve_confronto_daf = serializers.BooleanField(required=True)
@@ -66,4 +73,3 @@ class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
     numero_civis_mortos_npap = serializers.IntegerField()
     numero_veiculos_recuperados = serializers.IntegerField()
     numero_adolescentes_apreendindos = serializers.IntegerField()
-

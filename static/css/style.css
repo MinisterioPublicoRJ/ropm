@@ -197,11 +197,6 @@ label {
   color: #707070;
   font-family: Nunito,Regular;
 }
-.box-form-group p{
-  color: #ED0606;
-  font-size: 14px;
-  margin-top: 0px;
-}
 .box-form-info-operation{
   display: flex;
   flex-wrap: wrap;
@@ -211,4 +206,10 @@ label {
   position:absolute;
   bottom: 30px; 
   margin-left: 10px;
+}
+
+.error-message{
+  color: #ED0606;
+  font-size: 14px;
+  margin-top: 0px;
 }
