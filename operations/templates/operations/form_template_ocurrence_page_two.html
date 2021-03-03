@@ -20,14 +20,16 @@
                 <p>Informações de Resultado</p>
                 <p>Informações da Ocorrência parte 1</p>
                 <p>Informações da Ocorrência parte 2</p>
+                <p>Finalizar cadastro</p>
                 </div>
-                <progress  max="100" value="100" id="progressbar"></progress>
+                <progress  max="100" value="80" id="progressbar"></progress>
                 <ul class="progressbar">
                     <li class="progressbar-checked"></li>
                     <li class="progressbar-checked"></li>
                     <li class="progressbar-checked"></li>
                     <li class="progressbar-checked"></li>
                     <li class="progressbar-checked"></li>
+                    <li></li>
                     <li></li>
                 </ul>
               </div>
@@ -93,7 +95,7 @@
                     <button type="submit" class="btn-next" onclick="submitFormInfo(event);">Finalizar</button>
                 </div>
             </form>
-            <div class="btns-forms" style="margin-right: 300px; margin-top: -122px;">
+            <div class="btns-forms" style="margin-right: 300px; margin-top: -80px;">
                 <a href="{% url 'operations:form-info-ocurrence-page-one' form_uuid %}">
                     <button type="submit" class="btn-previus">Anterior</button>
                 </a>
