@@ -51,6 +51,16 @@ class InfoResultadosOperacaoSerializer(OperacaoSerializer):
     houve_resultados_operacao = serializers.BooleanField(required=True)
     houve_ocorrencia_operacao = serializers.BooleanField(required=True)
 
+    def validate(self, attrs):
+        if self.instance.houve_ocorrencia_operacao and not attrs["houve_ocorrencia_operacao"]:
+            msg = "Operação com ocorrência não pode ser atualizada para sem ocorrência."
+            raise serializers.ValidationError(
+                {
+                    "houve_ocorrencia_operacao": msg
+                }
+            )
+        return attrs
+
 
 class InfoOcorrenciaOneSerializer(OperacaoSerializer):
     boletim_ocorrencia_pm = serializers.CharField()

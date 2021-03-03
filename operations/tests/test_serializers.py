@@ -1,6 +1,11 @@
 from django.test import TestCase
+from model_bakery.recipe import Recipe
 
-from operations.serializers import InfoOperacionaisOperacaoTwoSerializer
+from operations.models import Operacao
+from operations.serializers import (
+    InfoOperacionaisOperacaoTwoSerializer,
+    InfoResultadosOperacaoSerializer,
+)
 
 
 class TestSerializers(TestCase):
@@ -35,3 +40,19 @@ class TestSerializers(TestCase):
         is_valid = ser.is_valid()
 
         assert is_valid
+
+    def test_unset_houve_ocorrencia_operacao(self):
+        """
+            Uma operação com ocorrência não pode ser marcada como
+            'não houve ocorrência em seguida'
+        """
+        op = Recipe(Operacao, houve_ocorrencia_operacao=True).prepare()
+        data = {
+            "houve_confronto_daf": True,
+            "houve_resultados_operacao": True,
+            "houve_ocorrencia_operacao": False,
+        }
+        ser = InfoResultadosOperacaoSerializer(op, data=data)
+        is_valid = ser.is_valid()
+
+        assert not is_valid
