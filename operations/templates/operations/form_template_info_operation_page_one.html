@@ -40,16 +40,9 @@
             <label for="name">Unidade operacional responsável</label>
             <input type="text" value="{{ operacao_info.unidade_responsavel|default:'' }}" id="unidade_operacional_responsavel" name="unidade_operacional_responsavel" required>
           </div>
-          <div class="form-group">
-            <label>Posto/graduação do comandante </label>
-            <div class="styled-select">
-              <select class="form-control required" id="posto_comandante_operacao" name="posto_comandante_operacao" required>
-                  <option value="">-</option>
-                {% for posto in postos_comandante %}
-                <option value="{{ posto.0 }}" {% if posto.0 == operacao_info.posto_comandante_operacao %} selected {% endif %}>{{ posto.1 }}</option>
-                {% endfor %}
-              </select>
-            </div>
+          <div class="">
+            <label for="name">Recebeu apoio de outras unidades, Qual ?</label>
+            <input type="text" value="{{ operacao_info.unidade_apoiadora|default:'' }}" id="unidade_apoiadora" name="unidade_apoiadora">
           </div>
         </div>
         <div class="box-form-group">
@@ -65,9 +58,16 @@
           </div>
         </div>
         <div class="box-form-group">
-          <div class="">
-            <label for="name">Recebeu apoio de outras unidades, Qual ?</label>
-            <input style="width: 750px;" type="text" value="{{ operacao_info.unidade_apoiadora|default:'' }}" id="unidade_apoiadora" name="unidade_apoiadora">
+          <div class="form-group">
+            <label>Posto/graduação do comandante </label>
+            <div class="styled-select">
+              <select class="form-control required" id="posto_comandante_operacao" name="posto_comandante_operacao" required>
+                  <option value="">-</option>
+                {% for posto in postos_comandante %}
+                <option value="{{ posto.0 }}" {% if posto.0 == operacao_info.posto_comandante_operacao %} selected {% endif %}>{{ posto.1 }}</option>
+                {% endfor %}
+              </select>
+            </div>
           </div>
         </div>
       </form>
