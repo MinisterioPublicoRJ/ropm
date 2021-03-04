@@ -2,6 +2,8 @@ import re
 
 from rest_framework import serializers
 
+from operations.models import Operacao
+
 
 class OperacaoSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
@@ -35,6 +37,13 @@ class InfoOperacionaisOperacaoOneSerializer(OperacaoSerializer):
         match = re.match(r"\d{5,6}", value)
         if not match:
             raise serializers.ValidationError("Número RG PM inválido.")
+
+        return value
+
+    def validate_posto_comandante_operacao(self, value):
+        options = [opt[0] for opt in Operacao.POSTO_COMANDANTE]
+        if value not in options:
+            raise serializers.ValidationError("Opção inválida.")
 
         return value
 
@@ -81,6 +90,13 @@ class InfoOcorrenciaOneSerializer(OperacaoSerializer):
     numero_armas_apreendidas = serializers.IntegerField()
     numero_fuzis_apreendidos = serializers.IntegerField()
     numero_presos = serializers.IntegerField()
+
+    def validate_posto_comandante_ocorrencia(self, value):
+        options = [opt[0] for opt in Operacao.POSTO_COMANDANTE]
+        if value not in options:
+            raise serializers.ValidationError("Opção inválida.")
+
+        return value
 
     def validate_registro_ocorrencia(self, value):
         match = re.match(r"^\d{3}-\d{5}/\d{4}(-\d{2})?$", value)

@@ -70,7 +70,7 @@ class TestInfoOcorrenciaOneSerializer(TestCase):
             "registro_ocorrencia": "034-00001/2019",
             "nome_comandante_ocorrencia": op.nome_comandante_ocorrencia,
             "rg_pm_comandante_ocorrencia": "12345",
-            "posto_comandante_ocorrencia": op.posto_comandante_ocorrencia,
+            "posto_comandante_ocorrencia": Operacao.POSTO_COMANDANTE[0][0],
             "houve_apreensao_drogas": op.houve_apreensao_drogas,
             "numero_armas_apreendidas": op.numero_armas_apreendidas,
             "numero_fuzis_apreendidos": op.numero_fuzis_apreendidos,
@@ -104,6 +104,13 @@ class TestInfoOcorrenciaOneSerializer(TestCase):
 
         assert not is_valid
 
+    def test_validate_posto_comandante(self):
+        self.data["posto_comandante_ocorrencia"] = "posto"
+        ser = self.serializer_class(data=self.data)
+        is_valid = ser.is_valid()
+
+        assert not is_valid
+
 
 class TestInfoOperacionaisOperacaoOneSerializer(TestCase):
     serializer_class = InfoOperacionaisOperacaoOneSerializer
@@ -115,7 +122,7 @@ class TestInfoOperacionaisOperacaoOneSerializer(TestCase):
             "unidade_apoiadora": op.unidade_apoiadora,
             "nome_comandante_operacao": op.nome_comandante_operacao,
             "rg_pm_comandante_operacao": "12345",
-            "posto_comandante_operacao": op.posto_comandante_operacao,
+            "posto_comandante_operacao":Operacao.POSTO_COMANDANTE[0][0],
         }
 
     def test_validate_valid_rg_pm(self):
@@ -126,6 +133,13 @@ class TestInfoOperacionaisOperacaoOneSerializer(TestCase):
 
     def test_validate_invalid_rg_pm(self):
         self.data["rg_pm_comandante_operacao"] = "acb1234"
+        ser = self.serializer_class(data=self.data)
+        is_valid = ser.is_valid()
+
+        assert not is_valid
+
+    def test_validate_posto_comandante(self):
+        self.data["posto_comandante_operacao"] = "posto"
         ser = self.serializer_class(data=self.data)
         is_valid = ser.is_valid()
 
