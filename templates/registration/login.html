@@ -12,7 +12,7 @@
     <img src="{% static "img/logo.png" %}" alt="logo_painel">
     <form method="POST" class="tela-login">
       {% csrf_token %}
-      <input placeholder="Email PMRJ" type="text" name="username" autocapitalize="none" autocomplete="username"
+      <input placeholder="Usuário" type="text" name="username" autocapitalize="none" autocomplete="username"
         maxlength="150" required="" id="id_username">
       <input placeholder="Senha" type="password" name="password" autocomplete="current-password" required=""
         id="id_password">
