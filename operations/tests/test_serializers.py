@@ -10,10 +10,11 @@ from operations.serializers import (
 )
 
 
-class TestSerializers(TestCase):
-    def test_operacao_planejada_dave_ter_ordem_operacoes(self):
-        """Uma operação planejada deve ter uma ordem de operações"""
-        data = {
+class TestInfoOperacionaisOperacaoTwoSerializer(TestCase):
+    serializer_class = InfoOperacionaisOperacaoTwoSerializer
+
+    def setUp(self):
+        self.data = {
             'tipo_operacao': 'Pl',
             'tipo_acao_repressiva': 'AREP II',
             'numero_ordem_operacoes': '',
@@ -21,7 +22,10 @@ class TestSerializers(TestCase):
             'numero_guarnicoes_mobilizadas': 10,
             'numero_policiais_mobilizados': 20
         }
-        ser = InfoOperacionaisOperacaoTwoSerializer(data=data)
+
+    def test_operacao_planejada_dave_ter_ordem_operacoes(self):
+        """Uma operação planejada deve ter uma ordem de operações"""
+        ser = self.serializer_class(data=self.data)
 
         is_valid = ser.is_valid()
 
@@ -29,19 +33,32 @@ class TestSerializers(TestCase):
 
     def test_operacao_planejada_com_ordem_operacoes(self):
         """Uma operação planejada deve ter uma ordem de operações"""
-        data = {
-            'tipo_operacao': 'Pl',
-            'tipo_acao_repressiva': 'AREP II',
-            'numero_ordem_operacoes': '12345',
-            'objetivo_estrategico_operacao': 'Rep',
-            'numero_guarnicoes_mobilizadas': 10,
-            'numero_policiais_mobilizados': 20
-        }
-        ser = InfoOperacionaisOperacaoTwoSerializer(data=data)
+        self.data["numero_ordem_operacoes"] = "12345"
+        ser = self.serializer_class(data=self.data)
 
         is_valid = ser.is_valid()
 
         assert is_valid
+
+    def test_operacao_emergencial_nao_pode_ter_numero_operacoes(self):
+        self.data["tipo_operacao"] = "Em"
+        self.data["numero_ordem_operacoes"] = "12345"
+        ser = self.serializer_class(data=self.data)
+
+        is_valid = ser.is_valid()
+
+        assert not is_valid
+
+
+class TestInfoResultadosOperacaoSerializer(TestCase):
+    serializer_class = InfoResultadosOperacaoSerializer
+
+    def setUp(self):
+        self.data = {
+            "houve_confronto_daf": True,
+            "houve_resultados_operacao": True,
+            "houve_ocorrencia_operacao": False,
+        }
 
     def test_unset_houve_ocorrencia_operacao(self):
         """
@@ -49,12 +66,7 @@ class TestSerializers(TestCase):
             'não houve ocorrência em seguida'
         """
         op = Recipe(Operacao, houve_ocorrencia_operacao=True).prepare()
-        data = {
-            "houve_confronto_daf": True,
-            "houve_resultados_operacao": True,
-            "houve_ocorrencia_operacao": False,
-        }
-        ser = InfoResultadosOperacaoSerializer(op, data=data)
+        ser = self.serializer_class(op, data=self.data)
         is_valid = ser.is_valid()
 
         assert not is_valid

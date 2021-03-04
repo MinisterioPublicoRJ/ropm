@@ -61,6 +61,13 @@ class InfoOperacionaisOperacaoTwoSerializer(OperacaoSerializer):
             raise serializers.ValidationError(
                 {"numero_ordem_operacoes": "Número da ordem deve ser fornecido."}
             )
+        elif attrs["tipo_operacao"] == "Em" and attrs["numero_ordem_operacoes"]:
+            raise serializers.ValidationError(
+                {
+                    "numero_ordem_operacoes":
+                    "Número da ordem é apenas para operações planejadas."
+                }
+            )
         return attrs
 
 
