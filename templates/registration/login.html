@@ -20,6 +20,13 @@
     </form>
     <a href="{% url 'signup' %}"> Usuário novo clique aqui </a>
   </div>
+  {% if form.non_field_errors %}
+  <ul class='form-errors'>
+      {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
   <img src="{% static "img/logo_MP.png" %}" alt="logo_MP">
 </div>
 {% endblock content %}
