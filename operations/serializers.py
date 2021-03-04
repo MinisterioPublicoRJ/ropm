@@ -2,6 +2,7 @@ import re
 
 from rest_framework import serializers
 
+from coredata.models import Batalhao, Bairro
 from operations.models import Operacao
 
 
@@ -24,6 +25,26 @@ class InfoGeraisOperacaoSerializer(OperacaoSerializer):
     endereco_referencia = serializers.CharField(required=True)
     coordenadas_geo = serializers.CharField(required=False)
     batalhao_responsavel = serializers.CharField(required=True)
+
+    def validate(self, attrs):
+        bairros_validos = Bairro.objects.get_ordered_for_municipio(
+            attrs["municipio"]
+        ).values_list("bairro", flat=True)
+        batalhoes_validos = Batalhao.objects.get_ordered_for_municipio(
+            attrs["municipio"]
+        ).values_list("bpm", flat=True)
+
+        if attrs["bairro"] not in bairros_validos:
+            raise serializers.ValidationError(
+                {"bairro": "Bairro inválido para município selecionado."}
+            )
+
+        if attrs["batalhao_responsavel"] not in batalhoes_validos:
+            raise serializers.ValidationError(
+                {"batalhao_responsavel": "Batalhao inválido para município selecionado."}
+            )
+
+        return attrs
 
 
 class InfoOperacionaisOperacaoOneSerializer(OperacaoSerializer):
