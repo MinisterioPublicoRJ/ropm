@@ -12,14 +12,21 @@
     <img src="{% static "img/logo.png" %}" alt="logo_painel">
     <form method="POST" class="tela-login">
       {% csrf_token %}
-      <input placeholder="Email PMRJ" type="text" name="username" autocapitalize="none" autocomplete="username"
+      <input placeholder="Usuário" type="text" name="username" autocapitalize="none" autocomplete="username"
         maxlength="150" required="" id="id_username">
       <input placeholder="Senha" type="password" name="password" autocomplete="current-password" required=""
         id="id_password">
       <button type="submit">Entrar</button>
     </form>
-    <a href="{% url 'home' %}"> Usuário novo clique aqui </a>
+    <a href="{% url 'signup' %}">Criar novo usuário</a>
   </div>
+  {% if form.non_field_errors %}
+  <ul class='form-errors'>
+      {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
   <img src="{% static "img/logo_MP.png" %}" alt="logo_MP">
 </div>
 {% endblock content %}

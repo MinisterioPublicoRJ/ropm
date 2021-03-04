@@ -1,13 +1,13 @@
 const FORWARD_URL = '/operacoes/cadastro/informacoes/operacionais/parte-1/';
 const API_URL = '/v1/operacoes/cria-informacoes-gerais/';
 const FORM_VAR_LIST = {
-    "data": "#data_operacao",
-    "hora": "#hora_operacao",
-    "municipio": "#municipio_operacao",
-    "bairro": "#bairro_operacao",
-    "localidade": "#localidade_operacao",
+    "data": "#data",
+    "hora": "#hora",
+    "municipio": "#municipio",
+    "bairro": "#bairro",
+    "localidade": "#localidade",
     "endereco_referencia": "#endereco_referencia",
-    "batalhao_responsavel": "#batalhao_operacao"
+    "batalhao_responsavel": "#batalhao_responsavel"
 };
 
 
@@ -16,7 +16,7 @@ function getBairros(object) {
   fetch(bairroUrl, { method: "GET" })
     .then((response) => response.json())
     .then((data) => {
-      let bairroSelector = document.querySelector("#bairro_operacao");
+      let bairroSelector = document.querySelector("#bairro");
       bairroSelector.innerHTML = "";
       let option = document.createElement("option");
       option.text = "-";
@@ -37,7 +37,7 @@ function getBatalhoes(object) {
   fetch(batalhaoUrl, { method: "GET" })
     .then((response) => response.json())
     .then((data) => {
-      let batalhaoSelector = document.querySelector("#batalhao_operacao");
+      let batalhaoSelector = document.querySelector("#batalhao_responsavel");
       batalhaoSelector.innerHTML = "";
       let option = document.createElement("option");
       option.text = "-";

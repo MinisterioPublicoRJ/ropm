@@ -13,7 +13,7 @@ class BairroManager(models.Manager):
 
 class BatalhaoManager(models.Manager):
     def get_ordered_for_municipio(self, nome_municipio):
-        return self.filter(codigo_mun__nm_mun=nome_municipio).order_by("bpm").distinct()
+        return self.filter(codigo_mun__nm_mun=nome_municipio).order_by("bpm").distinct("bpm")
 
 
 class Municipio(models.Model):
