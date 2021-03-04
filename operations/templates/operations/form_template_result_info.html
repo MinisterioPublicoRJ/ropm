@@ -59,7 +59,11 @@
                         <label> Sim</label>
                         <input type="radio" name="option-ocorrencia" value="1" {% if operacao_info.houve_ocorrencia_operacao %}checked{% endif %}>
                         <label>Não</label>
-                        <input type="radio" name="option-ocorrencia" value="0" {% if operacao_info.houve_ocorrencia_operacao == False %}checked{% endif %}>
+                        <input type="radio"
+                            id="radio-houve-ocorrencia"
+                            onchange="displayOcorrenciaDialog();"
+                            name="option-ocorrencia" value="0"
+                            {% if operacao_info.houve_ocorrencia_operacao == False %}checked{% endif %}>
                     </div>
                 </div>
             </form>
@@ -88,5 +92,16 @@ const FORM_VAR_LIST = {
     "houve_resultados_operacao": "#houve_resultados_operacao",
     "houve_ocorrencia_operacao": "#houve_ocorrencia_operacao"
 };
+
+function displayOcorrenciaDialog(){
+    let msg = "Gostaria de confirmar que não houve ocorrência?";
+    let fieldObj = document.getElementById("radio-houve-ocorrencia");
+    if (fieldObj.value === "0"){
+        let ans = confirm(msg);
+        if (!ans){
+            fieldObj.checked = false;
+        }
+    }
+}
 </script>
 {% endblock extra_js %}
