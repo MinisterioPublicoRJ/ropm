@@ -180,7 +180,7 @@ class Operacao(models.Model):
         null=True,
         blank=True
     )
-    numero_adolescentes_apreendindos = models.PositiveIntegerField(
+    numero_adolescentes_apreendidos = models.PositiveIntegerField(
         "Número de adolescentes apreendidos",
         null=True,
         blank=True,
