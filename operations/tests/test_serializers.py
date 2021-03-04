@@ -4,6 +4,7 @@ from model_bakery.recipe import Recipe
 from operations.models import Operacao
 from operations.serializers import (
     InfoOcorrenciaOneSerializer,
+    InfoOperacionaisOperacaoOneSerializer,
     InfoOperacionaisOperacaoTwoSerializer,
     InfoResultadosOperacaoSerializer,
 )
@@ -66,9 +67,9 @@ class TestInfoOcorrenciaOneSerializer(TestCase):
         op = Recipe(Operacao, houve_ocorrencia_operacao=True, _fill_optional=True).prepare()
         self.data = {
             "boletim_ocorrencia_pm": op.boletim_ocorrencia_pm,
-            "registro_ocorrencia": "12345",  # invalid format
+            "registro_ocorrencia": "034-00001/2019",
             "nome_comandante_ocorrencia": op.nome_comandante_ocorrencia,
-            "rg_pm_comandante_ocorrencia": op.rg_pm_comandante_ocorrencia,
+            "rg_pm_comandante_ocorrencia": "12345",
             "posto_comandante_ocorrencia": op.posto_comandante_ocorrencia,
             "houve_apreensao_drogas": op.houve_apreensao_drogas,
             "numero_armas_apreendidas": op.numero_armas_apreendidas,
@@ -77,13 +78,13 @@ class TestInfoOcorrenciaOneSerializer(TestCase):
         }
 
     def test_validate_invalid_registro_ocorrencia(self):
+        self.data["registro_ocorrencia"] = "12345"
         ser = self.serializer_class(data=self.data)
         is_valid = ser.is_valid()
 
         assert not is_valid
 
     def test_validate_valid_registro_ocorrencia_1(self):
-        self.data["registro_ocorrencia"] = "034-00001/2019"
         ser = self.serializer_class(data=self.data)
         is_valid = ser.is_valid()
 
@@ -95,3 +96,37 @@ class TestInfoOcorrenciaOneSerializer(TestCase):
         is_valid = ser.is_valid()
 
         assert is_valid
+
+    def test_validate_rg_pm_comandante(self):
+        self.data["rg_pm_comandante_ocorrencia"] = "abc1234"
+        ser = self.serializer_class(data=self.data)
+        is_valid = ser.is_valid()
+
+        assert not is_valid
+
+
+class TestInfoOperacionaisOperacaoOneSerializer(TestCase):
+    serializer_class = InfoOperacionaisOperacaoOneSerializer
+
+    def setUp(self):
+        op = Recipe(Operacao, houve_ocorrencia_operacao=True, _fill_optional=True).prepare()
+        self.data = {
+            "unidade_responsavel": op.unidade_responsavel,
+            "unidade_apoiadora": op.unidade_apoiadora,
+            "nome_comandante_operacao": op.nome_comandante_operacao,
+            "rg_pm_comandante_operacao": "12345",
+            "posto_comandante_operacao": op.posto_comandante_operacao,
+        }
+
+    def test_validate_valid_rg_pm(self):
+        ser = self.serializer_class(data=self.data)
+        is_valid = ser.is_valid()
+
+        assert is_valid
+
+    def test_validate_invalid_rg_pm(self):
+        self.data["rg_pm_comandante_operacao"] = "acb1234"
+        ser = self.serializer_class(data=self.data)
+        is_valid = ser.is_valid()
+
+        assert not is_valid

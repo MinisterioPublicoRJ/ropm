@@ -31,6 +31,13 @@ class InfoOperacionaisOperacaoOneSerializer(OperacaoSerializer):
     rg_pm_comandante_operacao = serializers.CharField(required=True)
     posto_comandante_operacao = serializers.CharField(required=True)
 
+    def validate_rg_pm_comandante_operacao(self, value):
+        match = re.match(r"\d{5,6}", value)
+        if not match:
+            raise serializers.ValidationError("Número RG PM inválido.")
+
+        return value
+
 
 class InfoOperacionaisOperacaoTwoSerializer(OperacaoSerializer):
     tipo_operacao = serializers.CharField(required=True)
@@ -79,6 +86,13 @@ class InfoOcorrenciaOneSerializer(OperacaoSerializer):
         match = re.match(r"^\d{3}-\d{5}/\d{4}(-\d{2})?$", value)
         if not match:
             raise serializers.ValidationError("Número de RO inválido.")
+
+        return value
+
+    def validate_rg_pm_comandante_ocorrencia(self, value):
+        match = re.match(r"\d{5,6}", value)
+        if not match:
+            raise serializers.ValidationError("Número RG PM inválido.")
 
         return value
 
