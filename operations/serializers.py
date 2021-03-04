@@ -55,6 +55,8 @@ class InfoOperacionaisOperacaoTwoSerializer(OperacaoSerializer):
     objetivo_estrategico_operacao = serializers.CharField(required=True)
     numero_guarnicoes_mobilizadas = serializers.IntegerField(required=True)
     numero_policiais_mobilizados = serializers.IntegerField(required=True)
+    numero_veiculos_blindados = serializers.IntegerField(required=True)
+    numero_aeronaves = serializers.IntegerField(required=True)
 
     def validate(self, attrs):
         if attrs["tipo_operacao"] == "Pl" and not attrs["numero_ordem_operacoes"]:
