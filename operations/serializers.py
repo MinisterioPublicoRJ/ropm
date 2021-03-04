@@ -1,3 +1,5 @@
+import re
+
 from rest_framework import serializers
 
 
@@ -72,6 +74,13 @@ class InfoOcorrenciaOneSerializer(OperacaoSerializer):
     numero_armas_apreendidas = serializers.IntegerField()
     numero_fuzis_apreendidos = serializers.IntegerField()
     numero_presos = serializers.IntegerField()
+
+    def validate_registro_ocorrencia(self, value):
+        match = re.match(r"^\d{3}-\d{5}/\d{4}(-\d{2})?$", value)
+        if not match:
+            raise serializers.ValidationError("Número de RO inválido.")
+
+        return value
 
 
 class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
