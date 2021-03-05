@@ -103,6 +103,16 @@ class Operacao(models.Model):
         null=True,
         blank=True
     )
+    numero_veiculos_blindados = models.PositiveIntegerField(
+        "Número de veículos blindados",
+        default=0,
+        blank=True
+    )
+    numero_aeronaves = models.PositiveIntegerField(
+        "Número de aeronaves",
+        default=0,
+        blank=True
+    )
 
     houve_confronto_daf = models.BooleanField(
         "Houve confronto com DAF?",
@@ -170,7 +180,7 @@ class Operacao(models.Model):
         null=True,
         blank=True
     )
-    numero_adolescentes_apreendindos = models.PositiveIntegerField(
+    numero_adolescentes_apreendidos = models.PositiveIntegerField(
         "Número de adolescentes apreendidos",
         null=True,
         blank=True,

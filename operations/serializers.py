@@ -2,6 +2,7 @@ import re
 
 from rest_framework import serializers
 
+from coredata.models import Batalhao, Bairro
 from operations.models import Operacao
 
 
@@ -24,6 +25,26 @@ class InfoGeraisOperacaoSerializer(OperacaoSerializer):
     endereco_referencia = serializers.CharField(required=True)
     coordenadas_geo = serializers.CharField(required=False)
     batalhao_responsavel = serializers.CharField(required=True)
+
+    def validate(self, attrs):
+        bairros_validos = Bairro.objects.get_ordered_for_municipio(
+            attrs["municipio"]
+        ).values_list("bairro", flat=True)
+        batalhoes_validos = Batalhao.objects.get_ordered_for_municipio(
+            attrs["municipio"]
+        ).values_list("bpm", flat=True)
+
+        if attrs["bairro"] not in bairros_validos:
+            raise serializers.ValidationError(
+                {"bairro": "Bairro inválido para município selecionado."}
+            )
+
+        if attrs["batalhao_responsavel"] not in batalhoes_validos:
+            raise serializers.ValidationError(
+                {"batalhao_responsavel": "Batalhao inválido para município selecionado."}
+            )
+
+        return attrs
 
 
 class InfoOperacionaisOperacaoOneSerializer(OperacaoSerializer):
@@ -53,8 +74,10 @@ class InfoOperacionaisOperacaoTwoSerializer(OperacaoSerializer):
     tipo_acao_repressiva = serializers.CharField(required=True)
     numero_ordem_operacoes = serializers.CharField(allow_blank=True)
     objetivo_estrategico_operacao = serializers.CharField(required=True)
-    numero_guarnicoes_mobilizadas = serializers.IntegerField(required=True)
-    numero_policiais_mobilizados = serializers.IntegerField(required=True)
+    numero_guarnicoes_mobilizadas = serializers.IntegerField(required=True, min_value=0)
+    numero_policiais_mobilizados = serializers.IntegerField(required=True, min_value=0)
+    numero_veiculos_blindados = serializers.IntegerField(required=True, min_value=0)
+    numero_aeronaves = serializers.IntegerField(required=True, min_value=0)
 
     def validate(self, attrs):
         if attrs["tipo_operacao"] == "Pl" and not attrs["numero_ordem_operacoes"]:
@@ -94,9 +117,9 @@ class InfoOcorrenciaOneSerializer(OperacaoSerializer):
     rg_pm_comandante_ocorrencia = serializers.CharField()
     posto_comandante_ocorrencia = serializers.CharField()
     houve_apreensao_drogas = serializers.BooleanField()
-    numero_armas_apreendidas = serializers.IntegerField()
-    numero_fuzis_apreendidos = serializers.IntegerField()
-    numero_presos = serializers.IntegerField()
+    numero_armas_apreendidas = serializers.IntegerField(min_value=0)
+    numero_fuzis_apreendidos = serializers.IntegerField(min_value=0)
+    numero_presos = serializers.IntegerField(min_value=0)
 
     def validate_posto_comandante_ocorrencia(self, value):
         options = [opt[0] for opt in Operacao.POSTO_COMANDANTE]
@@ -121,11 +144,11 @@ class InfoOcorrenciaOneSerializer(OperacaoSerializer):
 
 
 class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
-    numero_policiais_feridos = serializers.IntegerField()
-    numero_baixas_policiais = serializers.IntegerField()
-    numero_feridos_por_resistencia = serializers.IntegerField()
-    numero_mortes_interv_estado = serializers.IntegerField()
-    numero_civis_feridos = serializers.IntegerField()
-    numero_civis_mortos_npap = serializers.IntegerField()
-    numero_veiculos_recuperados = serializers.IntegerField()
-    numero_adolescentes_apreendindos = serializers.IntegerField()
+    numero_policiais_feridos = serializers.IntegerField(min_value=0)
+    numero_baixas_policiais = serializers.IntegerField(min_value=0)
+    numero_feridos_por_resistencia = serializers.IntegerField(min_value=0)
+    numero_mortes_interv_estado = serializers.IntegerField(min_value=0)
+    numero_civis_feridos = serializers.IntegerField(min_value=0)
+    numero_civis_mortos_npap = serializers.IntegerField(min_value=0)
+    numero_veiculos_recuperados = serializers.IntegerField(min_value=0)
+    numero_adolescentes_apreendidos = serializers.IntegerField(min_value=0)
