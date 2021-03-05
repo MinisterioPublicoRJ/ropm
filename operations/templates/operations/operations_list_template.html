@@ -19,7 +19,12 @@
                 <tr class="tr-lista-operacao" onclick="openOperacao('{% url 'operations:form-update' info_operacao.identificador %}');">
                         <td>{{ info_operacao.get_tipo_acao_repressiva_display|default:'' }}</td>
                         <td>{{ info_operacao.data }}</td>
-                        <td>{{ info_operacao.batalhao_responsavel }}; {{ info_operacao.unidade_apoiadora }}</td>
+                        <td>
+                            {{ info_operacao.batalhao_responsavel|default:'' }}
+                            {% if info_operacao.unidade_apoiadora %}
+                            - {{ info_operacao.unidade_apoiadora|default:'' }}
+                            {% endif %}
+                        </td>
                         <td>{{ info_operacao.bairro }}</td>
                     </tr>
                 {% endfor %}
