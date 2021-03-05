@@ -68,10 +68,6 @@ progress[value]{
   height: 35px;
   width: 30px;
 }
-.navbarLeft ul li:hover{
-  color: #0676ED;
-  font-size: 23px;
-}
 .operation-form{
   grid-area: pageForm;
 }
@@ -286,4 +282,8 @@ ul.pagination li a:hover{
 }
 .sr-only {
   display: none;
+}
+.main-initial-page h4{
+  color: #707070;
+  font-weight: bold;
 }
