@@ -21,7 +21,7 @@
                             <a
                                 target=_blank
                                 href="{% url 'operations:form-update' info_operacao.identificador %}">
-                                Missão tal
+                                {{ info_operacao.get_tipo_acao_repressiva_display|default:'' }}
                             </a>
                         </td>
                         <td>{{ info_operacao.data }}</td>
