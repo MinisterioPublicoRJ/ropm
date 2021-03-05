@@ -287,3 +287,10 @@ ul.pagination li a:hover{
 .sr-only {
   display: none;
 }
+
+.tr-lista-operacao{
+    cursor: pointer;
+}
+.tr-lista-operacao:hover{
+    background-color:#F5F5F5;
+}
