@@ -10,22 +10,16 @@
             <h4>Aqui é onde se encontra as informações referentes as operações cadastradas e pode editá-las.</h4>
             <table>
                 <tr>
-                    <th>Operação</th>
+                    <th>Tipo Ação Repressiva</th>
                     <th>Data</th>
-                    <th>Responsável</th>
+                    <th>Batalhão</th>
                     <th>Local</th>
                 </tr>
                 {% for info_operacao in object_list %}
-                    <tr>
-                        <td>
-                            <a
-                                target=_blank
-                                href="{% url 'operations:form-update' info_operacao.identificador %}">
-                                {{ info_operacao.get_tipo_acao_repressiva_display|default:'' }}
-                            </a>
-                        </td>
+                <tr class="tr-lista-operacao" onclick="openOperacao('{% url 'operations:form-update' info_operacao.identificador %}');">
+                        <td>{{ info_operacao.get_tipo_acao_repressiva_display|default:'' }}</td>
                         <td>{{ info_operacao.data }}</td>
-                        <td>{{ info_operacao.batalhao_responsavel }}</td>
+                        <td>{{ info_operacao.batalhao_responsavel }}; {{ info_operacao.unidade_apoiadora }}</td>
                         <td>{{ info_operacao.bairro }}</td>
                     </tr>
                 {% endfor %}
@@ -55,3 +49,12 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+function openOperacao(url){
+    let win = window.open(url, '_blank');
+    win.focus();
+}
+</script>
+{% endblock extra_js %}
