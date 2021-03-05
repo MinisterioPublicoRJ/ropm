@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
                 ('numero_armas_apreendidas', models.PositiveIntegerField(blank=True, null=True, verbose_name='Número de armas apreendidas')),
                 ('numero_fuzis_apreendidos', models.PositiveIntegerField(blank=True, null=True, verbose_name='Número de fuzis apreendidos')),
                 ('numero_presos', models.PositiveIntegerField(blank=True, null=True, verbose_name='Número presos')),
-                ('numero_adolescentes_apreendindos', models.PositiveIntegerField(blank=True, null=True, verbose_name='Número de adolescentes apreendidos')),
+                ('numero_adolescentes_apreendidos', models.PositiveIntegerField(blank=True, null=True, verbose_name='Número de adolescentes apreendidos')),
                 ('numero_policiais_feridos', models.PositiveIntegerField(blank=True, null=True, verbose_name='Número de policiais feridos')),
                 ('numero_baixas_policiais', models.PositiveIntegerField(blank=True, null=True, verbose_name='Número de baixas policiais')),
                 ('numero_feridos_por_resistencia', models.PositiveIntegerField(blank=True, null=True, verbose_name='Número de feridos por resistência')),
