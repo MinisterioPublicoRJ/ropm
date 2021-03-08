@@ -123,38 +123,38 @@ var thirdTarget = document.getElementById("third-li");
 
 var mouseOverFunctionFirtsLi = function () {
   document.getElementById("first-li").style.color = '#0676ED'; // your color change
-  document.getElementById("target-image-first-li").setAttribute("src", "/static/img/home-blue.png");
+  document.getElementById("target-image-first-li").setAttribute("src", `${STATIC_PREFIX}img/home-blue.png`);
 };
 firstTarget.onmouseover = mouseOverFunctionFirtsLi;
 
 var mouseLeaveFunctionFirtsLi = function () {
   document.getElementById("first-li").style.color = '#707070'; // your color change
-  document.getElementById("target-image-first-li").setAttribute("src",  "/static/img/home.png");
+  document.getElementById("target-image-first-li").setAttribute("src",  `${STATIC_PREFIX}img/home.png`);
 };
 firstTarget.onmouseleave = mouseLeaveFunctionFirtsLi;
 
 // Mudar cor e imagem da segunda li
 var mouseOverFunctionSecondLi = function () {
   document.getElementById("second-li").style.color = '#0676ED'; // your color change
-  document.getElementById("target-image-second-li").setAttribute("src", "/static/img/align-left-blue.png");
+  document.getElementById("target-image-second-li").setAttribute("src", `${STATIC_PREFIX}img/align-left-blue.png`);
 };
 secondTarget.onmouseover = mouseOverFunctionSecondLi;
 
 var mouseLeaveFunctionSecondLi = function () {
   document.getElementById("second-li").style.color = '#707070'; // your color change
-  document.getElementById("target-image-second-li").setAttribute("src",  "/static/img/align-left.png");
+  document.getElementById("target-image-second-li").setAttribute("src",  `${STATIC_PREFIX}/img/align-left.png`);
 };
 secondTarget.onmouseleave = mouseLeaveFunctionSecondLi;
 
 // Mudar cor e imagem da terceira li
 var mouseOverFunctionThirdLi = function () {
   document.getElementById("third-li").style.color = '#0676ED'; // your color change
-  document.getElementById("target-image-third-li").setAttribute("src", "/static/img/file-plus-blue.png");
+  document.getElementById("target-image-third-li").setAttribute("src", `${STATIC_PREFIX}img/file-plus-blue.png`);
 };
 thirdTarget.onmouseover = mouseOverFunctionThirdLi;
 
 var mouseLeaveFunctionThirdLi = function () {
   document.getElementById("third-li").style.color = '#707070'; // your color change
-  document.getElementById("target-image-third-li").setAttribute("src",  "/static/img/file-plus.png");
+  document.getElementById("target-image-third-li").setAttribute("src",  `${STATIC_PREFIX}img/file-plus.png`);
 };
 thirdTarget.onmouseleave = mouseLeaveFunctionThirdLi;
