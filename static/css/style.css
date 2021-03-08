@@ -279,7 +279,6 @@ ul.pagination li a:hover{
 }
 .tr-lista-operacao:hover{
   background-color:#F5F5F5;
-  color:0055FF
 }
 @media(max-width: 1080px){
   html {
