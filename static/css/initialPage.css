@@ -43,14 +43,4 @@
     height: 85px;
 }
 
-.texts-initial-page{
-    display: flex;
-    margin-left: 10px ;
-}
-.texts-initial-page span{
-    font-size: 12px;
-}
-.texts-initial-page p{
-    font-size: 12px;
-    margin-left: 5px;
-}
+

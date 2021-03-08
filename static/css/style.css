@@ -73,10 +73,6 @@ progress[value]{
   height: 35px;
   width: 30px;
 }
-.navbarLeft ul li:hover{
-  color: #0676ED;
-  font-size: 23px;
-}
 .operation-form{
   grid-area: pageForm;
 }
