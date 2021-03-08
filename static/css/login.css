@@ -21,7 +21,7 @@
     margin-top: 30px;
     font-size: 25px;
     color: #707070;
-    font-family: SFProDisplay-Regular;
+    font-family: 'SFProDisplay-Regular', sans-serif;
     font-weight: bold;
 }
 .tela-login img {
