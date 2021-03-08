@@ -2,6 +2,7 @@ body{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 button{
   cursor: pointer;
@@ -31,11 +32,10 @@ a:link{
 }
 .progressbar-text{
   display: flex;
-  font-size: 10px;
+  font-size: 0.625rem;
   justify-content: space-between;
   margin-top: 32px;
   color: #707070;
-  font-family: Nunito,Regular;
   max-width: 100vh;
 }
 progress::-moz-progress-bar {
@@ -60,7 +60,7 @@ progress[value]{
 .navbarLeft ul li{
   list-style: none;
   text-align: left;
-  font-size: 23px;
+  font-size: 1.375rem;
   color: #707070;
   margin-top: 60px;
   margin-left: 2px ;
@@ -98,12 +98,12 @@ progress[value]{
 }
 .text-header-form p{
   color: #AEAEAE;
-  font-size: 14px;
+  font-size: 0.875rem;
   text-transform: uppercase;
 }
 .text-header-form span{
   color: #707070;
-  font-size: 23px;
+  font-size: 1.4375rem;
 }
 .form-main {
   margin-top: 30px;
@@ -113,7 +113,6 @@ progress[value]{
   border-radius: 4px;
   box-sizing: border-box;
   color: #8a8a8a;
-  font-family: "SFProDisplay-Regular", sans-serif;
   width: 300px;
   height: 45px;
   margin-bottom: 10px;
@@ -127,12 +126,12 @@ progress[value]{
 }
 .input-type-checked p{
   color: #ED0606;
-  font-size: 14px;
+  font-size: 0.875rem;
   margin-top: 0px;
 }
 .input-type-checked .form-control{
   display: flex;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -140,7 +139,7 @@ progress[value]{
   margin-right: 570px;
 }
 .input-type-checked label{
-  font-size: 14px !important;
+  font-size: 0.875rem !important;
 }
 .input-type-checked .form-control input{
   display: flex;
@@ -179,8 +178,7 @@ label {
   align-items: center;
   color: #8F9BB3;
   display: flex;
-  font-family: Helvetica Neue regular;
-  font-size: 12px;
+  font-size: 0.6875rem;
 }
 .box-form-group{
   display: flex;
@@ -190,7 +188,6 @@ label {
 }
 .box-form-group h3{
   color: #707070;
-  font-family: Nunito,Regular;
 }
 .box-form-info-operation{
   display: flex;
@@ -204,7 +201,7 @@ label {
 }
 .error-message{
   color: #ED0606;
-  font-size: 14px;
+  font-size: 0.875rem;
   margin-top: 0px;
 }
 .tela-login-main a:link{
@@ -226,15 +223,13 @@ label {
 }
 .page-final-cadastro span {
   color:#707070;
-  font-family: Roboto;
   font-weight: bold;
-  font-size: 35px;
+  font-size: 2.1875rem;
 }
 .page-final-cadastro p {
   color:#707070;
-  font-family: Roboto;
   font-weight: 400;
-  font-size: 22px;
+  font-size: 1.375rem;
   max-width: 650px;
 }
 .pagination {
@@ -284,4 +279,15 @@ ul.pagination li a:hover{
 }
 .tr-lista-operacao:hover{
   background-color:#F5F5F5;
+  color:0055FF
+}
+@media(max-width: 1080px){
+  html {
+    font-size: 93.75%;
+  }
+}
+@media(max-width: 720px){
+  html {
+    font-size: 87.5%;
+  }
 }
