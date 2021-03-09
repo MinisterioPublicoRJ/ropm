@@ -195,11 +195,6 @@ class Operacao(models.Model):
         null=True,
         blank=True
     )
-    numero_feridos_por_resistencia = models.PositiveIntegerField(
-        "Número de feridos por resistência",
-        null=True,
-        blank=True
-    )
     numero_mortes_interv_estado = models.PositiveIntegerField(
         "Número de mortes por intervenção de agentes do Estado",
         null=True,
