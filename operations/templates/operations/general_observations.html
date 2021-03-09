@@ -10,7 +10,7 @@
     <div class="header-form">
       <div class="text-header-form">
         <span>Cadastro de Operações</span>
-        <p>Informações Gerais</p>
+        <p>Observações Gerais</p>
       </div>
       <div>
         <div class="progressbar-text">
@@ -43,14 +43,8 @@
           <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
         <div class="box-form-group">
           <div class="">
-            <label for="name">Justificativa da excepcionalidade da operação</label>
-            <input type="text" id="justificativa_excepcionalidade_operacao" value={{ operacao_info.justificativa_excepcionalidade_operacao|default:"''" }} name="justificativa_excepcionalidade_operacao" required>
-          </div>
-        </div>
-        <div class="box-form-group">
-          <div class="">
-            <label for="name">Análise de riscos e medidas de controles de danos colaterais das operações e de disparos de confrontos</label>
-            <input type="text" id="descricao_analise_risco" value={{ operacao_info.descricao_analise_risco|default:"''" }} name="descricao_analise_risco" required>
+            <label for="name">Observações Gerais da operação</label>
+            <textarea name="onservations" id="observations"> 
           </div>
         </div>
       </form>

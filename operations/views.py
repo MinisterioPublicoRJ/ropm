@@ -229,6 +229,8 @@ class OperationListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Operacao.objects.filter(usuario=self.request.user).order_by("-criado_em")
 
+class OperationGeneralObservation(LoginRequiredMixin, TemplateView):
+    template_name = "operations/general_observations.html"
 
 class InitialPageListView(LoginRequiredMixin, TemplateView):
     template_name = "operations/initial_page_template.html"

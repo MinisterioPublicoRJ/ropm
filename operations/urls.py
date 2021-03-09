@@ -45,6 +45,11 @@ urlpatterns = [
         views.OperationOcurrencePageTwoView.as_view(),
         name="form-info-ocurrence-page-two"
     ),
+    path(
+        "cadastro/informacoes/observacoes/<uuid:form_uuid>",
+        views.OperationGeneralObservation.as_view(),
+        name="form-observacoes-gerais"
+    ),
     path("lista/", views.OperationListView.as_view(), name="operations-list"),
     path("painel/", views.PanelListView.as_view(), name="operations-panel"),
 ]

@@ -142,7 +142,7 @@ secondTarget.onmouseover = mouseOverFunctionSecondLi;
 
 var mouseLeaveFunctionSecondLi = function () {
   document.getElementById("second-li").style.color = '#707070'; // your color change
-  document.getElementById("target-image-second-li").setAttribute("src",  `${STATIC_PREFIX}/img/align-left.png`);
+  document.getElementById("target-image-second-li").setAttribute("src",  `${STATIC_PREFIX}img/align-left.png`);
 };
 secondTarget.onmouseleave = mouseLeaveFunctionSecondLi;
 
