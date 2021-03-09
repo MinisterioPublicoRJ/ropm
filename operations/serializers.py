@@ -145,7 +145,7 @@ class InfoOcorrenciaOneSerializer(OperacaoSerializer):
 
 class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
     numero_policiais_feridos = serializers.IntegerField(min_value=0)
-    numero_baixas_policiais = serializers.IntegerField(min_value=0)
+    numero_mortes_policiais = serializers.IntegerField(min_value=0)
     numero_feridos_por_resistencia = serializers.IntegerField(min_value=0)
     numero_mortes_interv_estado = serializers.IntegerField(min_value=0)
     numero_civis_feridos = serializers.IntegerField(min_value=0)

@@ -44,9 +44,9 @@
                      class="form-control" value="{{ operacao_info.numero_policiais_feridos|default:'' }}" required>
                 </div>
                 <div class="">
-                    <label for="data">Número de baixas policiais</label>
-                    <input type="number" min="0" name="numero_baixas_policiais" id="numero_baixas_policiais"
-                     class="form-control" value="{{ operacao_info.numero_baixas_policiais|default:'' }}" required>
+                    <label for="data">Número de mortes policiais</label>
+                    <input type="number" min="0" name="numero_mortes_policiais" id="numero_mortes_policiais"
+                     class="form-control" value="{{ operacao_info.numero_mortes_policiais|default:'' }}" required>
                 </div>
             </div>
             <div class="box-form-group">
@@ -112,7 +112,7 @@ const FORWARD_URL = '/operacoes/cadastro/completo/';
 const API_URL = '/v1/operacoes/cria-informacoes-ocorrencia-parte-2/';
 const FORM_VAR_LIST ={
     "numero_policiais_feridos": "#numero_policiais_feridos",
-    "numero_baixas_policiais": "#numero_baixas_policiais",
+    "numero_mortes_policiais": "#numero_mortes_policiais",
     "numero_feridos_por_resistencia": "#numero_feridos_por_resistencia",
     "numero_mortes_interv_estado": "#numero_mortes_interv_estado",
     "numero_civis_feridos": "#numero_civis_feridos",

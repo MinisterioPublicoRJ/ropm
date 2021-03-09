@@ -190,8 +190,8 @@ class Operacao(models.Model):
         null=True,
         blank=True,
     )
-    numero_baixas_policiais = models.PositiveIntegerField(
-        "Número de baixas policiais",
+    numero_mortes_policiais = models.PositiveIntegerField(
+        "Número de mortes policiais",
         null=True,
         blank=True
     )
