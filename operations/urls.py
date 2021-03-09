@@ -11,6 +11,11 @@ urlpatterns = [
         name="form-update"
     ),
     path(
+        "cadastro/informacoes/adpf-635/<uuid:form_uuid>",
+        views.OperationADPF635View.as_view(),
+        name="form-info-adpf-635"
+    ),
+    path(
         "cadastro/informacoes/operacionais/parte-1/<uuid:form_uuid>",
         views.OperationInfoPageOneView.as_view(),
         name="form-info-operation-page-one"

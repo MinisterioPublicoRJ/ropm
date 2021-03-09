@@ -102,6 +102,10 @@ class UpdateOperationReportView(LoginRequiredMixin, OperationViewMixin, Template
         return context
 
 
+class OperationADPF635View(LoginRequiredMixin, TemplateView):
+    template_name = "operations/form_ADPF_635.html"
+
+
 # TODO: add tests
 class OperationInfoPageOneView(LoginRequiredMixin, OperationViewMixin, TemplateView):
     template_name = "operations/form_template_info_operation_page_one.html"
