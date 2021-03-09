@@ -20,7 +20,9 @@ class TestInfoOperacionaisOperacaoTwoSerializer(TestCase):
             'numero_ordem_operacoes': '',
             'objetivo_estrategico_operacao': 'Rep',
             'numero_guarnicoes_mobilizadas': 10,
-            'numero_policiais_mobilizados': 20
+            'numero_policiais_mobilizados': 20,
+            'numero_veiculos_blindados': 0,
+            'numero_aeronaves': 0,
         }
 
     def test_operacao_planejada_dave_ter_ordem_operacoes(self):

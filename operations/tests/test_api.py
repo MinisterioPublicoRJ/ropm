@@ -1,10 +1,12 @@
 import uuid
+from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from model_bakery import baker
 
+from coredata.models import Bairro, Batalhao, Municipio
 from operations.models import Operacao
 from operations.model_recipes import (
     op_recipe_with_occurence,
@@ -34,6 +36,27 @@ class TestSendInformacaoGeralOperacao(TestCase):
     url_name = "api-operations:create-general-info"
 
     def setUp(self):
+        self.nm_mun = "Municipio"
+        self.bairro = "Bairro"
+        self.batalhao = "Batalhao"
+        self.p_municipios = mock.patch.object(Municipio.objects, "get_ordered_values")
+        self.m_municpios = self.p_municipios.start()
+        self.m_municipio_qs = mock.Mock()
+        self.m_municipio_qs.values_list.return_value = (self.nm_mun,)
+        self.m_municpios.return_value = self.m_municipio_qs
+
+        self.p_bairros = mock.patch.object(Bairro.objects, "get_ordered_for_municipio")
+        self.m_bairros = self.p_bairros.start()
+        self.m_bairros_qs = mock.Mock()
+        self.m_bairros_qs.values_list.return_value = (self.bairro,)
+        self.m_bairros.return_value = self.m_bairros_qs
+
+        self.p_batalhoes = mock.patch.object(Batalhao.objects, "get_ordered_for_municipio")
+        self.m_batalhoes = self.p_batalhoes.start()
+        self.m_batalhoes_qs = mock.Mock()
+        self.m_batalhoes_qs.values_list.return_value = (self.batalhao,)
+        self.m_batalhoes.return_value = self.m_batalhoes_qs
+
         self.username = "username"
         self.pwd = "pwd1234"
 
@@ -47,12 +70,17 @@ class TestSendInformacaoGeralOperacao(TestCase):
             "data": "2021-02-12",
             "hora": "12:00:00",
             "localidade": "Rua A",
-            "bairro": "Bairro B",
-            "municipio": "Rio de Janeiro",
+            "bairro": self.bairro,
+            "municipio": self.nm_mun,
             "endereco_referencia": "Primeira rua",
             "coordenadas_geo": "-12.9999,45.4555",
-            "batalhao_responsavel": "X BPM",
+            "batalhao_responsavel": self.batalhao,
         }
+
+    def tearDown(self):
+        self.p_municipios.stop()
+        self.p_bairros.stop()
+        self.p_batalhoes.stop()
 
     def test_save_database_info(self):
         resp = self.client.put(
@@ -98,6 +126,8 @@ class TestSendInformacaoGeralOperacao(TestCase):
         operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
 
         new_info = "Novo Bairro"
+        # make new info valid bairro name
+        self.m_bairros_qs.values_list.return_value = (new_info,)
         self.form_data["bairro"] = new_info
         resp = self.client.put(
             self.url,
