@@ -19,9 +19,8 @@
     border-radius: 9px;
     opacity: 1;
     margin-top: 30px;
-    font-size: 25px;
+    font-size: 1.5625rem;
     color: #707070;
-    font-family: SFProDisplay-Regular;
     font-weight: bold;
 }
 .tela-login img {
@@ -34,14 +33,12 @@ form input {
     border-radius: 6px;
     box-sizing: border-box;
     color: #8a8a8a;
-    font-family: SFProDisplay-Regular;
     width: 338px;
     height: 45px;
     margin-bottom: 10px;
     margin-top: 10px;
     padding: 0 18px 0 18px;
 }
-
 form button {
     width: 338px;
     height: 45px;
