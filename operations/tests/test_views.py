@@ -169,6 +169,8 @@ class TestFillOperacaoFlow(TestCase):
             identificador=self.form_uuid,
         )
 
+        self.max_section_number = Operacao.n_sections + 1
+
     def test_do_not_allow_user_to_skip_mandatory_sections(self):
         url_name = "operations:form-info-operation-page-two"
         url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
@@ -176,7 +178,7 @@ class TestFillOperacaoFlow(TestCase):
 
         assert resp.status_code == 302  # Redirects to previews filled section
 
-    def test_go_to_complete_form_view_if_houve_ocorrencia(self):
+    def test_go_to_complete_form_view_if_not_houve_ocorrencia(self):
         self.operacao.secao_atual = 5
         self.operacao.houve_ocorrencia_operacao = False
         self.operacao.save()
@@ -184,11 +186,14 @@ class TestFillOperacaoFlow(TestCase):
         url_name = "operations:form-info-ocurrence-page-one"
         url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
 
-        resp = self.client.get(url)
+        resp = self.client.get(url, follow=True)
+        self.operacao.refresh_from_db()
 
         expected_url = reverse("operations:form-complete", kwargs={"form_uuid": self.form_uuid})
-        assert resp.status_code == 302
+        assert resp.status_code == 200
         self.assertRedirects(resp, expected_url, fetch_redirect_response=False)
+        assert self.operacao.completo
+        assert self.operacao.situacao == "completo sem ocorrencia"
 
     def test_only_go_to_complete_only_when_form_is_complete(self):
         self.operacao.secao_atual = 2
@@ -206,3 +211,18 @@ class TestFillOperacaoFlow(TestCase):
         )
         assert resp.status_code == 302
         self.assertRedirects(resp, expected_url, fetch_redirect_response=False)
+
+    def test_go_to_complete_form_all_sections_are_filled(self):
+        self.operacao.secao_atual = self.max_section_number
+        self.operacao.houve_ocorrencia_operacao = True
+        self.operacao.save()
+
+        url_name = "operations:form-complete"
+        url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
+
+        resp = self.client.get(url)
+
+        assert resp.status_code == 200
+        self.operacao.refresh_from_db()
+        assert self.operacao.completo
+        assert self.operacao.situacao == "completo com ocorrencia"
