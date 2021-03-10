@@ -151,3 +151,9 @@ class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
     numero_civis_mortos_npap = serializers.IntegerField(min_value=0)
     numero_veiculos_recuperados = serializers.IntegerField(min_value=0)
     numero_adolescentes_apreendidos = serializers.IntegerField(min_value=0)
+
+
+class OperacaoEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Operacao
+        fields = ("bairro",)
