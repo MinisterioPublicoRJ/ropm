@@ -245,7 +245,10 @@ class Operacao(models.Model):
         return self.secao_atual
 
     def make_complete(self):
-        self.completo = True
+        if self.completo is False:
+            self.completo = True
+            self.notify_completion()
+
         self.situacao = self.SITUACAO_CSO
         if self.houve_ocorrencia_operacao is True:
             self.situacao = self.SITUACAO_CCO

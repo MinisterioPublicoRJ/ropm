@@ -41,6 +41,12 @@ class TestOperationMakeComplete(TestCase):
     def setUp(self):
         self.form_uuid = uuid.uuid4()
 
+        self.p_notify = mock.patch.object(Operacao, "notify_completion")
+        self.m_notify = self.p_notify.start()
+
+    def tearDown(self):
+        self.p_notify.stop()
+
     def test_operacao_starts_with_status_incomplete(self):
         operacao = baker.make(
             Operacao,
@@ -52,6 +58,7 @@ class TestOperationMakeComplete(TestCase):
     def test_make_complete(self):
         operacao = baker.make(
             Operacao,
+            completo=False,
             identificador=self.form_uuid,
             houve_ocorrencia_operacao=True
         )
@@ -60,10 +67,12 @@ class TestOperationMakeComplete(TestCase):
         operacao.refresh_from_db()
         assert operacao.completo
         assert operacao.situacao == "completo com ocorrencia"
+        self.m_notify.assert_called_once_with()
 
     def test_make_complete_with_status_not_all_sections_filled(self):
         operacao = baker.make(
             Operacao,
+            completo=False,
             identificador=self.form_uuid,
             houve_ocorrencia_operacao=False
         )
@@ -72,6 +81,21 @@ class TestOperationMakeComplete(TestCase):
         operacao.refresh_from_db()
         assert operacao.completo
         assert operacao.situacao == "completo sem ocorrencia"
+        self.m_notify.assert_called_once_with()
+
+    def test_only_notify_when_complete_for_the_first_time(self):
+        operacao = baker.make(
+            Operacao,
+            completo=True,
+            identificador=self.form_uuid,
+            houve_ocorrencia_operacao=False
+        )
+        operacao.make_complete()
+
+        operacao.refresh_from_db()
+        assert operacao.completo
+        assert operacao.situacao == "completo sem ocorrencia"
+        self.m_notify.assert_not_called()
 
 
 class TestNotifyOperationComplete(TestCase):

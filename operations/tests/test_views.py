@@ -116,6 +116,7 @@ class TestOperationFormCompleteView(TestCase):
         self.operacao = baker.make(
             Operacao,
             usuario=self.user,
+            completo=False,
             secao_atual=Operacao.n_sections + 1,
             identificador=self.form_uuid,
             _fill_optional=True
@@ -123,10 +124,17 @@ class TestOperationFormCompleteView(TestCase):
 
         self.url = reverse(self.url_name, kwargs={"form_uuid": self.form_uuid})
 
+        self.p_notify = mock.patch.object(Operacao, "notify_completion")
+        self.m_notify = self.p_notify.start()
+
+    def tearDown(self):
+        self.p_notify.stop()
+
     def test_correct_response(self):
         resp = self.client.get(self.url)
 
         assert resp.status_code == 200
+        self.m_notify.assert_called_once_with()
 
     def test_404_if_object_does_not_exists(self):
         url = reverse(self.url_name, kwargs={"form_uuid": uuid.uuid4()})
@@ -170,6 +178,11 @@ class TestFillOperacaoFlow(TestCase):
         )
 
         self.max_section_number = Operacao.n_sections + 1
+        self.p_notify = mock.patch.object(Operacao, "notify_completion")
+        self.m_notify = self.p_notify.start()
+
+    def tearDown(self):
+        self.p_notify.stop()
 
     def test_do_not_allow_user_to_skip_mandatory_sections(self):
         url_name = "operations:form-info-operation-page-two"
@@ -226,3 +239,4 @@ class TestFillOperacaoFlow(TestCase):
         self.operacao.refresh_from_db()
         assert self.operacao.completo
         assert self.operacao.situacao == "completo com ocorrencia"
+        self.m_notify.assert_called_once_with()
