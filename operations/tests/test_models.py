@@ -1,8 +1,11 @@
 import uuid
+from unittest import mock
 
+import pytest
 from django.test import TestCase
 from model_bakery import baker
 
+from operations.exceptions import OperationNotCompleteException
 from operations.models import Operacao
 
 
@@ -38,6 +41,12 @@ class TestOperationMakeComplete(TestCase):
     def setUp(self):
         self.form_uuid = uuid.uuid4()
 
+        self.p_notify = mock.patch.object(Operacao, "notify_completion")
+        self.m_notify = self.p_notify.start()
+
+    def tearDown(self):
+        self.p_notify.stop()
+
     def test_operacao_starts_with_status_incomplete(self):
         operacao = baker.make(
             Operacao,
@@ -49,6 +58,7 @@ class TestOperationMakeComplete(TestCase):
     def test_make_complete(self):
         operacao = baker.make(
             Operacao,
+            completo=False,
             identificador=self.form_uuid,
             houve_ocorrencia_operacao=True
         )
@@ -57,10 +67,12 @@ class TestOperationMakeComplete(TestCase):
         operacao.refresh_from_db()
         assert operacao.completo
         assert operacao.situacao == "completo com ocorrencia"
+        self.m_notify.assert_called_once_with()
 
     def test_make_complete_with_status_not_all_sections_filled(self):
         operacao = baker.make(
             Operacao,
+            completo=False,
             identificador=self.form_uuid,
             houve_ocorrencia_operacao=False
         )
@@ -69,3 +81,47 @@ class TestOperationMakeComplete(TestCase):
         operacao.refresh_from_db()
         assert operacao.completo
         assert operacao.situacao == "completo sem ocorrencia"
+        self.m_notify.assert_called_once_with()
+
+    def test_only_notify_when_complete_for_the_first_time(self):
+        operacao = baker.make(
+            Operacao,
+            completo=True,
+            identificador=self.form_uuid,
+            houve_ocorrencia_operacao=False
+        )
+        operacao.make_complete()
+
+        operacao.refresh_from_db()
+        assert operacao.completo
+        assert operacao.situacao == "completo sem ocorrencia"
+        self.m_notify.assert_not_called()
+
+
+class TestNotifyOperationComplete(TestCase):
+    def setUp(self):
+        self.identificador = uuid.uuid4()
+        self.operacao_completa = baker.make(
+            Operacao,
+            completo=True,
+            identificador=self.identificador
+        )
+        self.operacao_incompleta = baker.make(
+            Operacao,
+            completo=False,
+            identificador=uuid.uuid4()
+        )
+        self.p_notifica_por_email = mock.patch("operations.models.notifica_por_email")
+        self.m_noifica_por_email = self.p_notifica_por_email.start()
+
+    def tearDown(self):
+        self.p_notifica_por_email.stop()
+
+    def test_notify_when_complete(self):
+        self.operacao_completa.notify_completion()
+
+        self.m_noifica_por_email.assert_called_once_with(self.operacao_completa)
+
+    def test_raise_exception_when_not_complete(self):
+        with pytest.raises(OperationNotCompleteException):
+            self.operacao_incompleta.notify_completion()

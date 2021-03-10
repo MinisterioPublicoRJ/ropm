@@ -1,6 +1,8 @@
 from django.db import models
 
 from users.models import User
+from operations.exceptions import OperationNotCompleteException
+from operations.mail import notifica_por_email
 
 
 class InformacaoManager(models.Manager):
@@ -243,9 +245,18 @@ class Operacao(models.Model):
         return self.secao_atual
 
     def make_complete(self):
-        self.completo = True
+        if self.completo is False:
+            self.completo = True
+            self.notify_completion()
+
         self.situacao = self.SITUACAO_CSO
         if self.houve_ocorrencia_operacao is True:
             self.situacao = self.SITUACAO_CCO
 
         self.save()
+
+    def notify_completion(self):
+        if self.completo is False:
+            raise OperationNotCompleteException
+
+        notifica_por_email(self)
