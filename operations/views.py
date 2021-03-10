@@ -52,8 +52,7 @@ class OperationViewMixin:
         self.operacao = self.get_operation(self.request.user, self.form_uuid)
 
         if (
-            self.operacao.houve_ocorrencia_operacao is not None and
-            not self.operacao.houve_ocorrencia_operacao and
+            self.operacao.houve_ocorrencia_operacao is False and
             self.section_number in settings.SKIPPABLE_SECTIONS
         ):
             return redirect(
@@ -212,10 +211,15 @@ class FormCompleteView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         form_uuid = self.kwargs.get(self.lookup_url_kwarg)
-        operacao = self.get_operation(self.request.user, form_uuid)
+        self.operacao = self.get_operation(self.request.user, form_uuid)
         context["form_uuid"] = form_uuid
-        context["operacao_info"] = self.get_serialized_data(operacao)
+        context["operacao_info"] = self.get_serialized_data(self.operacao)
         return context
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        self.operacao.make_complete()
+        return response
 
 
 class OperationListView(LoginRequiredMixin, ListView):

@@ -18,6 +18,11 @@ class Operacao(models.Model):
 
     objects = InformacaoManager()
 
+    SITUACAO_CADASTRO = [
+        ("incompleto", "Incompleto"),
+        ("completo sem ocorrencia", "Completo sem Ocorrência"),
+        ("completo com ocorrencia", "Completo com Ocorrência"),
+    ]
     POSTO_COMANDANTE = [
         ("Cel", "Coronel"),
         ("Ten Cel", "Tenente Coronel"),
@@ -44,6 +49,13 @@ class Operacao(models.Model):
     ]
 
     secao_atual = models.PositiveIntegerField("Seção Atual", default=1)
+    completo = models.BooleanField("Cadastro Completo", default=False)
+    situacao = models.CharField(
+        "Situação Cadastro",
+        max_length=100,
+        choices=SITUACAO_CADASTRO,
+        default=SITUACAO_CADASTRO[0][0]
+    )
 
     identificador = models.UUIDField(unique=True, editable=False)
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
@@ -226,3 +238,11 @@ class Operacao(models.Model):
         self.save()
 
         return self.secao_atual
+
+    def make_complete(self):
+        self.completo = True
+        self.situacao = self.SITUACAO_CADASTRO[1][0]
+        if self.houve_ocorrencia_operacao is True:
+            self.situacao = self.SITUACAO_CADASTRO[2][0]
+
+        self.save()
