@@ -1,8 +1,11 @@
 import uuid
+from unittest import mock
 
+import pytest
 from django.test import TestCase
 from model_bakery import baker
 
+from operations.exceptions import OperationNotCompleteException
 from operations.models import Operacao
 
 
@@ -69,3 +72,32 @@ class TestOperationMakeComplete(TestCase):
         operacao.refresh_from_db()
         assert operacao.completo
         assert operacao.situacao == "completo sem ocorrencia"
+
+
+class TestNotifyOperationComplete(TestCase):
+    def setUp(self):
+        self.identificador = uuid.uuid4()
+        self.operacao_completa = baker.make(
+            Operacao,
+            completo=True,
+            identificador=self.identificador
+        )
+        self.operacao_incompleta = baker.make(
+            Operacao,
+            completo=False,
+            identificador=uuid.uuid4()
+        )
+        self.p_notifica_por_email = mock.patch("operations.models.notifica_por_email")
+        self.m_noifica_por_email = self.p_notifica_por_email.start()
+
+    def tearDown(self):
+        self.p_notifica_por_email.stop()
+
+    def test_notify_when_complete(self):
+        self.operacao_completa.notify_completion()
+
+        self.m_noifica_por_email.assert_called_once_with(self.operacao_completa)
+
+    def test_raise_exception_when_not_complete(self):
+        with pytest.raises(OperationNotCompleteException):
+            self.operacao_incompleta.notify_completion()

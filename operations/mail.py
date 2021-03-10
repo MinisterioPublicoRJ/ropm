@@ -21,3 +21,14 @@ def envia_email(msg, from_, dest, subject):
 
     server = email_login()
     server.sendmail(from_, dest, msg_mime.as_string())
+
+
+def notifica_por_email(operacao):
+    from operations.messages import Mensagem
+    message = Mensagem(operacao=operacao)
+    envia_email(
+        message.render(),
+        from_=settings.EMAIL_HOST_USER,
+        dest=settings.EMAIL_DEST_NOTIFY,
+        subject=settings.EMAIL_SUBJECT
+    )
