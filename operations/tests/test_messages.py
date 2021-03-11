@@ -12,7 +12,13 @@ class TestMensagem(TestCase):
 
     def test_get_message_context(self):
         context = self.message.context
-        expected_context = {"bairro": self.operacao.bairro}
+        expected_context = {
+            "localidade": self.operacao.localidade,
+            "batalhao_responsavel": self.operacao.batalhao_responsavel,
+            "data": self.operacao.data.strftime("%d/%m/%Y"),
+            "tipo_operacao": self.operacao.tipo_operacao,
+            "objetivo_estrategico_operacao": self.operacao.objetivo_estrategico_operacao,
+        }
 
         assert context == expected_context
 
@@ -21,4 +27,4 @@ class TestMensagem(TestCase):
 
         assert "<html>" in rendered_messaege
         assert "</html>" in rendered_messaege
-        assert self.operacao.bairro in rendered_messaege
+        assert self.operacao.localidade in rendered_messaege
