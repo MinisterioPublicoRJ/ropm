@@ -18,13 +18,14 @@ class TestMensagem(TestCase):
             "data": self.operacao.data.strftime("%d/%m/%Y"),
             "tipo_operacao": self.operacao.get_tipo_operacao_display(),
             "objetivo_estrategico_operacao": self.operacao.objetivo_estrategico_operacao,
+            "operacao_admin_url": self.operacao.get_admin_url,
         }
 
         assert context == expected_context
 
     def test_render_message(self):
-        rendered_messaege = self.message.render()
+        rendered_message = self.message.render()
 
-        assert "<html>" in rendered_messaege
-        assert "</html>" in rendered_messaege
-        assert self.operacao.localidade in rendered_messaege
+        assert "<html>" in rendered_message
+        assert "</html>" in rendered_message
+        assert self.operacao.localidade in rendered_message

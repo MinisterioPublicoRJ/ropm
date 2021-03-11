@@ -162,3 +162,5 @@ EMAIL_DEST_NOTIFY = config("EMAIL_DEST_NOTIFY", cast=Csv(), default="")
 EMAIL_SUBJECT = config("EMAIL_SUBJECT", default="")
 
 SKIPPABLE_SECTIONS = (6, 7)
+
+SITE_URL = config("SITE_URL", default="localhost:8888")

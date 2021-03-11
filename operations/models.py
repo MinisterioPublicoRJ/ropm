@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 from users.models import User
 from operations.exceptions import OperationNotCompleteException
@@ -255,6 +256,14 @@ class Operacao(models.Model):
         db_table = "operacao"
         verbose_name = "operação"
         verbose_name_plural = "operações"
+
+    @property
+    def get_admin_url(self):
+        path = reverse(
+            "admin:%s_%s_change" % (self._meta.app_label, self._meta.model_name),
+            args=[self.id]
+        )
+        return f"{settings.SITE_URL}{path}"
 
     def update_section(self, new_section):
         self.secao_atual = new_section
