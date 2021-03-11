@@ -195,14 +195,28 @@ class FormCompleteView(LoginRequiredMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         # TODO: Refatorar essa lógica
-        handler = super().dispatch(request, *args, **kwargs)
-        if request.user.is_anonymous:
-            return handler
+
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
 
         self.form_uuid = self.kwargs.get(self.lookup_url_kwarg)
         self.operacao = self.get_operation(self.request.user, self.form_uuid)
 
         secao_atual_url = URL_SECTION_MAPPER.get(self.operacao.secao_atual)
+        if self.operacao.houve_ocorrencia_operacao is None:
+            return redirect(
+                reverse(secao_atual_url, kwargs={"form_uuid": self.form_uuid})
+            )
+        elif (
+            self.operacao.houve_ocorrencia_operacao is True and
+            self.operacao.secao_atual < Operacao.n_sections
+        ):
+            return redirect(
+                reverse(secao_atual_url, kwargs={"form_uuid": self.form_uuid})
+            )
+
+        handler = super().dispatch(request, *args, **kwargs)
+
         if self.operacao.secao_atual == Operacao.n_sections + 1:
             return handler
         if (
