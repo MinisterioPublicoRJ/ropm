@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from users.models import User
@@ -276,4 +277,5 @@ class Operacao(models.Model):
         if self.completo is False:
             raise OperationNotCompleteException
 
-        notifica_por_email(self)
+        if not settings.DEBUG:
+            notifica_por_email(self)

@@ -2,7 +2,7 @@ import uuid
 from unittest import mock
 
 import pytest
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from model_bakery import baker
 
 from operations.exceptions import OperationNotCompleteException
@@ -117,6 +117,7 @@ class TestNotifyOperationComplete(TestCase):
     def tearDown(self):
         self.p_notifica_por_email.stop()
 
+    @override_settings(DEBUG=False)
     def test_notify_when_complete(self):
         self.operacao_completa.notify_completion()
 
@@ -125,3 +126,9 @@ class TestNotifyOperationComplete(TestCase):
     def test_raise_exception_when_not_complete(self):
         with pytest.raises(OperationNotCompleteException):
             self.operacao_incompleta.notify_completion()
+
+    @override_settings(DEBUG=True)
+    def test_donot_notfy_when_in_debug_mode(self):
+        self.operacao_completa.notify_completion()
+
+        self.m_noifica_por_email.assert_not_called()
