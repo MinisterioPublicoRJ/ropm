@@ -44,13 +44,13 @@
         <div class="box-form-group">
           <div class="">
             <label for="name">Justificativa da excepcionalidade da operação</label>
-            <input style="width: 100vh; height: 150px" type="text" id="justificativa_excepcionalidade_operacao" value="{{ operacao_info.justificativa_excepcionalidade_operacao|default:'' }}" name="justificativa_excepcionalidade_operacao" required>
+            <textarea style="width: 100vh; height: 150px" type="text" id="justificativa_excepcionalidade_operacao" value="{{ operacao_info.justificativa_excepcionalidade_operacao|default:'' }}" name="justificativa_excepcionalidade_operacao" required></textarea>
           </div>
         </div>
         <div class="box-form-group">
           <div class="">
             <label for="name">Análise de riscos e medidas de controles de danos colaterais das operações e de disparos de confrontos</label>
-            <input style="width: 100vh; height: 150px;"  type="text" id="descricao_analise_risco" value="{{ operacao_info.descricao_analise_risco|default:'' }}" name="descricao_analise_risco" required>
+            <textarea style="width: 100vh; height: 150px;"  type="text" id="descricao_analise_risco" value="{{ operacao_info.descricao_analise_risco|default:'' }}" name="descricao_analise_risco" required></textarea>
           </div>
         </div>
       </form>
