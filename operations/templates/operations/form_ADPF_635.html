@@ -27,7 +27,7 @@
         <progress  max="100" value="0" id="progressbar"></progress>
         <ul class="progressbar">
             <li class="progressbar-checked"></li>
-            <li class="progressbar-checked"></li>
+            <li></li>
             <li></li>
             <li></li>
             <li></li>
@@ -44,19 +44,19 @@
         <div class="box-form-group">
           <div class="">
             <label for="name">Justificativa da excepcionalidade da operação</label>
-            <input style="width: 100vh; height: 150px" type="text" id="justificativa_excepcionalidade_operacao" value={{ operacao_info.justificativa_excepcionalidade_operacao|default:"''" }} name="justificativa_excepcionalidade_operacao" required>
+            <input style="width: 100vh; height: 150px" type="text" id="justificativa_excepcionalidade_operacao" value="{{ operacao_info.justificativa_excepcionalidade_operacao|default:'' }}" name="justificativa_excepcionalidade_operacao" required>
           </div>
         </div>
         <div class="box-form-group">
           <div class="">
             <label for="name">Análise de riscos e medidas de controles de danos colaterais das operações e de disparos de confrontos</label>
-            <input style="width: 100vh; height: 150px;"  type="text" id="descricao_analise_risco" value={{ operacao_info.descricao_analise_risco|default:"''" }} name="descricao_analise_risco" required>
+            <input style="width: 100vh; height: 150px;"  type="text" id="descricao_analise_risco" value="{{ operacao_info.descricao_analise_risco|default:'' }}" name="descricao_analise_risco" required>
           </div>
         </div>
       </form>
       <div class="btns-forms">
         <div class="btns-forms">
-          <a href="{% url 'operations:form-info-operation-page-one' form_uuid %}">
+          <a href="{% url 'operations:form-update' form_uuid %}">
             <button type="submit" class="btn-previus">Anterior</button>
           </a>
         </div>
@@ -71,9 +71,10 @@
 {% block extra_js %}
 <script>
   const FORWARD_URL = '/operacoes/cadastro/informacoes/operacionais/parte-1/';
-  const API_URL = '/v1/operacoes/cria-informacoes-operacionais-parte-1/';
-  const FORM_VAR_LIST = {   
+  const API_URL = '/v1/operacoes/cria-informacoes-adpf635/';
+  const FORM_VAR_LIST = {
+      "justificativa_excepcionalidade_operacao": "#justificativa_excepcionalidade_operacao",
+      "descricao_analise_risco": "#descricao_analise_risco",
   };
-  
   </script>
 {% endblock extra_js %}

@@ -36,11 +36,6 @@ urlpatterns = [
         name="form-info-ocurrence-page-one"
     ),
     path(
-        "cadastro/completo/<uuid:form_uuid>",
-        views.FormCompleteView.as_view(),
-        name="form-complete"
-    ),
-    path(
         "cadastro/informacoes/ocorrencia/parte-2/<uuid:form_uuid>",
         views.OperationOcurrencePageTwoView.as_view(),
         name="form-info-ocurrence-page-two"
@@ -49,6 +44,11 @@ urlpatterns = [
         "cadastro/informacoes/observacoes/<uuid:form_uuid>",
         views.OperationGeneralObservation.as_view(),
         name="form-observacoes-gerais"
+    ),
+    path(
+        "cadastro/completo/<uuid:form_uuid>",
+        views.FormCompleteView.as_view(),
+        name="form-complete"
     ),
     path("lista/", views.OperationListView.as_view(), name="operations-list"),
     path("painel/", views.PanelListView.as_view(), name="operations-panel"),

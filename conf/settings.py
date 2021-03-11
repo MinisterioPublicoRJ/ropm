@@ -156,4 +156,4 @@ LOGIN_URL = reverse_lazy("login")
 
 OPERATIONS_PER_PAGE = config("OPERATIONS_PER_PAGE", cast=int, default=10)
 
-SKIPPABLE_SECTIONS = (5, 6)
+SKIPPABLE_SECTIONS = (6, 7)
