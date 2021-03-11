@@ -16,7 +16,7 @@ class TestMensagem(TestCase):
             "localidade": self.operacao.localidade,
             "batalhao_responsavel": self.operacao.batalhao_responsavel,
             "data": self.operacao.data.strftime("%d/%m/%Y"),
-            "tipo_operacao": self.operacao.tipo_operacao,
+            "tipo_operacao": self.operacao.get_tipo_operacao_display(),
             "objetivo_estrategico_operacao": self.operacao.objetivo_estrategico_operacao,
         }
 

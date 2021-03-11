@@ -164,6 +164,7 @@ class GeneralObservationSerializer(OperacaoSerializer):
 
 class OperacaoEmailSerializer(serializers.ModelSerializer):
     data = serializers.DateField(format="%d/%m/%Y")
+    tipo_operacao = serializers.CharField(source="get_tipo_operacao_display")
 
     class Meta:
         model = Operacao
