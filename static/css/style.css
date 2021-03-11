@@ -32,16 +32,27 @@ a:link{
 }
 .progressbar-text{
   display: flex;
-  font-size: 0.620rem;
+  font-size: 0.570rem;
   margin-top: 32px;
   color: #707070;
-  max-width: 100vh;
 }
 .progressbar-text p:nth-child(1){
-  margin-left: -20px !important;
+  margin-left: -16px !important;
 }
-.progressbar-text p{
-  margin-left: 32px !important;
+.progressbar-text p:nth-child(2){
+  margin-left: 15px !important;
+}
+.progressbar-text p:nth-child(3){
+  margin-left: 25px !important;
+}
+.progressbar-text p:nth-child(4){
+  margin-left: 25px !important;
+}
+.progressbar-text p:nth-child(8){
+  margin-right: 30px !important;
+}
+.progressbar-text p:nth-child(9){
+  margin-right: 30px !important;
 }
 progress::-moz-progress-bar {
   background: #0055FF;
