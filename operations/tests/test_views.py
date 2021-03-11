@@ -176,8 +176,8 @@ class TestFillOperacaoFlow(TestCase):
 
         assert resp.status_code == 302  # Redirects to previews filled section
 
-    def test_go_to_complete_form_view_if_houve_ocorrencia(self):
-        self.operacao.secao_atual = 5
+    def test_go_to_next_mandatory_view_if_NOT_houve_ocorrencia(self):
+        self.operacao.secao_atual = 6
         self.operacao.houve_ocorrencia_operacao = False
         self.operacao.save()
 
@@ -186,9 +186,24 @@ class TestFillOperacaoFlow(TestCase):
 
         resp = self.client.get(url)
 
-        expected_url = reverse("operations:form-complete", kwargs={"form_uuid": self.form_uuid})
+        expected_url = reverse(
+            "operations:form-observacoes-gerais",
+            kwargs={"form_uuid": self.form_uuid}
+        )
         assert resp.status_code == 302
         self.assertRedirects(resp, expected_url, fetch_redirect_response=False)
+
+    def test_go_to_skippable_view_if_houve_ocorrencia(self):
+        self.operacao.secao_atual = 6
+        self.operacao.houve_ocorrencia_operacao = True
+        self.operacao.save()
+
+        url_name = "operations:form-info-ocurrence-page-one"
+        url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
+
+        resp = self.client.get(url)
+
+        assert resp.status_code == 200
 
     def test_only_go_to_complete_only_when_form_is_complete(self):
         self.operacao.secao_atual = 2
