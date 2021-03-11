@@ -156,9 +156,9 @@ LOGIN_URL = reverse_lazy("login")
 
 OPERATIONS_PER_PAGE = config("OPERATIONS_PER_PAGE", cast=int, default=10)
 
-SKIPPABLE_SECTIONS = (5, 6)
-
 EMAIL_SMTP_SERVER = config("EMAIL_SMTP_SERVER", default="")
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
 EMAIL_DEST_NOTIFY = config("EMAIL_DEST_NOTIFY", cast=Csv(), default="")
 EMAIL_SUBJECT = config("EMAIL_SUBJECT", default="")
+
+SKIPPABLE_SECTIONS = (6, 7)

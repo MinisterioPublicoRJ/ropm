@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Cadastro de Operaçãoes</title>
+{% endblock title %}
+
+{% block content %}
+<div class="operation-form">
+  <div class="main-page-form">
+    <div class="header-form">
+      <div class="text-header-form">
+        <span>Cadastro de Operações</span>
+        <p>Observações Gerais</p>
+      </div>
+      <div>
+        <div class="progressbar-text">
+        <p>Informações Gerais</p>
+        <p>ADPF 635</p>
+        <p>Informações Operacionais 1/1</p>
+        <p>Informações Operacionais 1/2</p>
+        <p>Informações de Resultado</p>
+        <p>Informações da Ocorrência 1/1</p>
+        <p>Informações da Ocorrência 1/2</p>
+        <p>Observações Gerais</p>
+        <p>Finalizar cadastro</p>
+        </div>
+        <progress  max="100" value="90" id="progressbar"></progress>
+        <ul class="progressbar">
+            <li class="progressbar-checked"></li>
+            <li class="progressbar-checked"></li>
+            <li class="progressbar-checked"></li>
+            <li class="progressbar-checked"></li>
+            <li class="progressbar-checked"></li>
+            <li class="progressbar-checked"></li>
+            <li class="progressbar-checked"></li>
+            <li></li>
+            <li></li>
+        </ul>
+      </div>
+    </div>
+    <div class="form-main">
+      <form action="/" id="main-form"   method="post" enctype="multipart/form-data">
+          <input type="hidden" id="form_uuid" value="{{ form_uuid }}" >
+        <div class="box-form-group">
+          <div class="">
+            <label for="name">Observações gerais da operação</label>
+            <input style="width: 100vh; height: 150px;"  type="text" id="observations" value="{{ operacao_info.observations|default:'' }}" name="observations">
+          </div>
+        </div>
+      </form>
+      </div>
+      <div class="btns-forms">
+        <div class="btns-forms">
+          <a href="{% url 'operations:form-info-ocurrence-page-two' form_uuid %}">
+            <button type="submit" class="btn-previus">Anterior</button>
+          </a>
+        </div>
+          <button type="submit" class="btn-next" onclick="submitFormInfo(event);">Finalizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+  const FORWARD_URL = '/operacoes/cadastro/completo/';
+  const API_URL = '/v1/operacoes/cria-informacoes-observacoes-gerais/';
+  const FORM_VAR_LIST = {
+      "observations": "#observations"
+  };
+  </script>
+  {% endblock extra_js %}

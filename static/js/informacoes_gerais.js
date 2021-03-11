@@ -1,4 +1,4 @@
-const FORWARD_URL = '/operacoes/cadastro/informacoes/operacionais/parte-1/';
+const FORWARD_URL = '/operacoes/cadastro/informacoes/adpf-635/';
 const API_URL = '/v1/operacoes/cria-informacoes-gerais/';
 const FORM_VAR_LIST = {
     "data": "#data",

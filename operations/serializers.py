@@ -47,6 +47,11 @@ class InfoGeraisOperacaoSerializer(OperacaoSerializer):
         return attrs
 
 
+class InfoADPF635Serializer(OperacaoSerializer):
+    justificativa_excepcionalidade_operacao = serializers.CharField(required=True)
+    descricao_analise_risco = serializers.CharField(required=True)
+
+
 class InfoOperacionaisOperacaoOneSerializer(OperacaoSerializer):
     unidade_responsavel = serializers.CharField(required=True)
     unidade_apoiadora = serializers.CharField(allow_blank=True)
@@ -151,6 +156,10 @@ class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
     numero_civis_mortos_npap = serializers.IntegerField(min_value=0)
     numero_veiculos_recuperados = serializers.IntegerField(min_value=0)
     numero_adolescentes_apreendidos = serializers.IntegerField(min_value=0)
+
+
+class GeneralObservationSerializer(OperacaoSerializer):
+    observations = serializers.CharField(allow_blank=True)
 
 
 class OperacaoEmailSerializer(serializers.ModelSerializer):

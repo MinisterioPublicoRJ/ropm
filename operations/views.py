@@ -9,6 +9,8 @@ from django.urls import reverse
 from coredata.models import Bairro, Batalhao, Municipio
 from operations.models import Operacao
 from operations.serializers import (
+    GeneralObservationSerializer,
+    InfoADPF635Serializer,
     InfoGeraisOperacaoSerializer,
     InfoOperacionaisOperacaoOneSerializer,
     InfoOperacionaisOperacaoTwoSerializer,
@@ -20,11 +22,14 @@ from operations.serializers import (
 
 URL_SECTION_MAPPER = {
     1: "operations:form-update",
-    2: "operations:form-info-operation-page-one",
-    3: "operations:form-info-operation-page-two",
-    4: "operations:form-info-result",
-    5: "operations:form-info-ocurrence-page-one",
-    6: "operations:form-info-ocurrence-page-two",
+    2: "operations:form-info-adpf-635",
+    3: "operations:form-info-operation-page-one",
+    4: "operations:form-info-operation-page-two",
+    5: "operations:form-info-result",
+    6: "operations:form-info-ocurrence-page-one",
+    7: "operations:form-info-ocurrence-page-two",
+    8: "operations:form-observacoes-gerais",
+    9: "operations:form-complete",
 }
 
 
@@ -55,9 +60,14 @@ class OperationViewMixin:
             self.operacao.houve_ocorrencia_operacao is False and
             self.section_number in settings.SKIPPABLE_SECTIONS
         ):
-            return redirect(
-                reverse("operations:form-complete", kwargs={"form_uuid": self.form_uuid})
+            self.operacao.update_section(OperationGeneralObservation.section_number)
+            reverse_url = reverse(
+                "operations:form-observacoes-gerais",
+                kwargs={"form_uuid": self.form_uuid}
             )
+            if request.path != reverse_url:
+                return redirect(reverse_url)
+
         if self.section_number > self.operacao.secao_atual:
             secao_atual_url = URL_SECTION_MAPPER[self.operacao.secao_atual]
             return redirect(
@@ -101,13 +111,21 @@ class UpdateOperationReportView(LoginRequiredMixin, OperationViewMixin, Template
         return context
 
 
+class OperationADPF635View(LoginRequiredMixin, OperationViewMixin, TemplateView):
+    template_name = "operations/form_ADPF_635.html"
+    lookup_url_kwarg = "form_uuid"
+    serializer_class = InfoADPF635Serializer
+
+    section_number = 2
+
+
 # TODO: add tests
 class OperationInfoPageOneView(LoginRequiredMixin, OperationViewMixin, TemplateView):
     template_name = "operations/form_template_info_operation_page_one.html"
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoOperacionaisOperacaoOneSerializer
 
-    section_number = 2
+    section_number = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -120,7 +138,7 @@ class OperationInfoPageTwoView(LoginRequiredMixin, OperationViewMixin, TemplateV
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoOperacionaisOperacaoTwoSerializer
 
-    section_number = 3
+    section_number = 4
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -134,7 +152,7 @@ class OperationInfoResultRegisterView(LoginRequiredMixin, OperationViewMixin, Te
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoResultadosOperacaoSerializer
 
-    section_number = 4
+    section_number = 5
 
 
 class OperationOcurrencePageOneView(LoginRequiredMixin, OperationViewMixin, TemplateView):
@@ -142,7 +160,7 @@ class OperationOcurrencePageOneView(LoginRequiredMixin, OperationViewMixin, Temp
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoOcorrenciaOneSerializer
 
-    section_number = 5
+    section_number = 6
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -155,14 +173,22 @@ class OperationOcurrencePageTwoView(LoginRequiredMixin, OperationViewMixin, Temp
     lookup_url_kwarg = "form_uuid"
     serializer_class = InfoOcorrenciaTwoSerializer
 
-    section_number = 6
+    section_number = 7
+
+
+class OperationGeneralObservation(LoginRequiredMixin, OperationViewMixin, TemplateView):
+    template_name = "operations/general_observations.html"
+    lookup_url_kwarg = "form_uuid"
+    serializer_class = GeneralObservationSerializer
+
+    section_number = 8
 
 
 class FormCompleteView(LoginRequiredMixin, TemplateView):
     template_name = "operations/form_complete.html"
     lookup_url_kwarg = "form_uuid"
 
-    section_number = 6
+    section_number = 8
 
     def get_serialized_data(self, operacao):
         return {}

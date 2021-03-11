@@ -15,16 +15,20 @@
       <div>
         <div class="progressbar-text">
         <p>Informações Gerais</p>
+        <p>ADPF 635</p>
         <p>Informações Operacionais 1/1</p>
         <p>Informações Operacionais 1/2</p>
         <p>Informações de Resultado</p>
         <p>Informações da Ocorrência 1/1</p>
         <p>Informações da Ocorrência 1/2</p>
+        <p>Observações Gerais</p>
         <p>Finalizar cadastro</p>
         </div>
         <progress  max="100" value="17" id="progressbar"></progress>
         <ul class="progressbar">
             <li class="progressbar-checked"></li>
+            <li class="progressbar-checked"></li>
+            <li></li>
             <li></li>
             <li></li>
             <li></li>
@@ -75,7 +79,7 @@
       </form>
       <div class="btns-forms">
         <div class="btns-forms">
-          <a href="{% url 'operations:form-update' form_uuid %}">
+          <a href="{% url 'operations:form-info-adpf-635' form_uuid %}">
             <button type="submit" class="btn-previus">Anterior</button>
           </a>
         </div>

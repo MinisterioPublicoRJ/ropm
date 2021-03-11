@@ -15,9 +15,10 @@
     display: block;
     border-radius: 50%;
     color: transparent;
-    margin-left: -41px;
+    margin-left: -61px;
     margin-right: -2px;
 }
+
 .progressbar-checked {
     border: 6px solid #4AD13B !important;
     background-color: #4AD13B !important;

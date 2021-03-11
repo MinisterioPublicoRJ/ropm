@@ -17,6 +17,11 @@ urlpatterns = [
         name="create-general-info"
     ),
     path(
+        "cria-informacoes-adpf635/<uuid:form_uuid>",
+        api_views.OperationInfoADPF635ViewSet.as_view(single_actions),
+        name="create-adpf635l-info"
+    ),
+    path(
         "cria-informacoes-operacionais-parte-1/<uuid:form_uuid>",
         api_views.OperationalInfoOneViewSet.as_view(single_actions),
         name="create-operational-info-1"
@@ -40,5 +45,10 @@ urlpatterns = [
         "cria-informacoes-ocorrencia-parte-2/<uuid:form_uuid>",
         api_views.OcurrenceInfoTwoViewSet.as_view(single_actions),
         name="create-ocurrence-info-2"
+    ),
+    path(
+        "cria-informacoes-observacoes-gerais/<uuid:form_uuid>",
+        api_views.GeneralObservationViewSet.as_view(single_actions),
+        name="create-general-observation"
     ),
 ]

@@ -16,7 +16,7 @@ class InformacaoManager(models.Manager):
 
 
 class Operacao(models.Model):
-    n_sections = 6
+    n_sections = 8
 
     objects = InformacaoManager()
 
@@ -75,6 +75,17 @@ class Operacao(models.Model):
     endereco_referencia = models.CharField("Endereço de referência", max_length=255, null=True, blank=True)
     coordenadas_geo = models.CharField("Referência geográfica", max_length=100, null=True, blank=True)
     batalhao_responsavel = models.CharField("Batalhão Responsável", max_length=255, null=True, blank=True)
+
+    justificativa_excepcionalidade_operacao = models.TextField(
+        "Justificativa da excepcionalidade da operação",
+        null=True,
+        blank=True
+    )
+    descricao_analise_risco = models.TextField(
+        "Análise de riscos e medidas de controles de danos colaterais das operações e de disparos de confrontos",
+        null=True,
+        blank=True
+    )
 
     unidade_responsavel = models.CharField("Unidade operacional responsável", max_length=255, null=True, blank=True)
     unidade_apoiadora = models.CharField("Unidade Apoiadora", max_length=255, null=True, blank=True)
@@ -229,6 +240,12 @@ class Operacao(models.Model):
     )
     numero_veiculos_recuperados = models.PositiveIntegerField(
         "Número de veículos recuperados",
+        null=True,
+        blank=True
+    )
+
+    observations = models.TextField(
+        "Observações gerais",
         null=True,
         blank=True
     )
