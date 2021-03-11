@@ -68,7 +68,6 @@ class Operacao(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
     criado_em = models.DateTimeField("Criado em", auto_now_add=True)
-    editado = models.BooleanField("Editado", default=False)
     data = models.DateField("Data", null=True, blank=True)
     hora = models.TimeField("Hora", null=True, blank=True)
     localidade = models.CharField("Localidade", max_length=255, null=True, blank=True)
