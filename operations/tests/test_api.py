@@ -1,10 +1,12 @@
 import uuid
+from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from model_bakery import baker
 
+from coredata.models import Bairro, Batalhao, Municipio
 from operations.models import Operacao
 from operations.model_recipes import (
     op_recipe_with_occurence,
@@ -12,13 +14,17 @@ from operations.model_recipes import (
 )
 
 from operations.api_views import (
+    GeneralInfoViewSet,
     OcurrenceInfoOneViewSet,
     OcurrenceInfoTwoViewSet,
+    OperationInfoADPF635ViewSet,
     OperationalInfoOneViewSet,
     OperationalInfoTwoViewSet,
     ResultInfoViewSet,
 )
 from operations.serializers import (
+    GeneralObservationSerializer,
+    InfoADPF635Serializer,
     InfoOcorrenciaOneSerializer,
     InfoOcorrenciaTwoSerializer,
     InfoOperacionaisOperacaoOneSerializer,
@@ -34,6 +40,27 @@ class TestSendInformacaoGeralOperacao(TestCase):
     url_name = "api-operations:create-general-info"
 
     def setUp(self):
+        self.nm_mun = "Municipio"
+        self.bairro = "Bairro"
+        self.batalhao = "Batalhao"
+        self.p_municipios = mock.patch.object(Municipio.objects, "get_ordered_values")
+        self.m_municpios = self.p_municipios.start()
+        self.m_municipio_qs = mock.Mock()
+        self.m_municipio_qs.values_list.return_value = (self.nm_mun,)
+        self.m_municpios.return_value = self.m_municipio_qs
+
+        self.p_bairros = mock.patch.object(Bairro.objects, "get_ordered_for_municipio")
+        self.m_bairros = self.p_bairros.start()
+        self.m_bairros_qs = mock.Mock()
+        self.m_bairros_qs.values_list.return_value = (self.bairro,)
+        self.m_bairros.return_value = self.m_bairros_qs
+
+        self.p_batalhoes = mock.patch.object(Batalhao.objects, "get_ordered_for_municipio")
+        self.m_batalhoes = self.p_batalhoes.start()
+        self.m_batalhoes_qs = mock.Mock()
+        self.m_batalhoes_qs.values_list.return_value = (self.batalhao,)
+        self.m_batalhoes.return_value = self.m_batalhoes_qs
+
         self.username = "username"
         self.pwd = "pwd1234"
 
@@ -47,12 +74,17 @@ class TestSendInformacaoGeralOperacao(TestCase):
             "data": "2021-02-12",
             "hora": "12:00:00",
             "localidade": "Rua A",
-            "bairro": "Bairro B",
-            "municipio": "Rio de Janeiro",
+            "bairro": self.bairro,
+            "municipio": self.nm_mun,
             "endereco_referencia": "Primeira rua",
             "coordenadas_geo": "-12.9999,45.4555",
-            "batalhao_responsavel": "X BPM",
+            "batalhao_responsavel": self.batalhao,
         }
+
+    def tearDown(self):
+        self.p_municipios.stop()
+        self.p_bairros.stop()
+        self.p_batalhoes.stop()
 
     def test_save_database_info(self):
         resp = self.client.put(
@@ -98,6 +130,8 @@ class TestSendInformacaoGeralOperacao(TestCase):
         operacao = baker.make(Operacao, usuario=self.user, identificador=self.form_uuid)
 
         new_info = "Novo Bairro"
+        # make new info valid bairro name
+        self.m_bairros_qs.values_list.return_value = (new_info,)
         self.form_data["bairro"] = new_info
         resp = self.client.put(
             self.url,
@@ -304,10 +338,10 @@ class TestOperationSectionFlowMixin:
         self.form_data = self.serializer_class(self.op_recipe_obj).data
 
 
-class TestOperationUpdateToSecondSection(TestOperationSectionFlowMixin, TestCase):
-    url_name = "operations_api:create-operational-info-1"
-    view_class = OperationalInfoOneViewSet
-    serializer_class = InfoOperacionaisOperacaoOneSerializer
+class TestADPF635ViewSet(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-adpf635l-info"
+    view_class = OperationInfoADPF635ViewSet
+    serializer_class = InfoADPF635Serializer
     expected_section = 3
 
     def test_update_section_when_saving_data(self):
@@ -321,10 +355,10 @@ class TestOperationUpdateToSecondSection(TestOperationSectionFlowMixin, TestCase
         assert self.operacao.secao_atual == self.expected_section
 
 
-class TestOperationUpdateToThirdSection(TestOperationSectionFlowMixin, TestCase):
-    url_name = "operations_api:create-operational-info-2"
-    view_class = OperationalInfoTwoViewSet
-    serializer_class = InfoOperacionaisOperacaoTwoSerializer
+class TestAPIOperationalInfoOne(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-operational-info-1"
+    view_class = OperationalInfoOneViewSet
+    serializer_class = InfoOperacionaisOperacaoOneSerializer
     expected_section = 4
 
     def test_update_section_when_saving_data(self):
@@ -338,11 +372,28 @@ class TestOperationUpdateToThirdSection(TestOperationSectionFlowMixin, TestCase)
         assert self.operacao.secao_atual == self.expected_section
 
 
-class TestOperationUpdateToFourthSection(TestOperationSectionFlowMixin, TestCase):
+class TestAPIOperationalInfoTwo(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-operational-info-2"
+    view_class = OperationalInfoTwoViewSet
+    serializer_class = InfoOperacionaisOperacaoTwoSerializer
+    expected_section = 5
+
+    def test_update_section_when_saving_data(self):
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+        self.operacao.refresh_from_db()
+        assert resp.status_code == 200
+        assert self.operacao.secao_atual == self.expected_section
+
+
+class TestAPIResult(TestOperationSectionFlowMixin, TestCase):
     url_name = "operations_api:create-result-info"
     view_class = ResultInfoViewSet
     serializer_class = InfoResultadosOperacaoSerializer
-    expected_section = 5
+    expected_section = 6
 
     def test_update_section_when_saving_data(self):
         self.form_data["houve_ocorrencia_operacao"] = True
@@ -356,27 +407,10 @@ class TestOperationUpdateToFourthSection(TestOperationSectionFlowMixin, TestCase
         assert self.operacao.secao_atual == self.expected_section
 
 
-class TestOperationUpdateToFifthSection(TestOperationSectionFlowMixin, TestCase):
+class TestAPIOcurrenceOne(TestOperationSectionFlowMixin, TestCase):
     url_name = "operations_api:create-ocurrence-info-1"
     view_class = OcurrenceInfoOneViewSet
     serializer_class = InfoOcorrenciaOneSerializer
-    expected_section = 6
-
-    def test_update_section_when_saving_data(self):
-        resp = self.client.put(
-            self.url,
-            data=self.form_data,
-            content_type="application/json",
-        )
-        self.operacao.refresh_from_db()
-        assert resp.status_code == 200
-        assert self.operacao.secao_atual == self.expected_section
-
-
-class TestOperationUpdateToSixthSection(TestOperationSectionFlowMixin, TestCase):
-    url_name = "operations_api:create-ocurrence-info-2"
-    view_class = OcurrenceInfoTwoViewSet
-    serializer_class = InfoOcorrenciaTwoSerializer
     expected_section = 7
 
     def test_update_section_when_saving_data(self):
@@ -390,7 +424,41 @@ class TestOperationUpdateToSixthSection(TestOperationSectionFlowMixin, TestCase)
         assert self.operacao.secao_atual == self.expected_section
 
 
-class TestOperationFlowSkipLastSections(TestCase):
+class TestAPIOcurrenceTwo(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-ocurrence-info-2"
+    view_class = OcurrenceInfoTwoViewSet
+    serializer_class = InfoOcorrenciaTwoSerializer
+    expected_section = 8
+
+    def test_update_section_when_saving_data(self):
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+        self.operacao.refresh_from_db()
+        assert resp.status_code == 200
+        assert self.operacao.secao_atual == self.expected_section
+
+
+class TestGeneralObservations(TestOperationSectionFlowMixin, TestCase):
+    url_name = "operations_api:create-general-observation"
+    view_class = GeneralInfoViewSet
+    serializer_class = GeneralObservationSerializer
+    expected_section = 9
+
+    def test_update_section_when_saving_data(self):
+        resp = self.client.put(
+            self.url,
+            data=self.form_data,
+            content_type="application/json",
+        )
+        self.operacao.refresh_from_db()
+        assert resp.status_code == 200
+        assert self.operacao.secao_atual == self.expected_section
+
+
+class TestOperationFlowSkipOptionalSections(TestCase):
     """
         Quando o campo 'houve_ocorrencia_operacao' for False, as seções 5 e 6
         são ignoradas
@@ -398,7 +466,7 @@ class TestOperationFlowSkipLastSections(TestCase):
     url_name = "operations_api:create-result-info"
     view_class = ResultInfoViewSet
     serializer_class = InfoResultadosOperacaoSerializer
-    expected_section = 5
+    expected_section = 6
 
     def setUp(self):
         self.username = "username"

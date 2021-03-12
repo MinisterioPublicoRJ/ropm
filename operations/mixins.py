@@ -27,6 +27,5 @@ class AllowPUTAsCreateMixin:
         return Response(serializer.data)
 
     def perform_create_or_update(self, serializer):
+        serializer.instance.secao_atual = self.next_section_number
         serializer.save()
-        self.instance.update_section(self.next_section_number)
-        self.instance.save()

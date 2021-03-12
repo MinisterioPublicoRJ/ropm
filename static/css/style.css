@@ -1,6 +1,15 @@
 body{
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+button{
+  cursor: pointer;
+}
+a:link{
+  text-decoration: inherit;
+  text-decoration: none;
 }
 .main-page{
   display: grid;
@@ -18,18 +27,32 @@ body{
   height: 100%;
   position:relative; 
 }
-
 #progressbar{
   background-color: #E5E5E5;
 }
 .progressbar-text{
   display: flex;
-  font-size: 10px;
-  justify-content: space-between;
-  margin-top: 32px;
+  font-size: 0.570rem;
+  margin-top: 50px;
   color: #707070;
-  font-family: Nunito,Regular;
-  max-width: 100vh;
+}
+.progressbar-text p:nth-child(1){
+  margin-left: -16px !important;
+}
+.progressbar-text p:nth-child(2){
+  margin-left: 15px !important;
+}
+.progressbar-text p:nth-child(3){
+  margin-left: 25px !important;
+}
+.progressbar-text p:nth-child(4){
+  margin-left: 25px !important;
+}
+.progressbar-text p:nth-child(8){
+  margin-right: 30px !important;
+}
+.progressbar-text p:nth-child(9){
+  margin-right: 30px !important;
 }
 progress::-moz-progress-bar {
   background: #0055FF;
@@ -40,13 +63,11 @@ progress::-webkit-progress-value {
 progress { 
   color: #0055FF;
 }
-
 progress[value]{
   width: 100vh;
   height: 7px;
   background-color: #0055FF;
 }
-
 .navbarLeft-img-logo{
   width: 210px;
   height: 50px;
@@ -55,7 +76,7 @@ progress[value]{
 .navbarLeft ul li{
   list-style: none;
   text-align: left;
-  font-size: 23px;
+  font-size: 1.375rem;
   color: #707070;
   margin-top: 60px;
   margin-left: 2px ;
@@ -80,12 +101,11 @@ progress[value]{
 .header-form{
   background-color: #F8F8F8;
   width: 100%;
-  height: 124px;
+  height: 130px;
   border-radius: 9px 9px 0px 0px;
   display: flex;
 }
 .navbarLeft-list ul a:link { 
-  text-decoration: none; 
   color: #707070 !important;
 } 
 .text-header-form{
@@ -94,30 +114,28 @@ progress[value]{
 }
 .text-header-form p{
   color: #AEAEAE;
-  font-size: 14px;
+  font-size: 0.875rem;
   text-transform: uppercase;
 }
 .text-header-form span{
   color: #707070;
-  font-size: 23px;
+  font-size: 1.4375rem;
 }
 .form-main {
   margin-top: 30px;
 }
 
-.form-main input, select {
+.form-main input, select, textarea {
   border: 1px solid #0676ED;
   border-radius: 4px;
   box-sizing: border-box;
   color: #8a8a8a;
-  font-family: SFProDisplay-Regular;
   width: 300px;
   height: 45px;
   margin-bottom: 10px;
   margin-top: 10px;
   padding: 0 18px 0 18px;
 }
-
 .input-type-checked{
   display: flex;
   flex-direction: column;
@@ -125,12 +143,12 @@ progress[value]{
 }
 .input-type-checked p{
   color: #ED0606;
-  font-size: 14px;
+  font-size: 0.875rem;
   margin-top: 0px;
 }
 .input-type-checked .form-control{
   display: flex;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -138,7 +156,7 @@ progress[value]{
   margin-right: 570px;
 }
 .input-type-checked label{
-  font-size: 14px !important;
+  font-size: 0.875rem !important;
 }
 .input-type-checked .form-control input{
   display: flex;
@@ -146,11 +164,9 @@ progress[value]{
   height: 14px;
   margin-left: 10px;
 }
-
 .input-disabled {
   background-color:#CBCDCB !important;
 }
-
 .btns-forms{
   display: flex;
   align-items: center;
@@ -169,7 +185,6 @@ progress[value]{
   background-color: #0676ED;
   color: #FFFFFF;
   border: solid 1px #0676ED;
-  cursor: pointer;
 }
 .btn-previus{
   background-color: #FFFFFF;
@@ -180,8 +195,7 @@ label {
   align-items: center;
   color: #8F9BB3;
   display: flex;
-  font-family: Helvetica Neue regular;
-  font-size: 12px;
+  font-size: 0.6875rem;
 }
 .box-form-group{
   display: flex;
@@ -191,7 +205,6 @@ label {
 }
 .box-form-group h3{
   color: #707070;
-  font-family: Nunito,Regular;
 }
 .box-form-info-operation{
   display: flex;
@@ -205,7 +218,7 @@ label {
 }
 .error-message{
   color: #ED0606;
-  font-size: 14px;
+  font-size: 0.875rem;
   margin-top: 0px;
 }
 .tela-login-main a:link{
@@ -227,15 +240,13 @@ label {
 }
 .page-final-cadastro span {
   color:#707070;
-  font-family: Roboto;
   font-weight: bold;
-  font-size: 35px;
+  font-size: 2.1875rem;
 }
 .page-final-cadastro p {
   color:#707070;
-  font-family: Roboto;
   font-weight: 400;
-  font-size: 22px;
+  font-size: 1.375rem;
   max-width: 650px;
 }
 .pagination {
@@ -251,7 +262,6 @@ label {
 ul.pagination li{
   list-style: none;
 }
-
 ul.pagination li a, strong {
   color: black;
   padding: 8px 16px;
@@ -282,12 +292,39 @@ ul.pagination li a:hover{
   display: none;
 }
 .tr-lista-operacao{
-    cursor: pointer;
+  cursor: pointer;
 }
 .tr-lista-operacao:hover{
-    background-color:#F5F5F5;
+  background-color:#F5F5F5;
 }
-.main-initial-page h4{
-  color: #707070;
-  font-weight: bold;
+@media(min-width: 1337px) and (max-width: 1600px){
+  .form-main input#localidade,
+  #posto_comandante_operacao,
+  #numero_veiculos_recuperados {
+    margin-right: 463px !important;
+  }
+}
+@media(min-width: 1207px) and (max-width: 1336px){
+  .form-main input#localidade,
+  #posto_comandante_operacao,
+  #numero_veiculos_recuperados {
+    margin-right: 420px !important;
+  }
+}
+@media(min-width: 320px) and (max-width: 1206px){
+  .form-main input#localidade,
+  #posto_comandante_operacao,
+  #numero_veiculos_recuperados {
+    margin-right: 320px !important;
+  }
+}
+@media(max-width: 1080px){
+  html {
+    font-size: 93.75%;
+  }
+}
+@media(max-width: 720px){
+  html {
+    font-size: 87.5%;
+  }
 }

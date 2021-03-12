@@ -20,7 +20,9 @@ class TestInfoOperacionaisOperacaoTwoSerializer(TestCase):
             'numero_ordem_operacoes': '',
             'objetivo_estrategico_operacao': 'Rep',
             'numero_guarnicoes_mobilizadas': 10,
-            'numero_policiais_mobilizados': 20
+            'numero_policiais_mobilizados': 20,
+            'numero_veiculos_blindados': 0,
+            'numero_aeronaves': 0,
         }
 
     def test_operacao_planejada_dave_ter_ordem_operacoes(self):
@@ -80,9 +82,9 @@ class TestInfoOcorrenciaOneSerializer(TestCase):
         self.data = {
             "boletim_ocorrencia_pm": op.boletim_ocorrencia_pm,
             "registro_ocorrencia": "034-00001/2019",
-            "nome_comandante_ocorrencia": op.nome_comandante_ocorrencia,
-            "rg_pm_comandante_ocorrencia": "12345",
-            "posto_comandante_ocorrencia": Operacao.POSTO_COMANDANTE[0][0],
+            "nome_condutor_ocorrencia": op.nome_condutor_ocorrencia,
+            "rg_pm_condutor_ocorrencia": "12345",
+            "posto_condutor_ocorrencia": Operacao.POSTO_COMANDANTE[0][0],
             "houve_apreensao_drogas": op.houve_apreensao_drogas,
             "numero_armas_apreendidas": op.numero_armas_apreendidas,
             "numero_fuzis_apreendidos": op.numero_fuzis_apreendidos,
@@ -109,15 +111,15 @@ class TestInfoOcorrenciaOneSerializer(TestCase):
 
         assert is_valid
 
-    def test_validate_rg_pm_comandante(self):
-        self.data["rg_pm_comandante_ocorrencia"] = "abc1234"
+    def test_validate_rg_pm_condutor_ocorrencia(self):
+        self.data["rg_pm_condutor_ocorrencia"] = "abc1234"
         ser = self.serializer_class(data=self.data)
         is_valid = ser.is_valid()
 
         assert not is_valid
 
     def test_validate_posto_comandante(self):
-        self.data["posto_comandante_ocorrencia"] = "posto"
+        self.data["posto_condutor_ocorrencia"] = "posto"
         ser = self.serializer_class(data=self.data)
         is_valid = ser.is_valid()
 

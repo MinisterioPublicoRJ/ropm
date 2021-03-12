@@ -1,6 +1,10 @@
+from django.conf import settings
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 from users.models import User
+from operations.exceptions import OperationNotCompleteException
+from operations.mail import notifica_por_email
 
 
 class InformacaoManager(models.Manager):
@@ -14,10 +18,23 @@ class InformacaoManager(models.Manager):
 
 
 class Operacao(models.Model):
-    n_sections = 6
+    n_sections = 8
 
     objects = InformacaoManager()
 
+    history = HistoricalRecords(
+        verbose_name="Histórico de alterações da operação",
+        excluded_fields=["secao_atual"]
+    )
+
+    SITUACAO_INCOMPLETO = "incompleto"
+    SITUACAO_CSO = "completo sem ocorrencia"
+    SITUACAO_CCO = "completo com ocorrencia"
+    SITUACAO_CADASTRO = [
+        (SITUACAO_INCOMPLETO, "Incompleto"),
+        (SITUACAO_CSO, "Completo sem Ocorrência"),
+        (SITUACAO_CCO, "Completo com Ocorrência"),
+    ]
     POSTO_COMANDANTE = [
         ("Cel", "Coronel"),
         ("Ten Cel", "Tenente Coronel"),
@@ -44,12 +61,18 @@ class Operacao(models.Model):
     ]
 
     secao_atual = models.PositiveIntegerField("Seção Atual", default=1)
+    completo = models.BooleanField("Cadastro Completo", default=False)
+    situacao = models.CharField(
+        "Situação Cadastro",
+        max_length=100,
+        choices=SITUACAO_CADASTRO,
+        default=SITUACAO_INCOMPLETO
+    )
 
     identificador = models.UUIDField(unique=True, editable=False)
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
     criado_em = models.DateTimeField("Criado em", auto_now_add=True)
-    editado = models.BooleanField("Editado", default=False)
     data = models.DateField("Data", null=True, blank=True)
     hora = models.TimeField("Hora", null=True, blank=True)
     localidade = models.CharField("Localidade", max_length=255, null=True, blank=True)
@@ -58,6 +81,17 @@ class Operacao(models.Model):
     endereco_referencia = models.CharField("Endereço de referência", max_length=255, null=True, blank=True)
     coordenadas_geo = models.CharField("Referência geográfica", max_length=100, null=True, blank=True)
     batalhao_responsavel = models.CharField("Batalhão Responsável", max_length=255, null=True, blank=True)
+
+    justificativa_excepcionalidade_operacao = models.TextField(
+        "Justificativa da excepcionalidade da operação",
+        null=True,
+        blank=True
+    )
+    descricao_analise_risco = models.TextField(
+        "Análise de riscos e medidas de controles de danos colaterais das operações e de disparos de confrontos",
+        null=True,
+        blank=True
+    )
 
     unidade_responsavel = models.CharField("Unidade operacional responsável", max_length=255, null=True, blank=True)
     unidade_apoiadora = models.CharField("Unidade Apoiadora", max_length=255, null=True, blank=True)
@@ -142,20 +176,20 @@ class Operacao(models.Model):
         null=True,
         blank=True,
     )
-    nome_comandante_ocorrencia = models.CharField(
-        "Nome do Comandante",
+    nome_condutor_ocorrencia = models.CharField(
+        "Nome do condutor da ocorrência",
         max_length=100,
         null=True,
         blank=True,
     )
-    rg_pm_comandante_ocorrencia = models.CharField(
-        "RG PM do Comandante",
+    rg_pm_condutor_ocorrencia = models.CharField(
+        "RG PM do condutor da ocorrência",
         max_length=100,
         null=True,
         blank=True,
     )
-    posto_comandante_ocorrencia = models.CharField(
-        "Posto|Graduação do Comandante",
+    posto_condutor_ocorrencia = models.CharField(
+        "Posto|Graduação do condutor da ocorrência",
         choices=POSTO_COMANDANTE,
         max_length=100,
         null=True
@@ -190,13 +224,8 @@ class Operacao(models.Model):
         null=True,
         blank=True,
     )
-    numero_baixas_policiais = models.PositiveIntegerField(
-        "Número de baixas policiais",
-        null=True,
-        blank=True
-    )
-    numero_feridos_por_resistencia = models.PositiveIntegerField(
-        "Número de feridos por resistência",
+    numero_mortes_policiais = models.PositiveIntegerField(
+        "Número de mortes policiais",
         null=True,
         blank=True
     )
@@ -221,6 +250,12 @@ class Operacao(models.Model):
         blank=True
     )
 
+    observacoes_gerais = models.TextField(
+        "Observações gerais",
+        null=True,
+        blank=True
+    )
+
     class Meta:
         db_table = "operacao"
         verbose_name = "operação"
@@ -231,3 +266,21 @@ class Operacao(models.Model):
         self.save()
 
         return self.secao_atual
+
+    def make_complete(self):
+        if self.completo is False:
+            self.completo = True
+            self.notify_completion()
+
+        self.situacao = self.SITUACAO_CSO
+        if self.houve_ocorrencia_operacao is True:
+            self.situacao = self.SITUACAO_CCO
+
+        self.save()
+
+    def notify_completion(self):
+        if self.completo is False:
+            raise OperationNotCompleteException
+
+        if not settings.DEBUG:
+            notifica_por_email(self)

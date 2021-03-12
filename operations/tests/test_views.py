@@ -116,6 +116,7 @@ class TestOperationFormCompleteView(TestCase):
         self.operacao = baker.make(
             Operacao,
             usuario=self.user,
+            completo=False,
             secao_atual=Operacao.n_sections + 1,
             identificador=self.form_uuid,
             _fill_optional=True
@@ -123,10 +124,17 @@ class TestOperationFormCompleteView(TestCase):
 
         self.url = reverse(self.url_name, kwargs={"form_uuid": self.form_uuid})
 
+        self.p_notify = mock.patch.object(Operacao, "notify_completion")
+        self.m_notify = self.p_notify.start()
+
+    def tearDown(self):
+        self.p_notify.stop()
+
     def test_correct_response(self):
         resp = self.client.get(self.url)
 
         assert resp.status_code == 200
+        self.m_notify.assert_called_once_with()
 
     def test_404_if_object_does_not_exists(self):
         url = reverse(self.url_name, kwargs={"form_uuid": uuid.uuid4()})
@@ -169,6 +177,13 @@ class TestFillOperacaoFlow(TestCase):
             identificador=self.form_uuid,
         )
 
+        self.max_section_number = Operacao.n_sections + 1
+        self.p_notify = mock.patch.object(Operacao, "notify_completion")
+        self.m_notify = self.p_notify.start()
+
+    def tearDown(self):
+        self.p_notify.stop()
+
     def test_do_not_allow_user_to_skip_mandatory_sections(self):
         url_name = "operations:form-info-operation-page-two"
         url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
@@ -176,9 +191,29 @@ class TestFillOperacaoFlow(TestCase):
 
         assert resp.status_code == 302  # Redirects to previews filled section
 
-    def test_go_to_complete_form_view_if_houve_ocorrencia(self):
-        self.operacao.secao_atual = 5
+    def test_go_to_next_mandatory_view_if_NOT_houve_ocorrencia(self):
+        self.operacao.secao_atual = 6
         self.operacao.houve_ocorrencia_operacao = False
+        self.operacao.save()
+
+        url_name = "operations:form-info-ocurrence-page-one"
+        url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
+
+        resp = self.client.get(url, follow=True)
+        self.operacao.refresh_from_db()
+
+        expected_url = reverse(
+            "operations:form-observacoes-gerais",
+            kwargs={"form_uuid": self.form_uuid}
+        )
+        assert resp.status_code == 200
+        assert resp.request["PATH_INFO"] == expected_url
+        assert not self.operacao.completo
+        assert self.operacao.situacao == "incompleto"
+
+    def test_go_to_skippable_view_if_houve_ocorrencia(self):
+        self.operacao.secao_atual = 6
+        self.operacao.houve_ocorrencia_operacao = True
         self.operacao.save()
 
         url_name = "operations:form-info-ocurrence-page-one"
@@ -186,9 +221,7 @@ class TestFillOperacaoFlow(TestCase):
 
         resp = self.client.get(url)
 
-        expected_url = reverse("operations:form-complete", kwargs={"form_uuid": self.form_uuid})
-        assert resp.status_code == 302
-        self.assertRedirects(resp, expected_url, fetch_redirect_response=False)
+        assert resp.status_code == 200
 
     def test_only_go_to_complete_only_when_form_is_complete(self):
         self.operacao.secao_atual = 2
@@ -206,3 +239,19 @@ class TestFillOperacaoFlow(TestCase):
         )
         assert resp.status_code == 302
         self.assertRedirects(resp, expected_url, fetch_redirect_response=False)
+
+    def test_go_to_complete_form_all_sections_are_filled(self):
+        self.operacao.secao_atual = self.max_section_number
+        self.operacao.houve_ocorrencia_operacao = True
+        self.operacao.save()
+
+        url_name = "operations:form-complete"
+        url = reverse(url_name, kwargs={"form_uuid": self.form_uuid})
+
+        resp = self.client.get(url)
+
+        assert resp.status_code == 200
+        self.operacao.refresh_from_db()
+        assert self.operacao.completo
+        assert self.operacao.situacao == "completo com ocorrencia"
+        self.m_notify.assert_called_once_with()
