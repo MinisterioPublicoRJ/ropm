@@ -165,7 +165,6 @@ class GeneralObservationSerializer(OperacaoSerializer):
 class OperacaoEmailSerializer(serializers.ModelSerializer):
     data = serializers.DateField(format="%d/%m/%Y")
     tipo_operacao = serializers.CharField(source="get_tipo_operacao_display")
-    operacao_admin_url = serializers.URLField(source="get_admin_url")
 
     class Meta:
         model = Operacao
@@ -175,5 +174,4 @@ class OperacaoEmailSerializer(serializers.ModelSerializer):
             "data",
             "tipo_operacao",
             "objetivo_estrategico_operacao",
-            "operacao_admin_url",
         )
