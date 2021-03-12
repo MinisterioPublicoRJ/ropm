@@ -11,6 +11,14 @@ a:link{
   text-decoration: inherit;
   text-decoration: none;
 }
+.navbarLeft-list ul a li:hover{
+  color: #0055FF;
+}
+#first-li,
+#second-li,
+#third-li{
+  display: flex;
+}
 .main-page{
   display: grid;
   height: 100%;
@@ -88,6 +96,7 @@ progress[value]{
 .navbarLeft-list img{
   height: 35px;
   width: 30px;
+  margin-top: 50px;
 }
 .operation-form{
   grid-area: pageForm;
@@ -273,17 +282,14 @@ ul.pagination strong {
   margin: 0;
   color: #0055FF;
 }
-
 .pagination li:first-child a, strong {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
-
 .pagination li:last-child a, strong{
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-
 ul.pagination li a:hover{
   background-color: #0055FF;
   color: #E5E5E5;
@@ -296,28 +302,7 @@ ul.pagination li a:hover{
 }
 .tr-lista-operacao:hover{
   background-color:#F5F5F5;
-}
-@media(min-width: 1337px) and (max-width: 1600px){
-  .form-main input#localidade,
-  #posto_comandante_operacao,
-  #numero_veiculos_recuperados {
-    margin-right: 463px !important;
-  }
-}
-@media(min-width: 1207px) and (max-width: 1336px){
-  .form-main input#localidade,
-  #posto_comandante_operacao,
-  #numero_veiculos_recuperados {
-    margin-right: 420px !important;
-  }
-}
-@media(min-width: 320px) and (max-width: 1206px){
-  .form-main input#localidade,
-  #posto_comandante_operacao,
-  #numero_veiculos_recuperados {
-    margin-right: 320px !important;
-  }
-}
+} 
 @media(max-width: 1080px){
   html {
     font-size: 93.75%;
