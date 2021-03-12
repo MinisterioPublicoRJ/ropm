@@ -62,30 +62,30 @@
                 </div>
                 <div class="box-form-group">
                     <div class="">
-                        <label for="data">Nome do Comandante</label>
+                        <label for="data">Nome do Condutor da ocorrência</label>
                         <input
                             type="text"
-                            name="nome_comandante_ocorrencia"
-                            id="nome_comandante_ocorrencia"
-                            class="form-control" value="{{ operacao_info.nome_comandante_ocorrencia|default:'' }}" required>
+                            name="nome_condutor_ocorrencia"
+                            id="nome_condutor_ocorrencia"
+                            class="form-control" value="{{ operacao_info.nome_condutor_ocorrencia|default:'' }}" required>
                     </div>
                     <div class="">
-                        <label for="data">RG PM do Comandante</label>
+                        <label for="data">RG PM do Condutor da ocorrência</label>
                         <input
                             type="text"
-                            name="rg_pm_comandante_ocorrencia"
-                            id="rg_pm_comandante_ocorrencia"
-                            class="form-control" value="{{ operacao_info.rg_pm_comandante_ocorrencia|default:'' }}" required>
+                            name="rg_pm_condutor_ocorrencia"
+                            id="rg_pm_condutor_ocorrencia"
+                            class="form-control" value="{{ operacao_info.rg_pm_condutor_ocorrencia|default:'' }}" required>
                     </div>
                 </div>
                 <div class="box-form-group">
                     <div class="">
-                        <label>Posto/graduação do comandante </label>
+                        <label>Posto/graduação do Condutor da ocorrência</label>
                         <div class="styled-select">
-                        <select class="form-control required" id="posto_comandante_ocorrencia" name="posto_comandante_ocorrencia" required>
+                        <select class="form-control required" id="posto_condutor_ocorrencia" name="posto_condutor_ocorrencia" required>
                             <option value="">-</option>
                             {% for posto in postos_comandante %}
-                            <option value="{{ posto.0 }}" {% if posto.0 == operacao_info.posto_comandante_ocorrencia %} selected {% endif %}>{{ posto.1 }}</option>
+                            <option value="{{ posto.0 }}" {% if posto.0 == operacao_info.posto_condutor_ocorrencia %} selected {% endif %}>{{ posto.1 }}</option>
                             {% endfor %}
                         </select>
                         </div>
@@ -152,9 +152,9 @@ const API_URL = '/v1/operacoes/cria-informacoes-ocorrencia-parte-1/';
 const FORM_VAR_LIST = {
     "boletim_ocorrencia_pm": "#boletim_ocorrencia_pm",
     "registro_ocorrencia": "#registro_ocorrencia",
-    "nome_comandante_ocorrencia": "#nome_comandante_ocorrencia",
-    "rg_pm_comandante_ocorrencia": "#rg_pm_comandante_ocorrencia",
-    "posto_comandante_ocorrencia": "#posto_comandante_ocorrencia",
+    "nome_condutor_ocorrencia": "#nome_condutor_ocorrencia",
+    "rg_pm_condutor_ocorrencia": "#rg_pm_condutor_ocorrencia",
+    "posto_condutor_ocorrencia": "#posto_condutor_ocorrencia",
     "houve_apreensao_drogas": "#houve_apreensao_drogas",
     "numero_armas_apreendidas": "#numero_armas_apreendidas",
     "numero_fuzis_apreendidos": "#numero_fuzis_apreendidos",

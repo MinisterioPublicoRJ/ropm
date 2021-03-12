@@ -118,15 +118,15 @@ class InfoResultadosOperacaoSerializer(OperacaoSerializer):
 class InfoOcorrenciaOneSerializer(OperacaoSerializer):
     boletim_ocorrencia_pm = serializers.CharField()
     registro_ocorrencia = serializers.CharField()
-    nome_comandante_ocorrencia = serializers.CharField()
-    rg_pm_comandante_ocorrencia = serializers.CharField()
-    posto_comandante_ocorrencia = serializers.CharField()
+    nome_condutor_ocorrencia = serializers.CharField()
+    rg_pm_condutor_ocorrencia = serializers.CharField()
+    posto_condutor_ocorrencia = serializers.CharField()
     houve_apreensao_drogas = serializers.BooleanField()
     numero_armas_apreendidas = serializers.IntegerField(min_value=0)
     numero_fuzis_apreendidos = serializers.IntegerField(min_value=0)
     numero_presos = serializers.IntegerField(min_value=0)
 
-    def validate_posto_comandante_ocorrencia(self, value):
+    def validate_posto_condutor_ocorrencia(self, value):
         options = [opt[0] for opt in Operacao.POSTO_COMANDANTE]
         if value not in options:
             raise serializers.ValidationError("Opção inválida.")
@@ -140,7 +140,7 @@ class InfoOcorrenciaOneSerializer(OperacaoSerializer):
 
         return value
 
-    def validate_rg_pm_comandante_ocorrencia(self, value):
+    def validate_rg_pm_condutor_ocorrencia(self, value):
         match = re.match(r"\d{5,6}", value)
         if not match:
             raise serializers.ValidationError("Número RG PM inválido.")

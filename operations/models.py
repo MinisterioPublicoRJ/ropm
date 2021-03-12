@@ -177,20 +177,20 @@ class Operacao(models.Model):
         null=True,
         blank=True,
     )
-    nome_comandante_ocorrencia = models.CharField(
-        "Nome do Comandante",
+    nome_condutor_ocorrencia = models.CharField(
+        "Nome do condutor da ocorrência",
         max_length=100,
         null=True,
         blank=True,
     )
-    rg_pm_comandante_ocorrencia = models.CharField(
-        "RG PM do Comandante",
+    rg_pm_condutor_ocorrencia = models.CharField(
+        "RG PM do condutor da ocorrência",
         max_length=100,
         null=True,
         blank=True,
     )
-    posto_comandante_ocorrencia = models.CharField(
-        "Posto|Graduação do Comandante",
+    posto_condutor_ocorrencia = models.CharField(
+        "Posto|Graduação do condutor da ocorrência",
         choices=POSTO_COMANDANTE,
         max_length=100,
         null=True
