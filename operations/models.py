@@ -251,7 +251,7 @@ class Operacao(models.Model):
         blank=True
     )
 
-    observations = models.TextField(
+    observacoes_gerais = models.TextField(
         "Observações gerais",
         null=True,
         blank=True

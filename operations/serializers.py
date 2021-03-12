@@ -159,7 +159,7 @@ class InfoOcorrenciaTwoSerializer(OperacaoSerializer):
 
 
 class GeneralObservationSerializer(OperacaoSerializer):
-    observations = serializers.CharField(allow_blank=True)
+    observacoes_gerais = serializers.CharField(allow_blank=True)
 
 
 class OperacaoEmailSerializer(serializers.ModelSerializer):
