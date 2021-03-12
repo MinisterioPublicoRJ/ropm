@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from simple_history.models import HistoricalRecords
 
 from users.models import User
 from operations.exceptions import OperationNotCompleteException
@@ -21,6 +22,11 @@ class Operacao(models.Model):
     n_sections = 8
 
     objects = InformacaoManager()
+
+    history = HistoricalRecords(
+        verbose_name="Histórico de alterações da operação",
+        excluded_fields=["secao_atual"]
+    )
 
     SITUACAO_INCOMPLETO = "incompleto"
     SITUACAO_CSO = "completo sem ocorrencia"
