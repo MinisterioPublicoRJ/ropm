@@ -32,16 +32,27 @@ a:link{
 }
 .progressbar-text{
   display: flex;
-  font-size: 0.620rem;
-  margin-top: 32px;
+  font-size: 0.570rem;
+  margin-top: 50px;
   color: #707070;
-  max-width: 100vh;
 }
 .progressbar-text p:nth-child(1){
-  margin-left: -20px !important;
+  margin-left: -16px !important;
 }
-.progressbar-text p{
-  margin-left: 32px !important;
+.progressbar-text p:nth-child(2){
+  margin-left: 15px !important;
+}
+.progressbar-text p:nth-child(3){
+  margin-left: 25px !important;
+}
+.progressbar-text p:nth-child(4){
+  margin-left: 25px !important;
+}
+.progressbar-text p:nth-child(8){
+  margin-right: 30px !important;
+}
+.progressbar-text p:nth-child(9){
+  margin-right: 30px !important;
 }
 progress::-moz-progress-bar {
   background: #0055FF;
@@ -90,7 +101,7 @@ progress[value]{
 .header-form{
   background-color: #F8F8F8;
   width: 100%;
-  height: 124px;
+  height: 130px;
   border-radius: 9px 9px 0px 0px;
   display: flex;
 }
@@ -113,7 +124,8 @@ progress[value]{
 .form-main {
   margin-top: 30px;
 }
-.form-main input, select {
+
+.form-main input, select, textarea {
   border: 1px solid #0676ED;
   border-radius: 4px;
   box-sizing: border-box;
@@ -285,7 +297,27 @@ ul.pagination li a:hover{
 .tr-lista-operacao:hover{
   background-color:#F5F5F5;
 }
-
+@media(min-width: 1337px) and (max-width: 1600px){
+  .form-main input#localidade,
+  #posto_comandante_operacao,
+  #numero_veiculos_recuperados {
+    margin-right: 463px !important;
+  }
+}
+@media(min-width: 1207px) and (max-width: 1336px){
+  .form-main input#localidade,
+  #posto_comandante_operacao,
+  #numero_veiculos_recuperados {
+    margin-right: 420px !important;
+  }
+}
+@media(min-width: 320px) and (max-width: 1206px){
+  .form-main input#localidade,
+  #posto_comandante_operacao,
+  #numero_veiculos_recuperados {
+    margin-right: 320px !important;
+  }
+}
 @media(max-width: 1080px){
   html {
     font-size: 93.75%;

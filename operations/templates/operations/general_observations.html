@@ -24,7 +24,7 @@
         <p>Observações Gerais</p>
         <p>Finalizar cadastro</p>
         </div>
-        <progress  max="100" value="90" id="progressbar"></progress>
+        <progress  max="100" value="89" id="progressbar"></progress>
         <ul class="progressbar">
             <li class="progressbar-checked"></li>
             <li class="progressbar-checked"></li>
@@ -44,7 +44,7 @@
         <div class="box-form-group">
           <div class="">
             <label for="name">Observações gerais da operação</label>
-            <input style="width: 100vh; height: 150px;"  type="text" id="observations" value="{{ operacao_info.observations|default:'' }}" name="observations">
+            <textarea style="width: 100vh; height: 150px;"  type="text" id="observations" value="{{ operacao_info.observations|default:'' }}" name="observations"></textarea>
           </div>
         </div>
       </form>
