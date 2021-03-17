@@ -84,10 +84,10 @@ progress[value]{
 .navbarLeft ul li{
   list-style: none;
   text-align: left;
-  font-size: 1.375rem;
+  font-size: 1.300rem;
   color: #707070;
   margin-top: 60px;
-  margin-left: 2px ;
+  margin-left: 2px;
 }
 .navbarLeft ul {
   margin-top: 40px;
