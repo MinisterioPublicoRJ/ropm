@@ -22,11 +22,12 @@ class Command(BaseCommand):
         dt_msg = "\u001b[32mAlteração feita em: {data} por {usuario}\033[0m"
         log_msg = "\t{field}: {old} ------> {new}"
         for state in history[1:]:
-            print(dt_msg.format(
-                data=state.history_date.astimezone(LOCAL_ZONE),
-                usuario=state.history_user.username
-            ))
             delta = last_change.diff_against(state)
+            if delta.changes:
+                print(dt_msg.format(
+                    data=state.history_date.astimezone(LOCAL_ZONE),
+                    usuario=state.history_user.username
+                ))
             for change in delta.changes:
                 msg = log_msg.format(
                     field=change.field.upper(),
