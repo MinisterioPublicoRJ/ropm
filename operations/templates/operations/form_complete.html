@@ -5,10 +5,11 @@
 {% endblock title %}
 
 {% block content %}
+<div class="operation-form">
+    <span>Cadastro de Operações</span>
 <div class="main-page-form">
     <div class="header-form">
         <div class="text-header-form">
-            <span>Cadastro de Operações</span>
             <p>Finalização do cadastro</p>
         </div>
         <div>
@@ -39,7 +40,7 @@
     </div>
     <div class="page-final-cadastro">
         <img src="{% static "img/icon-checked.png" %}" alt="icon-checked">
-        <span>Dados cadastrados com sucesso!</span>
+        <span style="margin-top: -25px">Dados cadastrados com sucesso!</span>
         <p>Caso seja necessário adicionar ou alterar algum tipo de informação, é possível realizar essa tarefa abrindo o
             formulário na lista de operações no menu ao lado.</p>
         <div class="btns-forms">
@@ -55,6 +56,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 {% endblock content %}

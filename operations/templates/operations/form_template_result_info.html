@@ -6,10 +6,10 @@
 
 {% block content %}
 <div class="operation-form">
+    <span>Cadastro de Operações</span>
     <div class="main-page-form">
         <div class="header-form">
             <div class="text-header-form">
-              <span>Cadastro de resultado</span>
               <p>Informações de Resultado</p>
             </div>
             <div>
@@ -24,7 +24,7 @@
                 <p>Observações Gerais</p>
                 <p>Finalizar cadastro</p>
                 </div>
-                <progress  max="100" value="52" id="progressbar"></progress>
+                <progress  max="100" value="51" id="progressbar"></progress>
                 <ul class="progressbar">
                     <li class="progressbar-checked"></li>
                     <li class="progressbar-checked"></li>
@@ -46,7 +46,7 @@
                         <div class="form-control" id="houve_confronto_daf" name="houve_confronto_daf" required>
                             <label> Sim</label>
                             <input type="radio" name="option-confronto" {% if operacao_info.houve_confronto_daf %}checked{% endif %} value="1">
-                            <label>Não</label>
+                            <label style="margin-left: 20px">Não</label>
                             <input type="radio" name="option-confronto" {% if operacao_info.houve_confronto_daf == False %}checked{% endif %} value="0">
                         </div>
                     <label for="data">Houve resultados na operação?</label>
@@ -54,7 +54,7 @@
                         required>
                         <label> Sim</label>
                         <input type="radio" name="option-resultados" value="1" {% if operacao_info.houve_resultados_operacao %}checked{% endif %}>
-                        <label>Não</label>
+                        <label style="margin-left: 20px">Não</label>
                         <input type="radio" name="option-resultados" value="0" {% if operacao_info.houve_resultados_operacao == False %}checked{% endif %}>
                     </div>
                     <label for="data">Houve ocorrência na operação?</label>
@@ -62,8 +62,8 @@
                         required>
                         <label> Sim</label>
                         <input type="radio" name="option-ocorrencia" value="1" {% if operacao_info.houve_ocorrencia_operacao %}checked{% endif %}>
-                        <label>Não</label>
-                        <input type="radio"
+                        <label style="margin-left: 20px">Não</label>
+                        <input type="radio" style="margin-right: -10px"
                             id="radio-houve-ocorrencia"
                             onchange="displayOcorrenciaDialog();"
                             name="option-ocorrencia" value="0"

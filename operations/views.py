@@ -55,6 +55,14 @@ class OperationViewMixin:
         # TODO: Refatorar essa lógica
         self.form_uuid = self.kwargs.get(self.lookup_url_kwarg)
         self.operacao = self.get_operation(self.request.user, self.form_uuid)
+        if (
+            self.operacao.houve_ocorrencia_operacao is False and
+            self.section_number == 7 and self.operacao.secao_atual == 8
+        ):
+            dest_url = URL_SECTION_MAPPER[5]
+            return redirect(
+                reverse(dest_url, kwargs={"form_uuid": self.form_uuid})
+            )
 
         if (
             self.operacao.houve_ocorrencia_operacao is False and

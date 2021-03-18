@@ -2,11 +2,23 @@ import uuid
 from unittest import mock
 
 import pytest
+from django.conf import settings
 from django.test import TestCase, override_settings
 from model_bakery import baker
 
 from operations.exceptions import OperationNotCompleteException
 from operations.models import Operacao
+
+
+class TestOperationModel(TestCase):
+    def setUp(self):
+        self.operacao = baker.make(Operacao)
+
+    def test_get_admin_url(self):
+        admin_url = self.operacao.get_admin_url
+        expected = f"{settings.SITE_URL}/admin/operations/operacao/{self.operacao.id}/change/"
+
+        assert admin_url == expected
 
 
 class TestOperationFlow(TestCase):
