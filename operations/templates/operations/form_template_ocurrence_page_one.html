@@ -6,10 +6,10 @@
 
 {% block content %}
 <div class="operation-form">
+    <span>Cadastro de Operações</span>
     <div class="main-page-form">
         <div class="header-form">
             <div class="text-header-form">
-                <span>Cadastro de Operações</span>
                 <p>Informações da Ocorrência 1/2</p>
             </div>
             <div>
@@ -24,7 +24,7 @@
                 <p>Observações Gerais</p>
                 <p>Finalizar cadastro</p>
                 </div>
-                <progress  max="100" value="62" id="progressbar"></progress>
+                <progress  max="100" value="60" id="progressbar"></progress>
                 <ul class="progressbar">
                     <li class="progressbar-checked"></li>
                     <li class="progressbar-checked"></li>
@@ -123,7 +123,7 @@
                             <div class="form-control" id="houve_apreensao_drogas" name="houve_apreensao_drogas" required>
                                 <label> Sim</label>
                                 <input type="radio" name="option-confronto" {% if operacao_info.houve_apreensao_drogas %}checked{% endif %} value="1">
-                                <label>Não</label>
+                                <label style="margin-left: 20px">Não</label>
                                 <input type="radio" name="option-confronto" {% if operacao_info.houve_apreensao_drogas == False %}checked{% endif %} value="0">
                             </div>
                     </div>
