@@ -3,26 +3,27 @@
     display: flex;
     justify-content: space-between;
     margin-top: -17px;
+    width: 100vh;
+    padding: 0;
 }
 .progressbar li {
     list-style-type: none;
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     content: counter(step);
     counter-increment: step;
-    border: 6px solid #E5E5E5;
+    border: 7px solid #E5E5E5;
     background-color: #FFFFFF;
-    display: block;
     border-radius: 50%;
     color: transparent;
-    margin-left: -59px;
-    margin-right: 53px;
+}
+.progressbar li:nth-child(1){
+    margin-left: -4px !important;
 }
 
 .progressbar-checked {
     border: 6px solid #4AD13B !important;
     background-color: #4AD13B !important;
-   
 }
 
 
