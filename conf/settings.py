@@ -46,6 +46,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "simple_history",
+    "django_extensions",
 ]
 INTERNAL_APPS = [
     "users",
