@@ -6,3 +6,4 @@ django-simple-history==2.12.0
 psycopg2-binary
 python-decouple==3.4
 rows==0.4.1
+tqdm==4.60.0

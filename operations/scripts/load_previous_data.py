@@ -1,14 +1,43 @@
 import re
+import uuid
 import unicodedata
 from datetime import datetime
 
 import rows
+import tqdm
+from django.contrib.auth import get_user_model
+
+from operations.models import Operacao
+
+
+User = get_user_model()
 
 
 def slug(val):
     return unicodedata.normalize(
         "NFKD", val.strip().lower()
     ).encode("ascii", "ignore").decode()
+
+
+def parse_tipo_opercao(row):
+    col_name = "tipo_de_operacao"
+    val = None
+    if row[col_name] == "EMERGENCIAL":
+        val = "Em"
+    elif row[col_name] == "PLANEJADA":
+        val = "Pl"
+
+    return val
+
+
+def parse_tipo_acao_repressiva(row):
+    val = row["tipo_da_acao_repressiva"].strip().lower()
+    tipo = re.match(r"a rep (\d)", val)
+    new_val = None
+    if tipo:
+        new_val = Operacao.TIPO_ACAO_REPRESSIVA[int(tipo.group(1)) - 1][0]
+
+    return new_val
 
 
 def parse_data(row):
@@ -89,8 +118,8 @@ def run(*args):
         "nome_comandante_operacao": "comandante_da_operacao",
         "rg_pm_comandante_operacao": "rg",
         "posto_comandante_operacao": "posto_graduacao",
-        "tipo_operacao": "tipo_de_operacao",
-        "tipo_acao_repressiva": "tipo_da_acao_repressiva",
+        "tipo_operacao": parse_tipo_opercao,
+        "tipo_acao_repressiva": parse_tipo_acao_repressiva,
         "numero_ordem_operacoes": "ordem_de_operacoes",
         "objetivo_estrategico_operacao": "objetivo",
         "houve_confronto_daf": "houve_confronto_com_daf",
@@ -108,10 +137,23 @@ def run(*args):
         "numero_civis_mortos_npap": "baixas_civis",
         "numero_veiculos_recuperados": "quantidade_de_veiculos_recuperados",
         "numero_veiculos_blindados": parse_veiculos_blindados,
-        "nome_condutor_ocorrencia": "condutor_da_ocorrencia"
+        "nome_condutor_ocorrencia": "condutor_da_ocorrencia",
+        "observacoes_gerais": "tipo_da_acao_repressiva",
     }
+    user = User.objects.first()
     csv_filename = args[0]
-    table = rows.import_from_csv(csv_filename)
+    table = rows.import_from_csv(
+        csv_filename,
+        force_types={"rg":rows.fields.TextField}
+    )
     parsed_rows = []
-    for row in table:
-        parsed_rows.append(translate_data(row._asdict(), columns_mapper))
+    for row in tqdm.tqdm(table):
+        p_row = translate_data(row._asdict(), columns_mapper)
+        p_row["identificador"] = uuid.uuid4()
+        p_row["usuario"] = user
+        p_row["completo"] = True
+        p_row["secao_atual"] = Operacao.n_sections + 1
+        p_row["situacao"] = Operacao.SITUACAO_CSO
+        parsed_rows.append(Operacao(**p_row))
+
+    Operacao.objects.bulk_create(parsed_rows)
