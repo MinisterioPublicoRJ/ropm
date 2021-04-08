@@ -82,14 +82,27 @@ def parse_veiculos_blindados(row):
     return 1 if slug(row[col_name]) == "sim" else 0
 
 
+def parse_houve_confronto_daf(row):
+    col_name = "houve_confronto_com_daf"
+    return 1 if slug(row[col_name]) == "sim" else 0
+
+
+def parse_houve_resultados_operacao(row):
+    col_name = "houve_resultado_na_operacao"
+    return 1 if slug(row[col_name]) == "sim" else 0
+
+
+def parse_houve_apreesao_drogas(row):
+    col_name = "houve_apreensao_de_drogas"
+    return 1 if slug(row[col_name]) == "sim" else 0
+
+
 def parse_final_value(val):
     p_val = val
     if val == 0:
         p_val = 0
     elif val == "":
         p_val = None
-    elif isinstance(val, str) and slug(val) in ("sim", "nao"):
-        p_val = True if slug(val) == "sim" else False
 
     return p_val
 
@@ -122,11 +135,11 @@ def run(*args):
         "tipo_acao_repressiva": parse_tipo_acao_repressiva,
         "numero_ordem_operacoes": "ordem_de_operacoes",
         "objetivo_estrategico_operacao": "objetivo",
-        "houve_confronto_daf": "houve_confronto_com_daf",
-        "houve_resultados_operacao": "houve_resultado_na_operacao",
+        "houve_confronto_daf": parse_houve_confronto_daf,
+        "houve_resultados_operacao": parse_houve_resultados_operacao,
         "boletim_ocorrencia_pm": "bopm",
         "registro_ocorrencia": "ro",
-        "houve_apreensao_drogas": "houve_apreensao_de_drogas",
+        "houve_apreensao_drogas": parse_houve_apreesao_drogas,
         "numero_armas_apreendidas": "quantidade_de_armas",
         "numero_presos": "quantidade_de_presos",
         "numero_adolescentes_apreendidos": "quantidade_de_menores_apreendidos",
