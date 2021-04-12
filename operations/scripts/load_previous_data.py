@@ -11,6 +11,7 @@ from operations.models import Operacao
 
 
 User = get_user_model()
+BOPM_PATTERN = re.compile(r"\d{4,}")
 
 
 def slug(val):
@@ -60,7 +61,6 @@ def parse_unidade_responsavel(row):
         "field_5_cpa",
         "field_6_cpa",
         "field_7_cpa",
-        "cpa",
         "coe",
         "cpe"
     )
@@ -95,6 +95,15 @@ def parse_houve_resultados_operacao(row):
 def parse_houve_apreesao_drogas(row):
     col_name = "houve_apreensao_de_drogas"
     return 1 if slug(row[col_name]) == "sim" else 0
+
+
+def parse_situacao(row):
+    match = BOPM_PATTERN.search(row["bopm"])
+    situacao = Operacao.SITUACAO_CSO
+    if match:
+        situacao = Operacao.SITUACAO_CCO
+
+    return situacao
 
 
 def parse_final_value(val):
@@ -152,6 +161,7 @@ def run(*args):
         "numero_veiculos_blindados": parse_veiculos_blindados,
         "nome_condutor_ocorrencia": "condutor_da_ocorrencia",
         "observacoes_gerais": "tipo_da_acao_repressiva",
+        "situacao": parse_situacao,
     }
     user = User.objects.first()
     csv_filename = args[0]
@@ -166,7 +176,6 @@ def run(*args):
         p_row["usuario"] = user
         p_row["completo"] = True
         p_row["secao_atual"] = Operacao.n_sections + 1
-        p_row["situacao"] = Operacao.SITUACAO_CSO
         parsed_rows.append(Operacao(**p_row))
 
     Operacao.objects.bulk_create(parsed_rows)
