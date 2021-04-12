@@ -175,6 +175,7 @@ def run(*args):
         p_row["identificador"] = uuid.uuid4()
         p_row["usuario"] = user
         p_row["completo"] = True
+        p_row["registro_anterior"] = True
         p_row["secao_atual"] = Operacao.n_sections + 1
         parsed_rows.append(Operacao(**p_row))
 

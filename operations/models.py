@@ -69,6 +69,10 @@ class Operacao(models.Model):
         choices=SITUACAO_CADASTRO,
         default=SITUACAO_INCOMPLETO
     )
+    registro_anterior = models.BooleanField(
+        "Dado registrado fora do sistema",
+        default=False
+    )
 
     identificador = models.UUIDField(unique=True, editable=False)
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
