@@ -1,7 +1,9 @@
+import csv
 import re
 import uuid
 import unicodedata
 from datetime import datetime
+from hashlib import md5
 
 import rows
 import tqdm
@@ -61,6 +63,7 @@ def parse_unidade_responsavel(row):
         "field_5_cpa",
         "field_6_cpa",
         "field_7_cpa",
+        "cpp",
         "coe",
         "cpe"
     )
@@ -129,6 +132,31 @@ def translate_data(row, mapper):
     return parsed_row
 
 
+def get_user(unidade_responsavel, emails, salt):
+    user = None
+    row = None
+    for email in emails:
+        if unidade_responsavel is not None and re.search(email.unidade, unidade_responsavel):
+            username = rows.fields.slug(email.unidade)
+            user_email = email.email
+            user, created = User.objects.get_or_create(username=username, email=user_email)
+            if created:
+                password = md5((salt + user_email).encode()).hexdigest()[:10]
+                user.set_password(password)
+                user.save()
+                row = {
+                    "username": username,
+                    "email": user_email,
+                    "password": password,
+                    "salt": salt,
+                }
+            break
+    else:
+        print(f"Email não encontrado para Unidade: {unidade_responsavel}")
+
+    return user, row
+
+
 def run(*args):
     columns_mapper = {
         "data": parse_data,
@@ -163,20 +191,36 @@ def run(*args):
         "observacoes_gerais": "tipo_da_acao_repressiva",
         "situacao": parse_situacao,
     }
-    user = User.objects.first()
     csv_filename = args[0]
+    email_filename = args[1]
+    salt = args[2]
+    output_filename = args[3]
     table = rows.import_from_csv(
         csv_filename,
         force_types={"rg":rows.fields.TextField}
     )
+    emails = rows.import_from_csv(email_filename)
     parsed_rows = []
+    csv_rows = []
     for row in tqdm.tqdm(table):
         p_row = translate_data(row._asdict(), columns_mapper)
         p_row["identificador"] = uuid.uuid4()
-        p_row["usuario"] = user
+        p_row["usuario"], csv_row = get_user(
+            p_row["unidade_responsavel"],
+            emails,
+            salt
+        )
+        csv_rows.append(csv_row)
         p_row["completo"] = True
         p_row["registro_anterior"] = True
         p_row["secao_atual"] = Operacao.n_sections + 1
         parsed_rows.append(Operacao(**p_row))
 
     Operacao.objects.bulk_create(parsed_rows)
+    with open(output_filename, "w") as fobj:
+        writer = csv.DictWriter(
+            fobj,
+            fieldnames=["username", "email", "password", "salt"]
+        )
+        writer.writeheader()
+        [writer.writerow(r) for r in csv_rows if r]
