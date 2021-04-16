@@ -69,6 +69,10 @@ class Operacao(models.Model):
         choices=SITUACAO_CADASTRO,
         default=SITUACAO_INCOMPLETO
     )
+    registro_anterior = models.BooleanField(
+        "Dado registrado fora do sistema",
+        default=False
+    )
 
     identificador = models.UUIDField(unique=True, editable=False)
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
@@ -95,7 +99,7 @@ class Operacao(models.Model):
     )
 
     unidade_responsavel = models.CharField("Unidade operacional responsável", max_length=255, null=True, blank=True)
-    unidade_apoiadora = models.CharField("Unidade Apoiadora", max_length=255, null=True, blank=True)
+    unidade_apoiadora = models.TextField("Unidade Apoiadora", null=True, blank=True)
     nome_comandante_operacao = models.CharField("Nome do Comandante", max_length=255, null=True, blank=True)
     rg_pm_comandante_operacao = models.CharField("RG PM do Comandante", max_length=10, null=True, blank=True)
     posto_comandante_operacao = models.CharField(
@@ -122,9 +126,8 @@ class Operacao(models.Model):
         null=True,
         blank=True
     )
-    objetivo_estrategico_operacao = models.CharField(
+    objetivo_estrategico_operacao = models.TextField(
         "Objetivo estratégico da operação",
-        max_length=255,
         null=True,
         blank=True
     )
@@ -173,13 +176,13 @@ class Operacao(models.Model):
     )
     registro_ocorrencia = models.CharField(
         "Registro de Ocorrência",
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
     )
     nome_condutor_ocorrencia = models.CharField(
         "Nome do condutor da ocorrência",
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
     )
