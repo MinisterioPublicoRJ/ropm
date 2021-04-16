@@ -214,7 +214,8 @@ def run(*args):
         p_row["completo"] = True
         p_row["registro_anterior"] = True
         p_row["secao_atual"] = Operacao.n_sections + 1
-        parsed_rows.append(Operacao(**p_row))
+        if p_row["usuario"] is not None:
+            parsed_rows.append(Operacao(**p_row))
 
     Operacao.objects.bulk_create(parsed_rows)
     with open(output_filename, "w") as fobj:
