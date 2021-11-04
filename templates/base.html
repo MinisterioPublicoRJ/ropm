@@ -30,6 +30,9 @@
       <img class="navbarLeft-img-logo" src="{% static "img/logo.png" %}" type="images/png" alt="logo-panel">
       <div class="navbarLeft-list">
         <ul>
+          <div id="greetings-li">
+            <li>Olá, <b>{{ user.get_username }}</b>!</li>
+          </div>
           <a href="{% url 'home' %}" id="first-li">
             <img id="target-image-first-li" src="{% static "img/home.png" %}" alt="logo-home">
             <li>Pagina Inicial</li>
@@ -41,6 +44,12 @@
           <a href="{% url 'operations:form' %}" id="third-li">
             <img id="target-image-third-li" src="{% static "img/file-plus.png" %}" alt="logo-file">
             <li>Cadastrar Operação</li>
+          </a>
+          <a href="{% url 'logout' %}" id="fourth-li">
+            <li>Fazer logout</li>
+          </a>
+          <a href="{% url 'password_change' %}" id="fifth-li">
+            <li>Alterar senha</li>
           </a>
           <!--<a href="{% url 'operations:operations-panel' %}">
             <li>

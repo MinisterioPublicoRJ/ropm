@@ -14,9 +14,12 @@ a:link{
 .navbarLeft-list ul a li:hover{
   color: #0055FF;
 }
+#greetings-li,
 #first-li,
 #second-li,
-#third-li{
+#third-li,
+#fourth-li,
+#fifth-li{
   display: flex;
 }
 .main-page{
